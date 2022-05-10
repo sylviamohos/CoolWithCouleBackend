@@ -1,0 +1,54 @@
+@startuml
+
+class Customer{
+-id : String
+-name : String
+-location : Location
+-isAdmin : Boolean
+}
+
+class Order{
+-id : String
+-customer : Customer
+-cart : Cart
+}
+
+class Cart{
+-items : List<Item>
+}
+
+interface Item{
+}
+class Apron implements Item{
+-id : String
+-name : String
+-quantity : Integer
+}
+class TeaTowel implements Item{
+-id : String
+-name : String
+-quantity : Integer
+}
+class OvenMitt implements Item{
+-id : String
+-name : String
+-quantity : Integer
+}
+
+
+
+class Location{
+-address : String
+-city : String
+-state : String
+-zipCode : String
+}
+
+Customer --> Location
+Order --> Customer
+Order --> Cart
+Cart --> Item
+
+
+@enduml
+
