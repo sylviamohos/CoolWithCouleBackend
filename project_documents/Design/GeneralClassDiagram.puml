@@ -1,41 +1,35 @@
 @startuml
 
-class Customer{
--id : String
+interface User{
+}
+class Guest implements User{
 -name : String
 -location : Location
+}
+class ExistingUser implements User{
+-id : String
+-name : String
+-email : String
+-password : String
+-location : Location
+-historyOrderIds : List<String>
 -isAdmin : Boolean
 }
 
 class Order{
 -id : String
--customer : Customer
+-user : User
 -cart : Cart
+-products : List<Product>
 }
 
-class Cart{
--items : List<Item>
-}
-
-interface Item{
-}
-class Apron implements Item{
+class Product{
 -id : String
+-upcCode : String
 -name : String
 -quantity : Integer
+-description : String
 }
-class TeaTowel implements Item{
--id : String
--name : String
--quantity : Integer
-}
-class OvenMitt implements Item{
--id : String
--name : String
--quantity : Integer
-}
-
-
 
 class Location{
 -address : String
@@ -44,11 +38,24 @@ class Location{
 -zipCode : String
 }
 
-Customer --> Location
-Order --> Customer
-Order --> Cart
-Cart --> Item
+
+ExistingUser --> Location
+Order --> User
+Order--> Product
 
 
 @enduml
 
+class ProductModel{
+
+}
+class OrderModel{
+}
+class ExistingCustomerModel{
+-id : String
+-name : String
+-email : String
+-location : Location
+-historyOrderIds : List<String>
+-isAdmin : Boolean
+}
