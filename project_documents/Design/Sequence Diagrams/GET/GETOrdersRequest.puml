@@ -1,0 +1,29 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor "Customer" as client
+participant "Website Page" as apiGateway
+participant "GETOrdersActivity" as getOrdersActivity
+participant "OrderDao" as orderDao
+database "DynamoDB" as dynamoDB
+
+title GETOrdersRequest
+
+client -> apiGateway : GET Order request
+apiGateway -> getOrdersActivity : GET Order request
+getOrdersActivity -> orderDao : GET Order request
+orderDao -> dynamoDB : GET Order
+alt if product does not exist
+dynamoDB --> orderDao : return null Order data
+orderDao --> getOrdersActivity : return null Order
+getOrdersActivity --> apiGateway : throw OrderDoesNotExistException
+apiGateway --> client : return 400 response
+else else continue
+end
+dynamoDB --> orderDao : return Order data
+orderDao --> getOrdersActivity : return Order object
+getOrdersActivity --> apiGateway : return GETOrdersResult data
+apiGateway --> client : return 200 response with GETOrdersResult data
+
+
+@enduml

@@ -25,6 +25,7 @@ class Product{
 -name : String
 -quantity : Integer
 -description : String
+-priceInCents : Long
 }
 
 class Location{

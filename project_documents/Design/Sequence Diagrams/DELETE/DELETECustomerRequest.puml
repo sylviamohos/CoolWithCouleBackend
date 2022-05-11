@@ -1,0 +1,30 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor "Customer" as client
+participant "Customer Website Page" as apiGateway
+participant "DELETECustomerRequest" as DELETECustomerRequest
+participant "CustomerDAO" as customerDao
+database "DynamoDB" as dynamoDB
+
+title DELETECustomerRequest
+
+client -> apiGateway : DELETE Account request
+apiGateway -> DELETECustomerRequest : DELETE Account request
+DELETECustomerRequest -> customerDao : Check if Customer Exists
+customerDao -> dynamoDB : Get Customer request
+
+alt if customer does not exist
+dynamoDB --> customerDao : return No Customer data
+customerDao --> DELETECustomerRequest : return null Customer
+DELETECustomerRequest --> apiGateway : throw CustomerDoesNotExistException
+apiGateway --> client : return 400 response
+else else continue
+end
+dynamoDB --> customerDao : return Customer data
+customerDao -> dynamoDB : DELETE Customer request
+dynamoDB --> customerDao : return 200 response
+customerDao --> DELETECustomerRequest : return Customer object
+DELETECustomerRequest --> apiGateway : return DELETECustomerResult data
+apiGateway --> client : return 200 response with DELETECustomerResult
+@enduml

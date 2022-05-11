@@ -1,0 +1,57 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor "Customer" as client
+participant "Customer Website Page" as apiGateway
+participant "POSTCheckoutActivity" as postCheckoutActivity
+participant "InventoryDao" as inventoryDao
+participant "CustomerDAO" as customerDao
+participant "OrderDAO" as orderDao
+database "DynamoDB" as dynamoDB
+
+client -> apiGateway : POSTCheckout Request
+alt if cart is empty
+apiGateway --> client : return 400 response
+else else continue
+end
+apiGateway -> postCheckoutActivity : Map<Product, int> and Customer
+postCheckoutActivity -> postCheckoutActivity : create new Order object with unique id
+loop for each product in the cart
+alt try - check quantity > 0
+postCheckoutActivity -> inventoryDao : Product Id
+inventoryDao -> dynamoDB : Product Id
+dynamoDB --> inventoryDao : return Product data
+else catch OutOfStockException
+inventoryDao --> postCheckoutActivity : throw OutOfStockException
+postCheckoutActivity --> apiGateway : throw OutStockException
+apiGateway --> client : return 400 response with msg
+end
+inventoryDao --> postCheckoutActivity : return Product object
+postCheckoutActivity -> postCheckoutActivity : remove the amount from the quantity
+postCheckoutActivity -> inventoryDao : Product
+inventoryDao -> dynamoDB : Product with updated quantity
+dynamoDB --> inventoryDao : return 200 response
+inventoryDao --> postCheckoutActivity : return updated Product object
+postCheckoutActivity -> postCheckoutActivity : add Product id to Order List<String>
+end
+alt if Customer has an id
+postCheckoutActivity -> customerDao : get Customer by id
+customerDao -> dynamoDB : customer id
+dynamoDB --> customerDao : return Customer data
+customerDao --> postCheckoutActivity : return Customer object
+postCheckoutActivity -> postCheckoutActivity : Add orderId to historyOrderIds
+postCheckoutActivity -> customerDao : Customer with updated historyOrderIds
+customerDao -> dynamoDB : Customer
+dynamoDB --> customerDao : return 200 response
+customerDao --> postCheckoutActivity : return updated Customer object
+
+else else continue
+end
+postCheckoutActivity -> orderDao : add Order
+orderDao -> dynamoDB : Order
+dynamoDB --> orderDao : return 200 response
+orderDao --> postCheckoutActivity : return Order
+postCheckoutActivity --> apiGateway : return POSTCheckoutRequestResult data
+apiGateway --> client : return 200 response with POSTCheckoutRequestResult data
+
+@enduml

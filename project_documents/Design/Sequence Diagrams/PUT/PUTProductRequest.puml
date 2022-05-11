@@ -1,0 +1,31 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor "Customer" as client
+participant "Customer Website Page" as apiGateway
+participant "PUTProductActivity" as putProductActivity
+participant "ProductDAO" as productDao
+database "DynamoDB" as dynamoDB
+
+title PUTProductRequest
+
+client -> apiGateway : PUT Product Request
+apiGateway -> putProductActivity : PUT Product Request
+putProductActivity -> productDao : Check if Product Exists
+productDao -> dynamoDB : GET Product Request
+alt if product does not exist
+dynamoDB --> productDao : return null Product
+productDao --> putProductActivity : return Product
+putProductActivity --> apiGateway : throw ProductNotFoundException
+apiGateway --> client : return 400 response
+else else continue
+end
+dynamoDB --> productDao : return Product data
+productDao --> putProductActivity : return Product
+putProductActivity -> productDao : edited Product
+productDao -> dynamoDB : Product object
+dynamoDB --> productDao : return 200 response
+productDao --> putProductActivity : return Product
+putProductActivity --> apiGateway : return PUTProductResult data
+apiGateway --> client : return 200 with PUTProductResult
+@enduml
