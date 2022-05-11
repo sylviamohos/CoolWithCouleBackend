@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor "Admin" as client
+participant "Admin Website Page" as apiGateway
+participant "DELETEProductActivity" as deleteProductActivity
+participant "InventoryDao" as inventoryDao
+database "DynamoDB" as dynamoDB
+
+client -> apiGateway : DELETE Product Request
+apiGateway -> deleteProductActivity : DELETE Product Request
+deleteProductActivity -> inventoryDao : DELETE Product Request
+inventoryDao -> dynamoDB : Product
+dynamoDB --> inventoryDao : return 200 response
+inventoryDao --> deleteProductActivity : return Product Info
+deleteProductActivity --> apiGateway : return DELETEProductResponse data
+apiGateway --> client : return 200 response with DELETEProductResponse data
+
+@enduml

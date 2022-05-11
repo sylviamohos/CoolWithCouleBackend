@@ -1,0 +1,95 @@
+@startuml
+
+
+' Changed Existing User to Customer for simplicity in naming other classes -Jackson
+class Customer {
+-@DynamoDBHashKey id : String
+-name : String
+-email : String
+-password : String
+-location : Location
+-historyOrderIds : List<String>
+-isAdmin : Boolean
+}
+
+class Order{
+- @DynamoDBHashKey id : String
+-customer : Customer
+-productIds : List<String>
+-orderDate : Calendar
+}
+
+class Product{
+-@DynamoDBHashKey id : String
+-upcCode : String
+-name : String
+-quantity : Integer
+-description : String
+-priceInCents : Long
+}
+
+class Location{
+-address : String
+-city : String
+-state : String
+-zipCode : String
+}
+
+class InventoryDao {
++getProduct(String ) : Product
++getInventory() : List<Product>
++addProduct(Product) : TODO
+
+}
+
+class CustomerDao {
++getCustomer(String ) : Customer
++addCustomer(Customer) : TODO
+}
+
+class OrderDao {
+dynamoDbMapper : DynamoDBMapper
++getOrder(String id) : Order
++addOrder(Order) : TODO
+}
+
+class CustomerNotFoundException extends RuntimeException{
+}
+
+class OutOfStockException extends RuntimeException{
+}
+
+class CustomerAlreadyExistsException extends RuntimeException{
+}
+
+class ProductDoesNotExistException extends RuntimeException{
+}
+
+class InvalidPasswordException extends RuntimeException{
+}
+
+class InvalidEmailException extends RuntimeException{
+}
+
+
+Customer --> Location
+Order --> Customer
+Order--> Product
+
+
+
+@enduml
+
+class ProductModel{
+
+}
+class OrderModel{
+}
+class ExistingCustomerModel{
+-id : String
+-name : String
+-email : String
+-location : Location
+-historyOrderIds : List<String>
+-isAdmin : Boolean
+}

@@ -1,0 +1,29 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor "Customer" as client
+participant "Customer Website Page" as apiGateway
+participant "GETCustomersRequest" as getCustomersRequest
+participant "CustomerDAO" as customerDao
+database "DynamoDB" as dynamoDB
+
+title GETCustomersRequest
+
+client -> apiGateway : GET Customers Request
+apiGateway -> getCustomersRequest : GET Customers Request
+getCustomersRequest -> customerDao : Check if Customers Exists
+customerDao -> dynamoDB : Get Customers Request
+
+alt if customer does not exist
+dynamoDB --> customerDao : return No Customers data
+customerDao --> getCustomersRequest : return null Customers
+getCustomersRequest --> apiGateway : throw CustomerDoesNotExistException
+apiGateway --> client : return 400 response
+else else continue
+end
+dynamoDB --> customerDao : return Customer data
+customerDao --> getCustomersRequest : return Customer object
+getCustomersRequest --> apiGateway : return GETCustomersResult data
+apiGateway --> client : return 200 response with GETCustomersResult
+
+@enduml
