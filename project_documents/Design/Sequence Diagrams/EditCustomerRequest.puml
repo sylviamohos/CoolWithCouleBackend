@@ -1,0 +1,32 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor "Customer" as client
+participant "Customer Website Page" as apiGateway
+participant "EditCustomerActivity" as editCustomerActivity
+participant "CustomerDAO" as customerDao
+database "DynamoDB" as dynamoDB
+
+title EditCustomerAccountRequest
+
+client -> apiGateway : Edit Account Request
+apiGateway -> editCustomerActivity : Edit Account Request
+editCustomerActivity -> customerDao : Check if Customer Exists
+customerDao -> dynamoDB : Get Customer Request
+alt if customer does not exist
+dynamoDB --> customerDao : return null Customer
+customerDao --> editCustomerActivity : return Customer
+editCustomerActivity --> apiGateway : throw CustomerNotFoundException
+apiGateway --> client : return 400 response
+else else continue
+end
+dynamoDB --> customerDao : return Customer data
+customerDao --> editCustomerActivity : return Customer
+editCustomerActivity -> customerDao : edited Customer
+customerDao -> dynamoDB : Customer object
+dynamoDB --> customerDao : return 200 response
+customerDao --> editCustomerActivity : return 200 response
+editCustomerActivity --> apiGateway : return 200 response
+apiGateway --> client : return 200 w/response message
+
+@enduml

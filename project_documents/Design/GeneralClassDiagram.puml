@@ -1,15 +1,9 @@
 @startuml
 
-interface User{
-}
-class Guest implements User{
--name : String
--location : Location
-}
 
 ' Changed Existing User to Customer for simplicity in naming other classes -Jackson
-class Customer implements User{
--id : String
+class Customer {
+-@DynamoDBHashKey id : String
 -name : String
 -email : String
 -password : String
@@ -19,14 +13,14 @@ class Customer implements User{
 }
 
 class Order{
--id : String
--user : User
--cart : Cart
--products : List<Product>
+- @DynamoDBHashKey id : String
+-customer : Customer
+-productIds : List<String>
+-orderDate : Calendar
 }
 
 class Product{
--id : String
+-@DynamoDBHashKey id : String
 -upcCode : String
 -name : String
 -quantity : Integer
@@ -40,11 +34,47 @@ class Location{
 -zipCode : String
 }
 
+class InventoryDao {
++getProduct(String ) : Product
++getInventory() : List<Product>
++addProduct(Product) : TODO
+
+}
+
+class CustomerDao {
++getCustomer(String ) : Customer
++addCustomer(Customer) : TODO
+}
+
+class OrderDao {
+dynamoDbMapper : DynamoDBMapper
++getOrder(String id) : Order
++addOrder(Order) : TODO
+}
+
+class CustomerNotFoundException extends RuntimeException{
+}
+
+class OutOfStockException extends RuntimeException{
+}
+
+class CustomerAlreadyExistsException extends RuntimeException{
+}
+
+class ProductDoesNotExistException extends RuntimeException{
+}
+
+class InvalidPasswordException extends RuntimeException{
+}
+
+class InvalidEmailException extends RuntimeException{
+}
+
 
 Customer --> Location
-Guest --> Location
-Order --> User
+Order --> Customer
 Order--> Product
+
 
 
 @enduml

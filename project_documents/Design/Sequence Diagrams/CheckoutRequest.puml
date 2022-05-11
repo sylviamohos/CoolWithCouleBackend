@@ -6,47 +6,52 @@ participant "Customer Website Page" as apiGateway
 participant "CheckoutActivity" as checkoutActivity
 participant "InventoryDao" as inventoryDao
 participant "CustomerDAO" as customerDao
+participant "OrderDAO" as orderDao
 database "DynamoDB" as dynamoDB
 
-client -> apiGateway : Checkout Form
+client -> apiGateway : Checkout Request
 alt if cart is empty
-apiGateway -> client : return 400 response
+apiGateway --> client : return 400 response
 else else continue
 end
-alt if user is not signed in
-apiGateway -> checkoutActivity : List<Product>
-else if the user is signed in
-apiGateway -> checkoutActivity : List<Product> and Customer Id
-end
-checkoutActivity -> checkoutActivity : create new Order object
+apiGateway -> checkoutActivity : Map<Product, int> and Customer
+checkoutActivity -> checkoutActivity : create new Order object with unique id
 loop for each product in the cart
+alt try - check quantity > 0
 checkoutActivity -> inventoryDao : Product Id
 inventoryDao -> dynamoDB : Product Id
-dynamoDB --> inventoryDao : Product
-inventoryDao --> checkoutActivity : Product
-alt if item is out of stock
+dynamoDB --> inventoryDao : return Product data
+else catch OutOfStockException
+inventoryDao --> checkoutActivity : throw OutOfStockException
 checkoutActivity --> apiGateway : throw OutStockException
 apiGateway --> client : return 400 response with msg
-else else item is in stock
-checkoutActivity -> checkoutActivity : remove 1 from the quantity
+end
+inventoryDao --> checkoutActivity : return Product object
+checkoutActivity -> checkoutActivity : remove the amount from the quantity
 checkoutActivity -> inventoryDao : Product
 inventoryDao -> dynamoDB : Product with updated quantity
+dynamoDB --> inventoryDao : return 200 response
+inventoryDao --> checkoutActivity : return updated Product object
+checkoutActivity -> checkoutActivity : add Product id to Order List<String>
 end
-end
-alt if user is signed in
-checkoutActivity -> customerDao : customer id
+alt if user has an id
+checkoutActivity -> customerDao : get Customer by id
 customerDao -> dynamoDB : customer id
-dynamoDB --> customerDao : Customer
-customerDao --> checkoutActivity : Customer
+dynamoDB --> customerDao : return Customer data
+customerDao --> checkoutActivity : return Customer object
 checkoutActivity -> checkoutActivity : Add orderId to historyOrderIds
 checkoutActivity -> customerDao : Customer with updated historyOrderIds
 customerDao -> dynamoDB : Customer
+dynamoDB --> customerDao : return 200 response
+customerDao --> checkoutActivity : return updated Customer object
 
-else else create a new Guest
-checkoutActivity -> checkoutActivity : Create new Guest
-checkoutActivity -> checkoutActivity : Add location to Guest
+else else continue
 end
-checkoutActivity --> apiGateway : return customer info
-apiGateway --> client : return 200 response with msg
+checkoutActivity -> orderDao : add Order
+orderDao -> dynamoDB : Order
+dynamoDB --> orderDao : return 200 response
+orderDao --> checkoutActivity : return Order
+checkoutActivity --> apiGateway : return CheckoutRequestResult data
+apiGateway --> client : return 200 response with CheckoutRequestResult data
 
 @enduml

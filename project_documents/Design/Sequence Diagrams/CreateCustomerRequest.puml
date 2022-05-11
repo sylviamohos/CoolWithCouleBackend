@@ -9,7 +9,7 @@ database "DynamoDB" as dynamoDB
 
 title CreateCustomerAccountRequest
 
-client -> apiGateway : Create Account Form
+client -> apiGateway : Create Account Request
 apiGateway -> createCustomerActivity : Create Account Request
 createCustomerActivity -> customerDao : Check if Customer Exists
 customerDao -> dynamoDB : Get Customer Request
@@ -21,7 +21,7 @@ apiGateway --> client : return 400 response
 else else continue
 end
 dynamoDB --> customerDao : Return No Customer Data
-customerDao --> createCustomerActivity : Customer Doesn't Exist
+customerDao --> createCustomerActivity : return null Customer
 createCustomerActivity -> customerDao : Create Customer Request
 customerDao -> dynamoDB : Create Customer
 dynamoDB --> customerDao : return 200 response

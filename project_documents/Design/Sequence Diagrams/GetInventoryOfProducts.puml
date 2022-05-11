@@ -1,16 +1,22 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-actor "Retailer" as client
-participant "Website Page" as apiGateway
-participant "Get Inventory" as getInventoryActivity
+actor "Customer" as client
+participant "Customer Website Page" as apiGateway
+participant "GetInventoryActivity" as getInventoryActivity
+participant "InventoryDao" as inventoryDao
 database "DynamoDB" as dynamoDB
 
-client -> apiGateway : Get Inventory Form
-apiGateway -> getInventoryActivity : Get Inventory Request
-getInventoryActivity -> dynamoDB : Load Inventory
+title First Endpoint - Get Inventory Of Products
 
-dynamoDB -> getInventoryActivity : Inventory
-getInventoryActivity -> apiGateway : List<Product>
-apiGateway -> client : Present Inventory and Products
+client -> apiGateway : Get Inventory Request
+apiGateway -> getInventoryActivity : Get Inventory Request
+getInventoryActivity -> inventoryDao : Get Inventory Request
+inventoryDao -> dynamoDB : getInventory request
+dynamoDB --> inventoryDao : return List<Product>
+inventoryDao --> getInventoryActivity : return List<Product>
+getInventoryActivity --> apiGateway : return GetInventoryResult data
+apiGateway --> client : return 200 response with GetInventoryResult data
 @enduml
+
+Scan request docs: https://stackoverflow.com/questions/10450962/how-can-i-fetch-all-items-from-a-dynamodb-table-without-specifying-the-primary-k

@@ -1,17 +1,19 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-actor "Retailer" as client
+actor "Customer" as client
 participant "Website Page" as apiGateway
 participant "GetProductActivity" as getProductActivity
+participant "InventoryDao" as inventoryDao
 database "DynamoDB" as dynamoDB
 
-client -> apiGateway : Get Product Form
+client -> apiGateway : Get Product Request
 apiGateway -> getProductActivity : Get Product Request
-getProductActivity -> dynamoDB : Load Product
-
-dynamoDB -> getProductActivity : Product Item
-getProductActivity -> apiGateway : Product Object
-apiGateway -> client : Present Product Information
+getProductActivity -> inventoryDao : Load Product Request
+inventoryDao -> dynamoDB : Load Product
+dynamoDB --> inventoryDao : return Product data
+inventoryDao --> getProductActivity : return Product object
+getProductActivity --> apiGateway : return GetProductResult data
+apiGateway --> client : return 200 response with GetProductResult data
 
 @enduml
