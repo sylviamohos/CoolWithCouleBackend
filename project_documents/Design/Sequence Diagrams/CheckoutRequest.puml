@@ -41,6 +41,7 @@ customerDao --> checkoutActivity : Customer
 checkoutActivity -> checkoutActivity : Add orderId to historyOrderIds
 checkoutActivity -> customerDao : Customer with updated historyOrderIds
 customerDao -> dynamoDB : Customer
+
 else else create a new Guest
 checkoutActivity -> checkoutActivity : Create new Guest
 checkoutActivity -> checkoutActivity : Add location to Guest
