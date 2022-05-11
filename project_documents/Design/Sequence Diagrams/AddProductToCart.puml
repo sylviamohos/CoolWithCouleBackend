@@ -1,0 +1,31 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor "Customer" as client
+participant "Customer Website Page" as apiGateway
+participant "AddProductToCartActivity" as addProductToCartActivity
+participant "InventoryDao" as inventoryDao
+database "DynamoDB" as dynamoDB
+
+client -> apiGateway : Add Product Form
+apiGateway -> addProductToCartActivity : Add Product Request
+addProductToCartActivity -> inventoryDao : Load Product
+inventoryDao -> dynamoDB : Load Product
+dynamoDB --> inventoryDao : Product
+inventoryDao --> addProductToCartActivity : Product
+alt if product quantity = 0
+addProductToCartActivity -> addProductToCartActivity : throw OutOfStockException
+addProductToCartActivity --> apiGateway : propagate OutOfStockException
+apiGateway --> client : return 400 response
+else else continue
+end
+addProductToCartActivity -> apiGateway : Product
+alt if cart does not exist
+apiGateway -> apiGateway : Create New Cart Object
+else else continue
+end
+apiGateway -> apiGateway : Add Product to cart
+apiGateway --> client : Present Cart with Products
+
+
+@enduml

@@ -1,0 +1,13 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor "Retailer" as client
+participant "Website Page" as apiGateway
+participant "RemoveProductActivity" as removeProductActivity
+database "DynamoDB" as dynamoDB
+
+client -> apiGateway : Remove Product Form
+apiGateway -> removeProductActivity : Remove Product Request
+removeProductActivity -> dynamoDB : Remove Product
+
+@enduml

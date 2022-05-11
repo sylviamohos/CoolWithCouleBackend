@@ -6,7 +6,9 @@ class Guest implements User{
 -name : String
 -location : Location
 }
-class ExistingUser implements User{
+
+' Changed Existing User to Customer for simplicity in naming other classes -Jackson
+class Customer implements User{
 -id : String
 -name : String
 -email : String
@@ -39,7 +41,8 @@ class Location{
 }
 
 
-ExistingUser --> Location
+Customer --> Location
+Guest --> Location
 Order --> User
 Order--> Product
 
