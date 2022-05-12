@@ -3,7 +3,7 @@
 
 ' Changed Existing User to Customer for simplicity in naming other classes -Jackson
 class Customer {
--@DynamoDBHashKey id : String
+-@DynamoDBHashKey customerId : String
 -name : String
 -email : String
 -password : String
@@ -13,19 +13,20 @@ class Customer {
 }
 
 class Order{
-- @DynamoDBHashKey id : String
--customer : Customer
--productIds : List<String>
--orderDate : Calendar
+- @DynamoDBHashKey orderId : String
+-customerModel : CustomerModel
+-productNames : List<String>
+-orderDate : Date
 }
 
 class Product{
--@DynamoDBHashKey id : String
+-@DynamoDBHashKey name : String
+-type : String
 -upcCode : String
--name : String
 -quantity : Integer
 -description : String
 -priceInCents : Long
+-imageUrl : String
 }
 
 class Location{
@@ -36,21 +37,26 @@ class Location{
 }
 
 class InventoryDao {
-+getProduct(String ) : Product
-+getInventory() : List<Product>
-+addProduct(Product) : TODO
-
+-dynamoDbMapper : DynamoDBMapper
 }
 
 class CustomerDao {
-+getCustomer(String ) : Customer
-+addCustomer(Customer) : TODO
+-dynamoDbMapper : DynamoDBMapper
 }
 
 class OrderDao {
-dynamoDbMapper : DynamoDBMapper
-+getOrder(String id) : Order
-+addOrder(Order) : TODO
+-dynamoDbMapper : DynamoDBMapper
+}
+
+class CustomerModel {
+-customerId : String
+-name : String
+-email : String
+-location : Location
+-historyOrderIds : List<String>
+}
+
+class ResponseStatus {
 }
 
 class CustomerNotFoundException extends RuntimeException{
@@ -76,20 +82,20 @@ Customer --> Location
 Order --> Customer
 Order--> Product
 
+InventoryDao : +getProduct(String) : Product
+InventoryDao : +getInventory() : List<Product>
+InventoryDao : +getInventoryByType(String) : List<Product>
+InventoryDao : +getInventoryByPrice(Long) : List<Product>
+InventoryDao : +getInventoryByPrice(Long, String) : List<Product>
+InventoryDao : +saveProduct(Product)
+InventoryDao : +deleteProduct(Product)
+
+CustomerDao : +getCustomer(String ) : Customer
+CustomerDao : +saveCustomer(Customer)
+CustomerDao : +deleteCustomer(Customer)
+
+OrderDao : +getOrder(String) : Order
+OrderDao : +addOrder(Order)
 
 
 @enduml
-
-class ProductModel{
-
-}
-class OrderModel{
-}
-class ExistingCustomerModel{
--id : String
--name : String
--email : String
--location : Location
--historyOrderIds : List<String>
--isAdmin : Boolean
-}

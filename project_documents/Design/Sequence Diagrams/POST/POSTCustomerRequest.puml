@@ -7,7 +7,7 @@ participant "POSTCustomerActivity" as postCustomerActivity
 participant "CustomerDAO" as customerDao
 database "DynamoDB" as dynamoDB
 
-title CreateCustomerAccountRequest
+title POSTCustomerAccountRequest
 
 client -> apiGateway : POST Account Request
 apiGateway -> postCustomerActivity : POST Account Request
