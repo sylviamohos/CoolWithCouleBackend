@@ -71,7 +71,7 @@ class CustomerAlreadyExistsException extends RuntimeException{
 class ProductDoesNotExistException extends RuntimeException{
 }
 
-class InvalidPasswordException extends RuntimeException{
+class PasswordDoesNotMatchException extends RuntimeException{
 }
 
 class InvalidEmailException extends RuntimeException{
