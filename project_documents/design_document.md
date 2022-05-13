@@ -194,7 +194,7 @@ The third endpoint would be POSTCheckoutRequest. The required data would be the 
 
 
 
-### _5.4_ _PUTProductRequest Endpoint_
+### _5.4_ _PUTProductRequest_
 
 The fourth endpoint would be PUTProductRequest. The required data is the PUTProductRequest which has the product’s name. The return data would be PUTProductResult data which would then return a 200 response. If an error occurs such as a product not existing, a ProductNotFound exception would be thrown.
 
@@ -204,7 +204,7 @@ The fourth endpoint would be PUTProductRequest. The required data is the PUTProd
 ![](images/design_document/PUTProductRequest.png)
 
 
-### _5.5_ _PUTCustomerRequest Endpoint_
+### _5.5_ _PUTCustomerRequest_
 
 The next endpoint is the PUTCustomerRequest which requires the Account request, which is the Account information. If a customer doesn’t exist a CustomerNotFound exception would be thrown. If not, Customer’s data would be changed and a 200 would be returned.
 
