@@ -23,6 +23,5 @@ public class CustomerModel {
     private String email;
     private Location location;
     private List<String> historyOrderIds;
-    private ResponseStatus responseStatus;
 
 }
