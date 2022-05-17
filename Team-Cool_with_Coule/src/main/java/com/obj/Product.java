@@ -8,7 +8,7 @@ import lombok.*;
 
 @Setter
 
-@DynamoDBTable(tableName = "Cool-With-Cool-Product")
+@DynamoDBTable(tableName = "Cool-With-Coule-Product")
 public class Product {
 
     private String name;
