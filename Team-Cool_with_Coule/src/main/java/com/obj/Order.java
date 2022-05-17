@@ -12,7 +12,7 @@ import lombok.*;
 
 @Setter
 
-@DynamoDBTable(tableName = "order")
+@DynamoDBTable(tableName = "Cool-With-Coule-Order")
 public class Order {
     private String orderId;
     //TODO
