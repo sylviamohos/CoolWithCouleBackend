@@ -29,5 +29,10 @@ public class Order {
     @DynamoDBAttribute(attributeName = "orderDate")
     public Date getOrderDate() {return this.orderDate;}
 
-
+    // TODO
+    /*
+    @DynamoDBAttribute(attributeName = "customerModel")
+    public CustomerModel getCustomerModel() {return this.customerModel;}
+    */
 }
+

@@ -16,7 +16,7 @@ public class OrderModel {
     private String orderId;
     private List<String> productNames;
     private Date orderDate;
-    private ResponseStatus responseStatus;
+
     //TODO
     // private CustomerModel customerModel;
 
@@ -51,11 +51,6 @@ public class OrderModel {
 
         public Builder withDate(Date orderDateToUse) {
             this.orderDate = orderDateToUse;
-            return this;
-        }
-
-        public Builder withResponseStatus(ResponseStatus responseStatusToUse) {
-            this.responseStatus = responseStatusToUse;
             return this;
         }
 
