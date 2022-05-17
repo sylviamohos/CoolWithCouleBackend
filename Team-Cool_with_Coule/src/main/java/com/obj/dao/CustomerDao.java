@@ -13,4 +13,11 @@ public class CustomerDao {
     public CustomerDao(DynamoDBMapper mapper) {
         this.mapper = mapper;
     }
+
+
+//    public Customer getCustomer(String customerId) {
+//        Customer customer = this.mapper.load(Customer.class, customerId);
+//
+//        }
+
 }
