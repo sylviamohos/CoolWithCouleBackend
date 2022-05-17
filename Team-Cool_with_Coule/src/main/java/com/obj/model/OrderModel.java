@@ -1,4 +1,4 @@
-package main.java.com.obj.dao.model;
+package main.java.com.obj.model;
 
 import java.util.List;
 import java.util.Date;

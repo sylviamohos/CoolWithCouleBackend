@@ -4,7 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDB;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-//import main.java.com.obj.dao.model.CustomerModel;
+//import main.java.com.obj.model.CustomerModel;
 
 import java.util.ArrayList;
 import java.util.Date;
