@@ -1,10 +1,7 @@
-package main.java.com.obj.models;
+package main.java.com.obj.model;
 
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import lombok.*;
-import main.java.com.obj.ResponseStatus;
 
 import javax.xml.stream.Location;
 import java.util.List;
