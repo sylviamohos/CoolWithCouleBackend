@@ -3,10 +3,10 @@
 
 ' Changed Existing User to Customer for simplicity in naming other classes -Jackson
 class Customer {
--@DynamoDBHashKey customerId : String
+-@DynamoDBIndexHashKey customerId : String
 -name : String
--email : String
--password : String
+-@DynamoDBHashKey email : String
+-@DynamoDBRangeKey password : String
 -location : Location
 -historyOrderIds : List<String>
 -isAdmin : Boolean
@@ -21,7 +21,7 @@ class Order{
 
 class Product{
 -@DynamoDBHashKey name : String
--type : String
+-@DynamoDBIndexHashKey type : String
 -upcCode : String
 -quantity : Integer
 -description : String
