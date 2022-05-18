@@ -2,6 +2,7 @@ package main.java.com.sequence.order;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import main.java.com.exception.OrderNotFoundException;
 import main.java.com.obj.Order;
 import main.java.com.obj.ResponseStatus;
 import main.java.com.obj.dao.OrderDao;
@@ -38,7 +39,7 @@ public class GETOrdersActivity implements RequestHandler<GETOrderRequest, GETOrd
         } else {
             responseStatus.setCode(400);
             responseStatus.setMessage(String.format("[ERROR] Order has not been found by order id {}!", input.getOrderId()));
-            // throw new OrderNotFoundException
+            throw new OrderNotFoundException();
         }
 
         OrderModel orderModel = new OrderModel(order);

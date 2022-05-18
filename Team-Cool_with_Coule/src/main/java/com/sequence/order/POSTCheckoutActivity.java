@@ -2,6 +2,7 @@ package main.java.com.sequence.order;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import main.java.com.exception.OrderNotFoundException;
 import main.java.com.obj.Order;
 import main.java.com.obj.ResponseStatus;
 import main.java.com.obj.dao.OrderDao;
@@ -29,16 +30,14 @@ public class POSTCheckoutActivity implements RequestHandler<POSTCheckoutRequest,
         order.setProductNames(postCheckoutRequest.getOrderModel().getProductNames());
         order.setCustomerModel(postCheckoutRequest.getCustomerModel());
 
-        orderDao.addOrder(order);
+        Order addedOrder = orderDao.addOrder(order);
 
-        responseStatus.setMessage("[SUCCESS] order has been added to database!");
-        responseStatus.setCode(200);
-      /*
-            check for responseStatus.
-            if good continue to return statement
-            if not also throw an exception.
+        if (addedOrder == null) {
+            responseStatus = new ResponseStatus(400, String.format("[ERROR] Invalid order id:{} ", postCheckoutRequest.getOrderModel().getOrderId()));
+            throw new OrderNotFoundException(responseStatus.getMessage());
+        }
 
-       */
+        responseStatus = new ResponseStatus(200, "[SUCCESS] order has been added to database!");
 
         return POSTCheckoutResult.builder()
                 .withOrderModel(new OrderModel())

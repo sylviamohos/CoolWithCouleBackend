@@ -1,5 +1,6 @@
 package main.java.com.sequence.order;
 
+import main.java.com.obj.Order;
 import main.java.com.obj.ResponseStatus;
 import main.java.com.obj.model.CustomerModel;
 import main.java.com.obj.model.OrderModel;
@@ -7,11 +8,13 @@ import lombok.*;
 
 @Getter
 @Setter
+@AllArgsConstructor
 
 public class POSTCheckoutResult {
     private OrderModel orderModel;
     private ResponseStatus responseStatus;
     private CustomerModel customerModel;
+
 
     public POSTCheckoutResult(Builder builder) {
         this.customerModel = builder.customerModel;
