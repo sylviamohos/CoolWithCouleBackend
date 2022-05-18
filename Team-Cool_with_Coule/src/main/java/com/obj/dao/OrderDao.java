@@ -36,6 +36,9 @@ public class OrderDao {
         return order;
     }
 
+    // getOrders() -> returns the list of orders.
+
+
     /**
      * Add an {@link Order} to the dynamoDB Cool-With-Coule table.
      * @param order The order being saved
