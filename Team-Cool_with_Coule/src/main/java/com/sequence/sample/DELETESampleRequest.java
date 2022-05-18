@@ -6,7 +6,6 @@ import org.checkerframework.checker.units.qual.A;
 import javax.inject.Singleton;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @ToString
