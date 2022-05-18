@@ -18,7 +18,7 @@ public class GETCustomerByIdActivity {
     }
 
     public GETCustomerByIdResult handleRequest(GETCustomerByIdRequest input, Context context) {
-        Customer customer = dao.getCustomerById(input
+        Customer customer = dao.getCustomerById();
     }
 }
 
