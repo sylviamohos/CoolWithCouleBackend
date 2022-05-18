@@ -17,21 +17,26 @@ import java.util.List;
 @DynamoDBTable(tableName = "Cool-With-Coule-Customers")
 public class Customer {
 
-    @DynamoDBIndexHashKey(globalSecondaryIndexName = "customerId")
-    @DynamoDBAttribute(attributeName = "customerId")
+    public static final String ID_INDEX = "idIndex";
+
+    @DynamoDBIndexHashKey(attributeName = "customerId", globalSecondaryIndexNames = ID_INDEX)
     private String customerId;
+
     @DynamoDBAttribute(attributeName = "name")
     private String name;
-    @DynamoDBIndexHashKey(attributeName = "email")
-    @DynamoDBAttribute(attributeName = "email")
+
+    @DynamoDBHashKey(attributeName = "email")
     private String email;
+
     @DynamoDBRangeKey(attributeName = "password")
-    @DynamoDBAttribute(attributeName = "password")
     private String password;
+
     @DynamoDBAttribute(attributeName = "location")
     private Location location;
+
     @DynamoDBAttribute(attributeName = "historyOrderIds")
     private List<String> historyOrderIds;
+
     @DynamoDBAttribute(attributeName = "isAdmin")
     private boolean isAdmin;
 

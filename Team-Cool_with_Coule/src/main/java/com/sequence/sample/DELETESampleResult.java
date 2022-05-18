@@ -3,7 +3,7 @@ package main.java.com.sequence.sample;
 import lombok.*;
 
 @NoArgsConstructor
-//@AllArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @ToString

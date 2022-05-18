@@ -54,7 +54,6 @@ class CustomerModel {
 -email : String
 -location : Location
 -historyOrderIds : List<String>
--responseStatus : ResponseStatus
 }
 
 class ProductModel {
@@ -65,7 +64,6 @@ class ProductModel {
 -description : String
 -priceInCents : Long
 -imageUrl : String
--responseStatus : ResponseStatus
 }
 
 class OrderModel {
@@ -73,13 +71,13 @@ class OrderModel {
 -customerModel : CustomerModel
 -productNames : List<String>
 -orderDate : Date
--responseStatus : ResponseStatus
 }
 
 class ResponseStatus {
 -code : Integer
 -message : String
 }
+
 
 class CustomerNotFoundException extends RuntimeException{
 }
@@ -101,12 +99,8 @@ class InvalidEmailException extends RuntimeException{
 
 
 Customer --> Location
-Order --> Customer
-Order--> Product
+Order --> CustomerModel
 
-CustomerModel --> ResponseStatus
-ProductModel --> ResponseStatus
-OrderModel --> ResponseStatus
 
 InventoryDao : +getProduct(String) : Product
 InventoryDao : +getInventory() : List<Product>
@@ -116,7 +110,7 @@ InventoryDao : +getInventoryByPrice(Long, String) : List<Product>
 InventoryDao : +saveProduct(Product)
 InventoryDao : +deleteProduct(Product)
 
-CustomerDao : +getCustomer(String ) : Customer
+CustomerDao : +getCustomer(String, String) : Customer
 CustomerDao : +saveCustomer(Customer)
 CustomerDao : +deleteCustomer(Customer)
 
