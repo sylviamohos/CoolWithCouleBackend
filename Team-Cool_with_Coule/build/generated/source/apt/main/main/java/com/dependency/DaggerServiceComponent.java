@@ -11,7 +11,6 @@ import main.java.com.sequence.customer.DELETECustomerActivity;
 import main.java.com.sequence.customer.GETCustomerByEmailActivity;
 import main.java.com.sequence.customer.GETCustomerByIdActivity;
 import main.java.com.sequence.customer.POSTCustomerActivity;
-import main.java.com.sequence.customer.PUTCustomerActivity;
 import main.java.com.sequence.order.GETOrdersActivity;
 import main.java.com.sequence.order.POSTCheckoutActivity;
 import main.java.com.sequence.product.activity.DELETEProductActivity;
