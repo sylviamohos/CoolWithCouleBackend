@@ -44,6 +44,7 @@ public class POSTCustomerActivity implements RequestHandler<POSTCustomerRequest,
                 .location(customers.get(0).getLocation())
                 .isAdmin(customers.get(0).isAdmin())
                 .password(customers.get(0).getPassword())
+                //TODO
                 //.historyOrderIds()
                 .build();
 

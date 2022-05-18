@@ -1,6 +1,7 @@
 package main.java.com.sequence.customer;
 
 import lombok.*;
+import main.java.com.obj.model.CustomerModel;
 
 
 @Getter
@@ -17,7 +18,5 @@ public class POSTCustomerRequest {
     private String email;
     private String location;
     private boolean isAdmin;
-    //TODO
-//    private String password;
-
+    private String password;
 }
