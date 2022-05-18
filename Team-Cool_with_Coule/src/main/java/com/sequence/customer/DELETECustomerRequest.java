@@ -15,5 +15,7 @@ public class DELETECustomerRequest {
 
     private String customerId;
 
+    private String callingUserId;
+
 
 }

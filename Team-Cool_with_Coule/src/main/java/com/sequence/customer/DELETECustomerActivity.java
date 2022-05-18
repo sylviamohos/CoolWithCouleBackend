@@ -24,7 +24,11 @@ public class DELETECustomerActivity implements RequestHandler<DELETECustomerRequ
     @Override
     public DELETECustomerResult handleRequest(DELETECustomerRequest deleteCustomerRequest, Context context) {
 
+        if (!deleteCustomerRequest.getCallingUserId.equals(deleteCustomerRequest.getCustomerId)) {
+            throw new CustomerNotFoundException;
+        }
         List<Customer> customerList = dao.getCustomerById(deleteCustomerRequest.getCustomerId());
+
 
 
 
