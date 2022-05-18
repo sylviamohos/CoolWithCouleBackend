@@ -3,6 +3,7 @@ package main.java.com.obj.model;
 import java.util.List;
 import java.util.Date;
 import lombok.*;
+import main.java.com.obj.Order;
 import main.java.com.obj.ResponseStatus;
 
 @NoArgsConstructor
@@ -16,18 +17,20 @@ public class OrderModel {
     private String orderId;
     private List<String> productNames;
     private Date orderDate;
-
-    //TODO
-    // private CustomerModel customerModel;
-
+    private CustomerModel customerModel;
 
     public OrderModel(Builder builder) {
         this.orderId = builder.orderId;
         this.orderDate = builder.orderDate;
         this.productNames = builder.productNames;
+        this.customerModel = builder.customerModel;
+    }
 
-        // TODO
-        //this.customerModel = builder.customerModel;
+    public OrderModel(Order order) {
+        this.orderId = order.getOrderId();
+        this.orderDate = order.getOrderDate();
+        this.productNames = order.getProductNames();
+        this.customerModel = order.getCustomerModel();
     }
 
     public static Builder builder() {return new Builder();}
@@ -36,8 +39,7 @@ public class OrderModel {
         private String orderId;
         private List<String> productNames;
         private Date orderDate;
-        private ResponseStatus responseStatus;
-        // TODO CustomerModel customerModel;
+        private CustomerModel customerModel;
 
         public Builder withOrderId(String orderIdToUse) {
             this.orderId = orderIdToUse;
@@ -54,12 +56,10 @@ public class OrderModel {
             return this;
         }
 
-        //TODO
-        /*
         public Builder withCustomerModel(CustomerModel customerModelToUse) {
             this.customerModel = customerModelToUse;
+            return this;
         }
-        */
 
         public OrderModel build() {return new OrderModel(this);}
     }
