@@ -1,4 +1,4 @@
-package main.java.com.sequence.sample;
+package main.java.com.sequence.product.request;
 
 import lombok.*;
 
@@ -9,5 +9,5 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 @Builder
-public class DELETESampleResult {
+public class GETInventoryOfProductsRequest {
 }
