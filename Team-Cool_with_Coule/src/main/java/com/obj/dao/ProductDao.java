@@ -2,11 +2,14 @@ package main.java.com.obj.dao;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import main.java.com.obj.Product;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProductDao {
 
@@ -23,13 +26,16 @@ public class ProductDao {
     public List<Product> getProductByType(String type) {
         Product product = new Product();
         product.setType(type);
-        //TODO - Talk with Ben to see if this works.  Need HashKey and not IndexHashKey?
         DynamoDBQueryExpression<Product> queryExpression = new DynamoDBQueryExpression<Product>()
                 .withHashKeyValues(product)
                 .withConsistentRead(false)
-                .withIndexName(type);
-
+                .withIndexName(Product.TYPE_INDEX);
         return new ArrayList<>(mapper.query(Product.class, queryExpression));
+    }
+
+    public List<Product> getAllProducts() {
+        DynamoDBScanExpression expression = new DynamoDBScanExpression();
+        return mapper.scan(Product.class, expression);
     }
 
 
@@ -41,5 +47,6 @@ public class ProductDao {
     public void deleteProduct(Product product) {
         mapper.delete(product);
     }
+
 
 }
