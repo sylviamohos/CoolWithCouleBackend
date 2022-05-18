@@ -2,6 +2,7 @@ package main.java.com.obj.model;
 
 
 import lombok.*;
+import main.java.com.obj.Product;
 
 
 @NoArgsConstructor
@@ -27,4 +28,30 @@ public class ProductModel {
 
 
 
+
+
+    public ProductModel (Product product) {
+        this.name = product.getName();
+        this.type = product.getType();
+        this.upcCode = product.getUpcCode();
+        this.quantity = product.getQuantity();
+        this.description = product.getDescription();
+        this.priceInCents = product.getPriceInCents();
+        this.imageUrl = product.getImageUrl();
+    }
+
 }
+
+/*
+    public ProductModel toProductModel(Product product) {
+        return ProductModel.builder()
+                .name(product.getName())
+                .type(product.getType())
+                .upcCode(product.getUpcCode())
+                .quantity(product.getQuantity())
+                .description(product.getDescription())
+                .priceInCents(product.getPriceInCents())
+                .imageUrl(product.getImageUrl())
+                .build();
+    }
+ */

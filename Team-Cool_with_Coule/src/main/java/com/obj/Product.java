@@ -10,6 +10,7 @@ import lombok.*;
 
 @DynamoDBTable(tableName = "Cool-With-Coule-Product")
 public class Product {
+    public static final String TYPE_INDEX = "type-index";
 
     private String name;
 
@@ -30,7 +31,7 @@ public class Product {
         return name;
     }
 
-    @DynamoDBIndexHashKey(attributeName = "type")
+    @DynamoDBIndexHashKey(attributeName = "type", globalSecondaryIndexNames = TYPE_INDEX)
     public String getType() {
         return type;
     }

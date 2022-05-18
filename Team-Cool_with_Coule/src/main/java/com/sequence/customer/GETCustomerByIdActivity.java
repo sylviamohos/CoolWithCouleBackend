@@ -1,6 +1,7 @@
 package main.java.com.sequence.customer;
 
 import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
 import main.java.com.exception.CustomerNotFoundException;
 import main.java.com.obj.Customer;
 import main.java.com.obj.ResponseStatus;
@@ -8,8 +9,9 @@ import main.java.com.obj.dao.CustomerDao;
 import main.java.com.obj.model.CustomerModel;
 
 import javax.inject.Inject;
+import java.util.List;
 
-public class GETCustomerByIdActivity {
+public class GETCustomerByIdActivity implements RequestHandler<GETCustomerByIdRequest, GETCustomerByIdResult> {
     private final CustomerDao dao;
 
     @Inject
@@ -17,18 +19,14 @@ public class GETCustomerByIdActivity {
         this.dao = dao;
     }
 
+    @Override
     public GETCustomerByIdResult handleRequest(GETCustomerByIdRequest input, Context context) {
-        Customer customer = dao.getCustomerById(input
-    }
-}
-
-
-
-    public GETCustomerByEmailResult handleRequest(GETCustomerByEmailRequest input, Context context) {
-        Customer customer = dao.getCustomer(input.getEmail(), input.getPassword());
-        if (customer == null) {
+        List<Customer> customerList = dao.getCustomerById(input.getCustomerId());
+        if (customerList.size() == 0) {
             throw new CustomerNotFoundException();
         }
-        ResponseStatus status = new ResponseStatus(200, "Customer email found");
-        return new GETCustomerByEmailResult(new CustomerModel(customer), status);
+        Customer customer = customerList.get(0);
+        ResponseStatus status = new ResponseStatus(200, "Customer Id found");
+        return new GETCustomerByIdResult(new CustomerModel(customer), status);
     }
+}
