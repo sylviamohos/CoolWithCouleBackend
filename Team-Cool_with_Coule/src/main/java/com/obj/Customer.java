@@ -3,7 +3,6 @@ package main.java.com.obj;
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import lombok.*;
 
-import javax.xml.stream.Location;
 import java.util.List;
 
 @NoArgsConstructor

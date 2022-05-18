@@ -6,26 +6,24 @@ import main.java.com.dependency.DaggerServiceComponent;
 import main.java.com.dependency.ServiceComponent;
 import main.java.com.exception.CustomerNotFoundException;
 import main.java.com.obj.ResponseStatus;
-import main.java.com.sequence.sample.DELETESampleRequest;
-import main.java.com.sequence.sample.DELETESampleResult;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 
-public class DELETECustomerActivityProvider implements RequestHandler<DELETECustomerRequest, DELETECustomerResult> {
-
+public class GETCustomerByEmailActivityProvider implements RequestHandler<GETCustomerByEmailRequest, GETCustomerByEmailResult> {
     @Override
-    public DELETECustomerResult handleRequest(DELETECustomerRequest input, Context context) {
+    public GETCustomerByEmailResult handleRequest(GETCustomerByEmailRequest input, Context context) {
         ServiceComponent dagger = DaggerServiceComponent.create();
         try {
-            return dagger.provideDELTECustomerActivity().handleRequest(input, context);
+            return dagger.provideGETCustomerByEmailActivity().handleRequest(input, context);
         } catch (CustomerNotFoundException e) {
             ResponseStatus status = new ResponseStatus(400, "Customer not found.");
-            return new DELETECustomerResult(null, status);
+            return new GETCustomerByEmailResult(null, status);
         } catch (DynamoDbException e) {
             ResponseStatus status = new ResponseStatus(400, "Error, try again");
-            return new DELETECustomerResult(null, status);
+            return new GETCustomerByEmailResult(null, status);
         } catch (RuntimeException e) {
-            ResponseStatus status = new ResponseStatus(400, "Error, cannot delete another user.");
-            return new DELETECustomerResult(null, status);
+            ResponseStatus status = new ResponseStatus(400, "Error, cannot find customer by email");
+            return new GETCustomerByEmailResult(null, status);
         }
+
     }
 }

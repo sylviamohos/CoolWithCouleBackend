@@ -5,9 +5,13 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import main.java.com.dependency.DaggerServiceComponent;
 import main.java.com.dependency.ServiceComponent;
 import main.java.com.obj.Customer;
+import main.java.com.obj.ResponseStatus;
 import main.java.com.obj.dao.CustomerDao;
+import main.java.com.obj.model.CustomerModel;
 import main.java.com.sequence.sample.DELETESampleRequest;
 import main.java.com.sequence.sample.DELETESampleResult;
+import main.java.com.exception.CustomerNotFoundException;
+import main.java.com.sequence.customer.DELETECustomerRequest;
 
 import javax.inject.Inject;
 import java.util.LinkedList;
@@ -23,15 +27,16 @@ public class DELETECustomerActivity implements RequestHandler<DELETECustomerRequ
 
     @Override
     public DELETECustomerResult handleRequest(DELETECustomerRequest deleteCustomerRequest, Context context) {
-
-        if (!deleteCustomerRequest.getCallingUserId.equals(deleteCustomerRequest.getCustomerId)) {
-            throw new CustomerNotFoundException;
+        if (!deleteCustomerRequest.getCallingUserId().equals(deleteCustomerRequest.getCustomerId())) {
+            throw new RuntimeException();
         }
         List<Customer> customerList = dao.getCustomerById(deleteCustomerRequest.getCustomerId());
-
-
-
-
-        return null;
+        if(customerList.size() == 0) {
+            throw new CustomerNotFoundException();
+        }
+        Customer customer = customerList.get(0);
+        dao.deleteCustomer(customer);
+        ResponseStatus status = new ResponseStatus(200, "Customer deleted");
+        return new DELETECustomerResult(new CustomerModel(customer), status);
     }
 }
