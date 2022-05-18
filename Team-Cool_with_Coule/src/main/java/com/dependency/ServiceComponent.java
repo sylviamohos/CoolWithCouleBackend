@@ -4,7 +4,7 @@ import dagger.Component;
 import main.java.com.sequence.customer.*;
 import main.java.com.sequence.order.GETOrdersActivity;
 import main.java.com.sequence.order.POSTCheckoutActivity;
-import main.java.com.sequence.product.*;
+import main.java.com.sequence.product.activity.*;
 import main.java.com.sequence.sample.DELETESampleActivity;
 
 import javax.inject.Singleton;
@@ -24,7 +24,7 @@ public interface ServiceComponent {
 
     DELETEProductActivity provideDELETEProductActivity();
     GETInventoryOfProductsActivity provideGETInventoryOfProductsActivity();
-    GETProductActivity provideGETProductActivity();
+    GETProductByNameActivity provideGETProductActivity();
     POSTProductActivity providePOSTProductActivity();
     PUTProductActivity providePUTProductActivity();
 
