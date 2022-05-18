@@ -9,9 +9,8 @@ import main.java.com.obj.model.CustomerModel;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode
 @Builder
-public class DELETECustomerResult {
+public class PUTCustomerResult {
     private CustomerModel customerModel;
     private ResponseStatus responseStatus;
 }

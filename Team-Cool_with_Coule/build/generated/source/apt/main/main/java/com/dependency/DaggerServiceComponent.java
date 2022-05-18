@@ -6,18 +6,18 @@ import dagger.internal.Preconditions;
 import javax.annotation.processing.Generated;
 import javax.inject.Provider;
 import main.java.com.obj.dao.CustomerDao;
+import main.java.com.obj.dao.ProductDao;
 import main.java.com.sequence.customer.DELETECustomerActivity;
 import main.java.com.sequence.customer.GETCustomerByEmailActivity;
 import main.java.com.sequence.customer.GETCustomerByIdActivity;
 import main.java.com.sequence.customer.POSTCustomerActivity;
-import main.java.com.sequence.customer.PUTCustomerActivity;
 import main.java.com.sequence.order.GETOrdersActivity;
 import main.java.com.sequence.order.POSTCheckoutActivity;
-import main.java.com.sequence.product.DELETEProductActivity;
-import main.java.com.sequence.product.GETInventoryOfProductsActivity;
-import main.java.com.sequence.product.GETProductActivity;
-import main.java.com.sequence.product.POSTProductActivity;
-import main.java.com.sequence.product.PUTProductActivity;
+import main.java.com.sequence.product.activity.DELETEProductActivity;
+import main.java.com.sequence.product.activity.GETInventoryOfProductsActivity;
+import main.java.com.sequence.product.activity.GETProductByNameActivity;
+import main.java.com.sequence.product.activity.POSTProductActivity;
+import main.java.com.sequence.product.activity.PUTProductActivity;
 import main.java.com.sequence.sample.DELETESampleActivity;
 
 @Generated(
@@ -41,6 +41,10 @@ public final class DaggerServiceComponent implements ServiceComponent {
 
   private CustomerDao getCustomerDao() {
     return new CustomerDao(provideDynamoDbMapperProvider.get());
+  }
+
+  private ProductDao getProductDao() {
+    return new ProductDao(provideDynamoDbMapperProvider.get());
   }
 
   @SuppressWarnings("unchecked")
@@ -87,27 +91,27 @@ public final class DaggerServiceComponent implements ServiceComponent {
 
   @Override
   public DELETEProductActivity provideDELETEProductActivity() {
-    return new DELETEProductActivity(getCustomerDao());
+    return new DELETEProductActivity(getProductDao());
   }
 
   @Override
   public GETInventoryOfProductsActivity provideGETInventoryOfProductsActivity() {
-    return new GETInventoryOfProductsActivity(getCustomerDao());
+    return new GETInventoryOfProductsActivity(getProductDao());
   }
 
   @Override
-  public GETProductActivity provideGETProductActivity() {
-    return new GETProductActivity(getCustomerDao());
+  public GETProductByNameActivity provideGETProductActivity() {
+    return new GETProductByNameActivity(getProductDao());
   }
 
   @Override
   public POSTProductActivity providePOSTProductActivity() {
-    return new POSTProductActivity(getCustomerDao());
+    return new POSTProductActivity(getProductDao());
   }
 
   @Override
   public PUTProductActivity providePUTProductActivity() {
-    return new PUTProductActivity(getCustomerDao());
+    return new PUTProductActivity(getProductDao());
   }
 
   @Override

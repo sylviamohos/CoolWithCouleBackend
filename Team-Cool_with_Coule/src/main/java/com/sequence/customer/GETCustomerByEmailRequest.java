@@ -1,8 +1,6 @@
 package main.java.com.sequence.customer;
 
-
 import lombok.*;
-import main.java.com.obj.dao.CustomerDao;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -11,11 +9,9 @@ import main.java.com.obj.dao.CustomerDao;
 @ToString
 @EqualsAndHashCode
 @Builder
-public class DELETECustomerRequest {
 
-    private String customerId;
-
-    private String callingUserId;
-
-
+public class GETCustomerByEmailRequest {
+    
+    private String email;
+    private String password;
 }

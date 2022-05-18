@@ -11,7 +11,7 @@ import main.java.com.obj.model.CustomerModel;
 @ToString
 @EqualsAndHashCode
 @Builder
-public class DELETECustomerResult {
+public class GETCustomerByEmailResult {
     private CustomerModel customerModel;
     private ResponseStatus responseStatus;
 }
