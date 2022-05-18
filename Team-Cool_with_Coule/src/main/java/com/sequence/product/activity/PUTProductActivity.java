@@ -2,14 +2,19 @@ package main.java.com.sequence.product.activity;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import main.java.com.obj.Product;
+import main.java.com.obj.ResponseStatus;
 import main.java.com.obj.dao.CustomerDao;
 import main.java.com.obj.dao.ProductDao;
+import main.java.com.obj.model.ProductModel;
 import main.java.com.sequence.product.request.GETProductByTypeRequest;
 import main.java.com.sequence.product.request.PUTProductRequest;
 import main.java.com.sequence.product.result.GETProductByTypeResult;
+import main.java.com.sequence.product.result.POSTProductResult;
 import main.java.com.sequence.product.result.PUTProductResult;
 
 import javax.inject.Inject;
+import java.util.Optional;
 
 public class PUTProductActivity implements RequestHandler<PUTProductRequest, PUTProductResult> {
     private final ProductDao dao;
@@ -21,6 +26,25 @@ public class PUTProductActivity implements RequestHandler<PUTProductRequest, PUT
 
     @Override
     public PUTProductResult handleRequest(PUTProductRequest putProductRequest, Context context) {
-        return null;
+        Product oldProduct = dao.getProductByName(putProductRequest.getName());
+        Product newProduct = new Product();
+        newProduct.setName(oldProduct.getName());
+        newProduct.setType(Optional.ofNullable(putProductRequest.getType()).orElse(oldProduct.getType()));
+        newProduct.setUpcCode(Optional.ofNullable(putProductRequest.getUpcCode()).orElse(oldProduct.getUpcCode()));
+        newProduct.setQuantity(Optional.ofNullable(putProductRequest.getQuantity()).orElse(oldProduct.getQuantity()));
+        newProduct.setDescription(Optional.ofNullable(putProductRequest.getDescription()).orElse(oldProduct.getDescription()));
+        newProduct.setPriceInCents(Optional.ofNullable(putProductRequest.getPriceInCents()).orElse(oldProduct.getPriceInCents()));
+        newProduct.setImageUrl(Optional.ofNullable(putProductRequest.getImageUrl()).orElse(oldProduct.getImageUrl()));
+        if (putProductRequest.getNewName() != null) {
+            newProduct.setName(putProductRequest.getNewName());
+            dao.deleteProduct(oldProduct);
+        }
+        dao.saveProduct(newProduct);
+        ResponseStatus status = new ResponseStatus(200, "Success");
+
+        return PUTProductResult.builder()
+                .product(new ProductModel(newProduct))
+                .responseStatus(status)
+                .build();
     }
 }

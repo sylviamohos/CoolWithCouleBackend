@@ -12,6 +12,8 @@ import lombok.*;
 public class PUTProductRequest {
     private String name;
 
+    private String newName;
+
     private String type;
 
     private String upcCode;
