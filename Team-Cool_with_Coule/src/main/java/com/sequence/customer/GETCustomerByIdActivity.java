@@ -8,6 +8,7 @@ import main.java.com.obj.dao.CustomerDao;
 import main.java.com.obj.model.CustomerModel;
 
 import javax.inject.Inject;
+import java.util.List;
 
 public class GETCustomerByIdActivity {
     private final CustomerDao dao;
@@ -17,18 +18,14 @@ public class GETCustomerByIdActivity {
         this.dao = dao;
     }
 
+    //TODO: Do we need the @Override annotation here?
     public GETCustomerByIdResult handleRequest(GETCustomerByIdRequest input, Context context) {
-        Customer customer = dao.getCustomerById(input
-    }
-}
-
-
-
-    public GETCustomerByEmailResult handleRequest(GETCustomerByEmailRequest input, Context context) {
-        Customer customer = dao.getCustomer(input.getEmail(), input.getPassword());
-        if (customer == null) {
+        List<Customer> customerList = dao.getCustomerById(input.getCustomerId());
+        if (customerList.size() == 0) {
             throw new CustomerNotFoundException();
         }
-        ResponseStatus status = new ResponseStatus(200, "Customer email found");
-        return new GETCustomerByEmailResult(new CustomerModel(customer), status);
+        Customer customer = customerList.get(0);
+        ResponseStatus status = new ResponseStatus(200, "Customer Id found");
+        return new GETCustomerByIdResult(new CustomerModel(customer), status);
     }
+}
