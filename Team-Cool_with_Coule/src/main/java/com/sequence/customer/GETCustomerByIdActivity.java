@@ -1,6 +1,7 @@
 package main.java.com.sequence.customer;
 
 import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
 import main.java.com.exception.CustomerNotFoundException;
 import main.java.com.obj.Customer;
 import main.java.com.obj.ResponseStatus;
@@ -10,7 +11,7 @@ import main.java.com.obj.model.CustomerModel;
 import javax.inject.Inject;
 import java.util.List;
 
-public class GETCustomerByIdActivity {
+public class GETCustomerByIdActivity implements RequestHandler<GETCustomerByIdRequest, GETCustomerByIdResult> {
     private final CustomerDao dao;
 
     @Inject
@@ -18,7 +19,7 @@ public class GETCustomerByIdActivity {
         this.dao = dao;
     }
 
-    //TODO: Do we need the @Override annotation here?
+    @Override
     public GETCustomerByIdResult handleRequest(GETCustomerByIdRequest input, Context context) {
         List<Customer> customerList = dao.getCustomerById(input.getCustomerId());
         if (customerList.size() == 0) {
