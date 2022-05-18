@@ -26,6 +26,10 @@ public class ProductModel {
 
     private String imageUrl;
 
+
+
+
+
     public ProductModel (Product product) {
         this.name = product.getName();
         this.type = product.getType();
@@ -35,6 +39,7 @@ public class ProductModel {
         this.priceInCents = product.getPriceInCents();
         this.imageUrl = product.getImageUrl();
     }
+
 }
 
 /*

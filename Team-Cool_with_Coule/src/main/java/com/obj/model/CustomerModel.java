@@ -2,7 +2,6 @@ package main.java.com.obj.model;
 
 import main.java.com.obj.Customer;
 import lombok.*;
-import main.java.com.obj.Customer;
 import main.java.com.obj.Location;
 
 import java.util.List;

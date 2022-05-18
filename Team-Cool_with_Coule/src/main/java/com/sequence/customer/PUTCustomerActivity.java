@@ -38,8 +38,11 @@ public class PUTCustomerActivity implements RequestHandler<PUTCustomerRequest, P
         location.setZipCode(Optional.ofNullable(input.getZipCode()).orElse(location.getZipCode()));
 
         customer.setName(Optional.ofNullable(input.getName()).orElse(customer.getName()));
-        customer.setEmail(Optional.ofNullable(input.getEmail()).orElse(customer.getEmail()));
-        customer.setPassword(Optional.ofNullable(input.getPassword()).orElse(customer.getPassword()));
+        if (input.getEmail() != null || input.getPassword() != null) {
+            dao.deleteCustomer(customer);
+            customer.setEmail(Optional.ofNullable(input.getEmail()).orElse(customer.getEmail()));
+            customer.setPassword(Optional.ofNullable(input.getPassword()).orElse(customer.getPassword()));
+        }
         customer.setLocation(location);
 
         dao.saveCustomer(customer);
