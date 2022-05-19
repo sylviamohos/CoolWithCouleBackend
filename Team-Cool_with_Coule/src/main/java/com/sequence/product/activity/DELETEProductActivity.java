@@ -6,6 +6,7 @@ import main.java.com.exception.ProductDoesNotExistException;
 import main.java.com.obj.Product;
 import main.java.com.obj.ResponseStatus;
 import main.java.com.obj.dao.ProductDao;
+import main.java.com.obj.model.ProductModel;
 import main.java.com.sequence.product.request.DELETEProductRequest;
 import main.java.com.sequence.product.result.DELETEProductResult;
 
@@ -28,8 +29,12 @@ public class DELETEProductActivity implements RequestHandler<DELETEProductReques
         }
         dao.deleteProduct(product);
         ResponseStatus status = new ResponseStatus(200, "Success");
+        if (dao.getProductByName(product.getName()) != null) {
+            status = new ResponseStatus(400, "Product was not successfully deleted, try again");
+        }
 
         return DELETEProductResult.builder()
+                .product(new ProductModel(product))
                 .responseStatus(status)
                 .build();
     }

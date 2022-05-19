@@ -11,14 +11,27 @@ import main.java.com.obj.model.CustomerModel;
 import javax.inject.Inject;
 import java.util.List;
 
+/**
+ * The purpose of this class is to handle the request to get a customer by their Id from the database
+ */
 public class GETCustomerByIdActivity implements RequestHandler<GETCustomerByIdRequest, GETCustomerByIdResult> {
     private final CustomerDao dao;
 
+    /**
+     * Instantiate a new Get Customer By Id Activity
+     * @param dao - the customer data access object that we are using to locate the customer
+     */
     @Inject
     public GETCustomerByIdActivity(CustomerDao dao) {
         this.dao = dao;
     }
 
+    /**
+     * The request handler will get a customer by their id from the databse if the customer is found
+     * @param input The Lambda Function input
+     * @param context The Lambda execution environment context object.
+     * @return - a new GetCustomerByIdResult
+     */
     @Override
     public GETCustomerByIdResult handleRequest(GETCustomerByIdRequest input, Context context) {
         List<Customer> customerList = dao.getCustomerById(input.getCustomerId());

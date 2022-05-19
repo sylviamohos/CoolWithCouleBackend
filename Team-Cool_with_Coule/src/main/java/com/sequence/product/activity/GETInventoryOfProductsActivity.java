@@ -27,6 +27,8 @@ public class GETInventoryOfProductsActivity implements RequestHandler<GETInvento
         for (Product product : productList) {
             productModelList.add(new ProductModel(product));
         }
+
+
         return GETInventoryOfProductsResult.builder()
                 .products(productModelList)
                 .build();
