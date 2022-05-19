@@ -3,6 +3,7 @@ package main.java.com.sequence.product.activity;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import main.java.com.obj.Product;
+import main.java.com.obj.ResponseStatus;
 import main.java.com.obj.dao.ProductDao;
 import main.java.com.obj.model.ProductModel;
 import main.java.com.sequence.product.request.GETInventoryOfProductsRequest;
@@ -27,10 +28,12 @@ public class GETInventoryOfProductsActivity implements RequestHandler<GETInvento
         for (Product product : productList) {
             productModelList.add(new ProductModel(product));
         }
+        ResponseStatus status = new ResponseStatus(200, "Success");
 
 
         return GETInventoryOfProductsResult.builder()
                 .products(productModelList)
+                .responseStatus(status)
                 .build();
     }
 }

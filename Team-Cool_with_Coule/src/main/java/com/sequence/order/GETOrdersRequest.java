@@ -12,9 +12,6 @@ import lombok.*;
 @Builder
 
 public class GETOrdersRequest {
-    private List<String> orderId;
-    private List<String> productNames;
-    private Date orderDate;
     private String customerId;
 
 }

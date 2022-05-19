@@ -4,6 +4,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import main.java.com.exception.ProductDoesNotExistException;
 import main.java.com.obj.Product;
+import main.java.com.obj.ResponseStatus;
 import main.java.com.obj.dao.CustomerDao;
 import main.java.com.obj.dao.ProductDao;
 import main.java.com.obj.model.ProductModel;
@@ -30,8 +31,11 @@ public class GETProductByNameActivity implements RequestHandler<GETProductByName
         if (product == null) {
             throw new ProductDoesNotExistException();
         }
+        ResponseStatus status = new ResponseStatus(200, "Success");
+
         return GETProductByNameResult.builder()
                 .product(new ProductModel(product))
+                .responseStatus(status)
                 .build();
     }
 }
