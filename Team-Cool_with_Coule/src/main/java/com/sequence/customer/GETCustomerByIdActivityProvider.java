@@ -1,5 +1,6 @@
 package main.java.com.sequence.customer;
 
+import com.amazonaws.services.dynamodbv2.model.AmazonDynamoDBException;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import main.java.com.dependency.DaggerServiceComponent;
@@ -18,7 +19,7 @@ public class GETCustomerByIdActivityProvider implements RequestHandler<GETCustom
      * @param context The Lambda execution environment context object.
      * @exception CustomerNotFoundException is caught if the customer's email is not found in the database
      *  will create a ResponseStatus 400 to indicate the customer is not found
-     * @exception DynamoDbException is caught if the DynamoDB experiences a problem
+     * @exception AmazonDynamoDBException is caught if the DynamoDB experiences a problem
      *  will create a ResponseStatus 500 to indicate that the database is having an error
      * @return - a new Get Customer By Id Result
      */
@@ -30,7 +31,7 @@ public class GETCustomerByIdActivityProvider implements RequestHandler<GETCustom
         } catch (CustomerNotFoundException e) {
             ResponseStatus status = new ResponseStatus(400, "Customer not found.");
             return new GETCustomerByIdResult(null, status);
-        } catch (DynamoDbException e) {
+        } catch (AmazonDynamoDBException e) {
             ResponseStatus status = new ResponseStatus(500, "Error, try again");
             return new GETCustomerByIdResult(null, status);
         }

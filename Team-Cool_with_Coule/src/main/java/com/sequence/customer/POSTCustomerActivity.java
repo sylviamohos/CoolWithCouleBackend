@@ -42,6 +42,7 @@ public class POSTCustomerActivity implements RequestHandler<POSTCustomerRequest,
                 customerRequest.getPassword(), new Location(customerRequest.getAddress(), customerRequest.getCity(),
                 customerRequest.getState(), customerRequest.getZipcode()), new ArrayList<>(), customerRequest.isAdmin());
 
+
         // check if user exists
         List<Customer> checkCustomers = dao.getCustomerById(customer.getCustomerId());
         if(!checkCustomers.isEmpty()) {
@@ -55,6 +56,7 @@ public class POSTCustomerActivity implements RequestHandler<POSTCustomerRequest,
                 .customerModel(new CustomerModel(customer))
                 .responseStatus(responseStatus)
                 .build();
+
     }
 
 }
