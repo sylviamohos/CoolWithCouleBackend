@@ -6,10 +6,12 @@ import main.java.com.obj.model.ProductModel;
 
 import java.util.List;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Builder
-public class GETProductByTypeResult {
+public class GETProductsResult {
     private List<ProductModel> products;
     private ResponseStatus responseStatus;
 }

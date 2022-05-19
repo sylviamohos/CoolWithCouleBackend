@@ -24,7 +24,7 @@ public class POSTProductActivity implements RequestHandler<POSTProductRequest, P
     @Override
     public POSTProductResult handleRequest(POSTProductRequest postProductRequest, Context context) {
         if (dao.getProductByName(postProductRequest.getName()) != null) {
-            throw new ProductAlreadyExistsException("Product Already Exists with the name " + postProductRequest.getName());
+            throw new ProductAlreadyExistsException();
         }
         Product product = new Product();
         product.setName(postProductRequest.getName());
@@ -34,12 +34,9 @@ public class POSTProductActivity implements RequestHandler<POSTProductRequest, P
         product.setDescription(postProductRequest.getDescription());
         product.setPriceInCents(postProductRequest.getPriceInCents());
         product.setImageUrl(postProductRequest.getImageUrl());
-        Product savedProduct = dao.saveProduct(product);
-        ResponseStatus status = new ResponseStatus(200, "Success");
 
-        if (dao.getProductByName(product.getName()) != savedProduct) {
-            status = new ResponseStatus(400, "Failed to save product");
-        }
+        dao.saveProduct(product);
+        ResponseStatus status = new ResponseStatus(200, "Success");
 
         return POSTProductResult.builder()
                 .product(new ProductModel(product))

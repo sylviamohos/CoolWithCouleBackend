@@ -24,7 +24,8 @@ public interface ServiceComponent {
 
     DELETEProductActivity provideDELETEProductActivity();
     GETInventoryOfProductsActivity provideGETInventoryOfProductsActivity();
-    GETProductByNameActivity provideGETProductActivity();
+    GETProductByNameActivity provideGETProductByNameActivity();
+    GETProductsActivity provideGETProductsActivity();
     POSTProductActivity providePOSTProductActivity();
     PUTProductActivity providePUTProductActivity();
 
