@@ -33,6 +33,26 @@ public class ProductDao {
         return new ArrayList<>(mapper.query(Product.class, queryExpression));
     }
 
+    public List<Product> getProducts(List<String> productNames) {
+        List<Product> products = new ArrayList<>();
+        for (String s : productNames) {
+            Product product = new Product();
+            product.setName(s);
+            products.add(product);
+        }
+
+        Map<String, List<Object>> loadResult = mapper.batchLoad(products);
+        List<Product> result = new ArrayList<>();
+        for (Map.Entry<String, List<Object>> entry : loadResult.entrySet()) {
+            for (Object o : entry.getValue()) {
+                if (o.getClass() == Product.class) {
+                    result.add((Product) o);
+                }
+            }
+        }
+        return result;
+    }
+
     public List<Product> getAllProducts() {
         DynamoDBScanExpression expression = new DynamoDBScanExpression();
         return mapper.scan(Product.class, expression);
@@ -42,6 +62,11 @@ public class ProductDao {
     public Product saveProduct(Product product) {
         mapper.save(product);
         return product;
+    }
+
+    public List<Product> saveProducts(List<Product> products) {
+        mapper.batchSave(products);
+        return products;
     }
 
     public void deleteProduct(Product product) {
