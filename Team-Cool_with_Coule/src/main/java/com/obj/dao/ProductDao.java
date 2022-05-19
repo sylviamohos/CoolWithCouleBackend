@@ -84,7 +84,11 @@ public class ProductDao {
 
     public List<Product> getAllProducts() {
         DynamoDBScanExpression expression = new DynamoDBScanExpression();
-        return mapper.scan(Product.class, expression);
+        List<Product> products = mapper.scan(Product.class, expression);
+        if (products == null) {
+            products = new ArrayList<>();
+        }
+        return products;
     }
 
 
