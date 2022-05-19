@@ -26,8 +26,6 @@ public class GETProductByNameActivity implements RequestHandler<GETProductByName
 
     @Override
     public GETProductByNameResult handleRequest(GETProductByNameRequest getProductByNameRequest, Context context) {
-        //TODO
-        String name = getProductByNameRequest.getName().toLowerCase();
         Product product = dao.getProductByName(getProductByNameRequest.getName());
         if (product == null) {
             throw new ProductDoesNotExistException();
