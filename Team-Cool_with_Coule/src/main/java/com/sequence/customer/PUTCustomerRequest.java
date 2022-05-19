@@ -9,7 +9,6 @@ import lombok.*;
 @ToString
 @Builder
 public class PUTCustomerRequest {
-    private String callingUserId;
     private String customerId;
     private String name;
     private String email;

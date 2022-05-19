@@ -14,8 +14,6 @@ import java.util.List;
 @ToString
 
 public class GETOrdersResult {
-    private CustomerModel customerModel;
-    private List<String> orderId;
+    private List<OrderModel> orderModels;
     private ResponseStatus responseStatus;
-    private List<String> ProductIds;
 }

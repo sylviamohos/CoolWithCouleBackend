@@ -9,6 +9,7 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 @Builder
-public class GETProductByTypeRequest {
+public class GETProductsRequest {
     private String type;
+    private String name;
 }

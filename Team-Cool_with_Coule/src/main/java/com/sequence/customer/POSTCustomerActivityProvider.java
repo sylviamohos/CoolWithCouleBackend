@@ -6,6 +6,7 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import main.java.com.dependency.DaggerServiceComponent;
 import main.java.com.dependency.ServiceComponent;
 import lombok.*;
+import main.java.com.exception.CustomerAlreadyExistsException;
 import main.java.com.exception.CustomerNotFoundException;
 import main.java.com.obj.ResponseStatus;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
@@ -20,6 +21,9 @@ public class POSTCustomerActivityProvider implements RequestHandler<POSTCustomer
     public POSTCustomerResult handleRequest(POSTCustomerRequest input, Context context) {
        try {
            return dagger.providePOSTCustomerActivity().handleRequest(input, context);
+       }catch (CustomerAlreadyExistsException e) {
+            ResponseStatus status = new ResponseStatus(400, "[ERROR] credentials already taken.");
+            return new POSTCustomerResult(null, status);
        } catch (AmazonDynamoDBException e) {
            ResponseStatus status = new ResponseStatus(500, "[ERROR] database error");
            return new POSTCustomerResult(null, status);

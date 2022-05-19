@@ -7,6 +7,7 @@ import main.java.com.obj.Order;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Accesses data for orders using Order
@@ -31,12 +32,28 @@ public class OrderDao {
     public Order getOrder(String orderId) {
 
         Order order = this.dynamoDBMapper.load(Order.class, orderId);
-
-        if (order == null) {
-            // throw new OrderDoesNotExistException();
-            throw new RuntimeException();
-        }
         return order;
+    }
+
+    public List<Order> getOrders(List<String> orderIds) {
+        List<Order> orders = new ArrayList<>();
+
+        for (String s : orderIds) {
+            Order order = new Order();
+            order.setOrderId(s);
+            orders.add(order);
+        }
+
+        Map<String, List<Object>> loadResult = dynamoDBMapper.batchLoad(orders);
+        List<Order> result = new ArrayList<>();
+        for(Map.Entry<String, List<Object>> entry : loadResult.entrySet()) {
+            for (Object o : entry.getValue()) {
+                if (o.getClass() == Order.class) {
+                    result.add((Order) o);
+                }
+            }
+        }
+        return result;
     }
 
     /**
