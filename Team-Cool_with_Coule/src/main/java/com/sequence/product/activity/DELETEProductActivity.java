@@ -29,9 +29,6 @@ public class DELETEProductActivity implements RequestHandler<DELETEProductReques
         }
         dao.deleteProduct(product);
         ResponseStatus status = new ResponseStatus(200, "Success");
-        if (dao.getProductByName(product.getName()) != null) {
-            status = new ResponseStatus(400, "Product was not successfully deleted, try again");
-        }
 
         return DELETEProductResult.builder()
                 .product(new ProductModel(product))
