@@ -32,22 +32,19 @@ public class GETOrderActivity implements RequestHandler<GETOrderRequest, GETOrde
     public GETOrderResult handleRequest(GETOrderRequest input, Context context) {
         String requestedOrderId = input.getOrderId();
         Order order = orderDao.getOrder(requestedOrderId);
-        responseStatus = new ResponseStatus();
 
-        if (order != null) {
-            responseStatus.setCode(200);
-            responseStatus.setMessage(String.format("[SUCCESS] Order by order id: {} has been found!", input.getOrderId()));
-        } else {
-            responseStatus.setCode(400);
-            responseStatus.setMessage(String.format("[ERROR] Order has not been found by order id {}!", input.getOrderId()));
+        // throw exception here
+        if (order == null) {
             throw new OrderNotFoundException();
         }
+
+        responseStatus = new ResponseStatus(200, "Good job everything is working great.");
 
         OrderModel orderModel = new OrderModel(order);
 
         return GETOrderResult.builder()
-                .withOrder(orderModel)
-                .withResponseStatus(responseStatus)
+                .order(orderModel)
+                .responseStatus(responseStatus)
                 .build();
     }
 }

@@ -26,9 +26,6 @@ public class GETOrderActivityProvider implements RequestHandler<GETOrderRequest,
         } catch ( DynamoDbException e) {
             responseStatus = new ResponseStatus(500, "[ERROR] Database encountered an error!");
             return new GETOrderResult(null, responseStatus);
-        } catch (RuntimeException e) {
-            responseStatus = new ResponseStatus(400, "[ERROR] Runtime error.");
-            return new GETOrderResult(null, responseStatus);
         }
     }
 
