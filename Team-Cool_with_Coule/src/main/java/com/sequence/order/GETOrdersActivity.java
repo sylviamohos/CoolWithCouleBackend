@@ -10,9 +10,9 @@ import main.java.com.obj.dao.CustomerDao;
 import main.java.com.obj.dao.OrderDao;
 import main.java.com.obj.model.CustomerModel;
 import main.java.com.obj.model.OrderModel;
-import main.java.com.obj.model.OrdersModel;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,26 +30,31 @@ public class GETOrdersActivity implements RequestHandler<GETOrdersRequest, GETOr
     @Override
     public GETOrdersResult handleRequest(GETOrdersRequest input, Context context) {
         String requestedCustomerId = input.getCustomerId();
-        Customer customerToFind = customerDao.getCustomerById(requestedCustomerId).get(0);
 
-        if (customerToFind == null) {
+        List<Customer> customers = customerDao.getCustomerById(requestedCustomerId);
+
+
+        if (customers.isEmpty()) {
             throw new CustomerNotFoundException();
         }
+
+        Customer customer = customers.get(0);
+
+        // get list of order
+        List<Order> ordersFound = orderDao.getOrders(customer.getHistoryOrderIds());
+
+        // convert order model list to orders from model class
+        List<OrderModel> orderModels = new ArrayList<>();
+
+        for(Order order: ordersFound ) {
+            orderModels.add(new OrderModel(order));
+        }
+
         responseStatus = new ResponseStatus(200, "Customer found!");
 
-
-        OrdersModel ordersModel = OrdersModel.builder()
-                .customerModel(new CustomerModel(customerToFind))
-                // TODO clarify tmr
-                //.OrderId(input.getOrderId())
-                //.productNames()
-                .date(input.getOrderDate())
-                .build();
-
         return GETOrdersResult.builder()
-                .customerModel(new CustomerModel(customerToFind))
+                .orderModels(orderModels)
                 .responseStatus(responseStatus)
-
                 .build();
     }
 }
