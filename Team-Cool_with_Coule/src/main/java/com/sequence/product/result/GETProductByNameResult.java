@@ -4,6 +4,8 @@ import lombok.*;
 import main.java.com.obj.ResponseStatus;
 import main.java.com.obj.model.ProductModel;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Builder

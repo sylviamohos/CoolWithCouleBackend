@@ -6,6 +6,8 @@ import main.java.com.obj.model.ProductModel;
 
 import java.util.List;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Builder

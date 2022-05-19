@@ -14,6 +14,7 @@ import main.java.com.sequence.product.result.GETProductByNameResult;
 import main.java.com.sequence.product.result.POSTProductResult;
 
 import javax.inject.Inject;
+import java.util.Locale;
 
 public class GETProductByNameActivity implements RequestHandler<GETProductByNameRequest, GETProductByNameResult> {
     private final ProductDao dao;
@@ -25,9 +26,11 @@ public class GETProductByNameActivity implements RequestHandler<GETProductByName
 
     @Override
     public GETProductByNameResult handleRequest(GETProductByNameRequest getProductByNameRequest, Context context) {
+        //TODO
+        String name = getProductByNameRequest.getName().toLowerCase();
         Product product = dao.getProductByName(getProductByNameRequest.getName());
         if (product == null) {
-            throw new ProductDoesNotExistException("Product does not exist with the name " + getProductByNameRequest.getName());
+            throw new ProductDoesNotExistException();
         }
         return GETProductByNameResult.builder()
                 .product(new ProductModel(product))

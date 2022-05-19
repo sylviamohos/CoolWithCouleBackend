@@ -20,7 +20,7 @@ public class DELETEProductActivityProvider implements RequestHandler<DELETEProdu
             return dagger.provideDELETEProductActivity().handleRequest(deleteProductRequest, context);
         } catch (ProductDoesNotExistException e) {
             ResponseStatus status = new ResponseStatus(400, "Customer not found.");
-            return new DELETEProductResult(status);
+            return new DELETEProductResult(null, status);
         }
     }
 
