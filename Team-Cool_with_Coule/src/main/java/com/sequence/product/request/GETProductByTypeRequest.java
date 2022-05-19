@@ -11,4 +11,5 @@ import lombok.*;
 @Builder
 public class GETProductByTypeRequest {
     private String type;
+    private String name;
 }

@@ -35,6 +35,9 @@ public class GETOrdersActivity implements RequestHandler<GETOrdersRequest, GETOr
         if (customerToFind == null) {
             throw new CustomerNotFoundException();
         }
+
+        //get your list of orders
+        //convert orders list to new order model list using converter in model class
         responseStatus = new ResponseStatus(200, "Customer found!");
 
 

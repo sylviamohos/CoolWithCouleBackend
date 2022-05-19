@@ -28,7 +28,8 @@ public class POSTCheckoutActivity implements RequestHandler<POSTCheckoutRequest,
     @Override
     public POSTCheckoutResult handleRequest(final POSTCheckoutRequest postCheckoutRequest, Context context) {
 
-        // Adding new order to the Order Table
+
+
         Order order = new Order();
         order.setOrderId(postCheckoutRequest.getOrderModel().getOrderId());
         order.setOrderDate(postCheckoutRequest.getDate());

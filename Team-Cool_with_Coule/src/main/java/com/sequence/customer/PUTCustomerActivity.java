@@ -22,9 +22,6 @@ public class PUTCustomerActivity implements RequestHandler<PUTCustomerRequest, P
     }
     @Override
     public PUTCustomerResult handleRequest(PUTCustomerRequest input, Context context) {
-        if (!input.getCustomerId().equals(input.getCallingUserId())) {
-            throw new RuntimeException();
-        }
         List<Customer> customers = dao.getCustomerById(input.getCustomerId());
         if (customers.size() == 0) {
             throw new CustomerNotFoundException();
