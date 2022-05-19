@@ -8,8 +8,20 @@ import main.java.com.exception.CustomerNotFoundException;
 import main.java.com.obj.ResponseStatus;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 
+/**
+ * The purpose of this class is to provide a customer by their id from the database
+ */
 public class GETCustomerByIdActivityProvider implements RequestHandler<GETCustomerByIdRequest, GETCustomerByIdResult> {
 
+    /**
+     * @param input The Lambda Function input
+     * @param context The Lambda execution environment context object.
+     * @exception CustomerNotFoundException is caught if the customer's email is not found in the database
+     *  will create a ResponseStatus 400 to indicate the customer is not found
+     * @exception DynamoDbException is caught if the DynamoDB experiences a problem
+     *  will create a ResponseStatus 500 to indicate that the database is having an error
+     * @return - a new Get Customer By Id Result
+     */
     @Override
     public GETCustomerByIdResult handleRequest(GETCustomerByIdRequest input, Context context) {
         ServiceComponent dagger = DaggerServiceComponent.create();
@@ -19,10 +31,7 @@ public class GETCustomerByIdActivityProvider implements RequestHandler<GETCustom
             ResponseStatus status = new ResponseStatus(400, "Customer not found.");
             return new GETCustomerByIdResult(null, status);
         } catch (DynamoDbException e) {
-            ResponseStatus status = new ResponseStatus(400, "Error, try again");
-            return new GETCustomerByIdResult(null, status);
-        } catch (RuntimeException e) {
-            ResponseStatus status = new ResponseStatus(400, "Error, cannot find customer by email");
+            ResponseStatus status = new ResponseStatus(500, "Error, try again");
             return new GETCustomerByIdResult(null, status);
         }
     }

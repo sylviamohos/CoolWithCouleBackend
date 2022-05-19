@@ -17,19 +17,36 @@ import javax.inject.Inject;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * This class is responsible for deleting a customer from the database
+ */
 public class DELETECustomerActivity implements RequestHandler<DELETECustomerRequest, DELETECustomerResult> {
     private final CustomerDao dao;
 
+    /**
+     * Instantiate a new Delete Customer Activity
+     * @param dao - the customer data access object that we are using to locate the customer to be deleted
+     */
     @Inject
     public DELETECustomerActivity(CustomerDao dao) {
         this.dao = dao;
     }
 
+    /**
+     * The request handler method will delete a customer from the database if the customer's id is located
+     * @param deleteCustomerRequest The Lambda Function input
+     * @param context The Lambda execution environment context object.
+     * @return - a new DeleteCustomerResult
+     */
     @Override
     public DELETECustomerResult handleRequest(DELETECustomerRequest deleteCustomerRequest, Context context) {
-        if (!deleteCustomerRequest.getCallingUserId().equals(deleteCustomerRequest.getCustomerId())) {
+
+        /* TODO: implement if Administrator functionality is added:
+         if (!deleteCustomerRequest.getCallingUserId().equals(deleteCustomerRequest.getCustomerId())) {
             throw new RuntimeException();
         }
+         */
+
         List<Customer> customerList = dao.getCustomerById(deleteCustomerRequest.getCustomerId());
         if(customerList.size() == 0) {
             throw new CustomerNotFoundException();

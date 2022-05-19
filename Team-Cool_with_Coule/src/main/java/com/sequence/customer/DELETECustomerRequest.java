@@ -15,7 +15,8 @@ public class DELETECustomerRequest {
 
     private String customerId;
 
-    private String callingUserId;
+    // TODO: implement if Administrator functionality is added:
+    //private String callingUserId;
 
 
 }
