@@ -19,10 +19,7 @@ public class PUTCustomerActivityProvider implements RequestHandler<PUTCustomerRe
             ResponseStatus status = new ResponseStatus(400, "Customer not found.");
             return new PUTCustomerResult(null, status);
         } catch (DynamoDbException e) {
-            ResponseStatus status = new ResponseStatus(400, "Error, try again.");
-            return new PUTCustomerResult(null, status);
-        } catch (RuntimeException e) {
-            ResponseStatus status = new ResponseStatus(400, "Cannot change another customers info.");
+            ResponseStatus status = new ResponseStatus(500, "Error, try again.");
             return new PUTCustomerResult(null, status);
         }
     }

@@ -13,11 +13,12 @@ import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 
 public class POSTCheckoutActivityProvider implements RequestHandler<POSTCheckoutRequest, POSTCheckoutResult> {
 
-    ServiceComponent dagger = DaggerServiceComponent.create();
+
     ResponseStatus responseStatus;
 
     @Override
     public POSTCheckoutResult handleRequest(POSTCheckoutRequest input, Context context) {
+        ServiceComponent dagger = DaggerServiceComponent.create();
         try {
             return dagger.providePOSTCheckoutActivity().handleRequest(input, context);
         } catch (CustomerNotFoundException e){
