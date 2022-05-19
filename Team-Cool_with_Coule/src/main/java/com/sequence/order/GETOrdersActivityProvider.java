@@ -22,8 +22,9 @@ public class GETOrdersActivityProvider implements RequestHandler<GETOrdersReques
         } catch (CustomerNotFoundException e) {
             responseStatus = new ResponseStatus(400, String.format("[ERROR] order: {} not found! ", input.getCustomerId()));
             return new GETOrdersResult(null, responseStatus);
-        } catch ( AmazonDynamoDBException e) {
+        } catch (AmazonDynamoDBException e) {
             responseStatus = new ResponseStatus(500, "[ERROR] Database encountered an error!");
             return new GETOrdersResult(null, responseStatus);
         }
+    }
 }
