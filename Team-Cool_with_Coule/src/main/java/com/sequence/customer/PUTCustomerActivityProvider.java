@@ -1,5 +1,6 @@
 package main.java.com.sequence.customer;
 
+import com.amazonaws.services.dynamodbv2.model.AmazonDynamoDBException;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import main.java.com.dependency.DaggerServiceComponent;
@@ -18,11 +19,8 @@ public class PUTCustomerActivityProvider implements RequestHandler<PUTCustomerRe
         } catch (CustomerNotFoundException e) {
             ResponseStatus status = new ResponseStatus(400, "Customer not found.");
             return new PUTCustomerResult(null, status);
-        } catch (DynamoDbException e) {
+        } catch (AmazonDynamoDBException e) {
             ResponseStatus status = new ResponseStatus(400, "Error, try again.");
-            return new PUTCustomerResult(null, status);
-        } catch (RuntimeException e) {
-            ResponseStatus status = new ResponseStatus(400, "Cannot change another customers info.");
             return new PUTCustomerResult(null, status);
         }
     }

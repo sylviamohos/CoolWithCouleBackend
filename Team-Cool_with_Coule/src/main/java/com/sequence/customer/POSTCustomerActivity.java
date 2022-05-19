@@ -33,15 +33,7 @@ public class POSTCustomerActivity implements RequestHandler<POSTCustomerRequest,
     public POSTCustomerResult handleRequest(POSTCustomerRequest customerRequest, Context context) {
 
 
-        new Customer();
-        Customer customer = new Customer(customerRequest.getCustomerId(), customerRequest.getName(), customerRequest.getEmail(),
-                customerRequest.getPassword(), customerRequest.getLocation(), new ArrayList<>(), customerRequest.isAdmin());
-
-        dao.saveCustomer(customer);
-
-        return POSTCustomerResult.builder()
-                .customerModel(new CustomerModel(customer))
-                .build();
+       return null;
     }
 
 }

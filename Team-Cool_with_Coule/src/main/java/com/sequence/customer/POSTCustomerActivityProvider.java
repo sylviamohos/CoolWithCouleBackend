@@ -1,5 +1,6 @@
 package main.java.com.sequence.customer;
 
+import com.amazonaws.services.dynamodbv2.model.AmazonDynamoDBException;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import main.java.com.dependency.DaggerServiceComponent;
@@ -19,11 +20,8 @@ public class POSTCustomerActivityProvider implements RequestHandler<POSTCustomer
     public POSTCustomerResult handleRequest(POSTCustomerRequest input, Context context) {
        try {
            return dagger.providePOSTCustomerActivity().handleRequest(input, context);
-       } catch (DynamoDbException e) {
+       } catch (AmazonDynamoDBException e) {
            ResponseStatus status = new ResponseStatus(500, "[ERROR] database error");
-           return new POSTCustomerResult(null, status);
-       } catch (RuntimeException e) {
-           ResponseStatus status = new ResponseStatus(400, "[Error] RuntimeError");
            return new POSTCustomerResult(null, status);
        }
     }

@@ -36,8 +36,8 @@ public class Customer {
     @DynamoDBAttribute(attributeName = "historyOrderIds")
     private List<String> historyOrderIds;
 
-    @DynamoDBAttribute(attributeName = "isAdmin")
-    private boolean isAdmin;
+//    @DynamoDBAttribute(attributeName = "isAdmin")
+//    private boolean isAdmin;
 
 
 
