@@ -1,5 +1,4 @@
 import com.amazonaws.services.dynamodbv2.model.AmazonDynamoDBException;
-import com.beust.jcommander.internal.Lists;
 import main.java.com.exception.CustomerNotFoundException;
 import main.java.com.obj.Customer;
 import main.java.com.obj.Location;
@@ -13,7 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +19,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
-import static org.mockito.MockitoAnnotations.initMocks;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 public class DELETECustomerActivityTest {
@@ -76,7 +73,7 @@ public class DELETECustomerActivityTest {
     }
 
     @Test
-    public void handleRequest_failedToDelete_throwsDynamoDBException() {
+    public void handleRequest_failedToDelete_throwsAmazonDynamoDBException() {
         // GIVEN
         List<Customer> customerList = new ArrayList<>();
         Location location = new Location("12", "Vernon", "WA", "23456" );
