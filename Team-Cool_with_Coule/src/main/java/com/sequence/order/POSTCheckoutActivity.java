@@ -86,9 +86,8 @@ public class POSTCheckoutActivity implements RequestHandler<POSTCheckoutRequest,
         responseStatus = new ResponseStatus(200, "[SUCCESS] order has been added to database!");
 
         return POSTCheckoutResult.builder()
-                .withOrderModel(new OrderModel())
-                .withCustomerId(order.getCustomerId())
-                .withResponseStatus(responseStatus)
+                .orderModel(new OrderModel(order))
+                .responseStatus(responseStatus)
                 .build();
     }
 
