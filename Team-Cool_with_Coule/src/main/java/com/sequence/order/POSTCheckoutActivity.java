@@ -13,7 +13,6 @@ public class POSTCheckoutActivity implements RequestHandler<POSTCheckoutRequest,
     private final CustomerDao customerDao;
     private ResponseStatus responseStatus;
 
-    // TODO comment
     @Inject
     public POSTCheckoutActivity(OrderDao orderDao, CustomerDao customerDao) {
         this.orderDao = orderDao;
