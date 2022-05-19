@@ -17,20 +17,20 @@ public class OrderModel {
     private String orderId;
     private List<String> productNames;
     private Date orderDate;
-    private CustomerModel customerModel;
+    private String customerId;
 
     public OrderModel(Builder builder) {
         this.orderId = builder.orderId;
         this.orderDate = builder.orderDate;
         this.productNames = builder.productNames;
-        this.customerModel = builder.customerModel;
+        this.customerId = builder.customerId;
     }
 
     public OrderModel(Order order) {
         this.orderId = order.getOrderId();
         this.orderDate = order.getOrderDate();
         this.productNames = order.getProductNames();
-        this.customerModel = order.getCustomerModel();
+        this.customerId = order.getCustomerId();
     }
 
     public static Builder builder() {return new Builder();}
@@ -39,7 +39,8 @@ public class OrderModel {
         private String orderId;
         private List<String> productNames;
         private Date orderDate;
-        private CustomerModel customerModel;
+        private String customerId;
+        //private CustomerModel customerModel;
 
         public Builder withOrderId(String orderIdToUse) {
             this.orderId = orderIdToUse;
@@ -56,10 +57,15 @@ public class OrderModel {
             return this;
         }
 
-        public Builder withCustomerModel(CustomerModel customerModelToUse) {
-            this.customerModel = customerModelToUse;
+        public Builder withCustomerId(String customerId) {
+            this.customerId = customerId;
             return this;
         }
+
+//        public Builder withCustomerModel(CustomerModel customerModelToUse) {
+//            this.customerModel = customerModelToUse;
+//            return this;
+//        }
 
         public OrderModel build() {return new OrderModel(this);}
     }

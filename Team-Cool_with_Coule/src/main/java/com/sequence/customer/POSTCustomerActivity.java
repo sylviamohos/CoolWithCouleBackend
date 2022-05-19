@@ -8,6 +8,7 @@ import main.java.com.obj.dao.CustomerDao;
 import main.java.com.obj.model.CustomerModel;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 public class POSTCustomerActivity implements RequestHandler<POSTCustomerRequest, POSTCustomerResult> {
@@ -31,22 +32,10 @@ public class POSTCustomerActivity implements RequestHandler<POSTCustomerRequest,
     @Override
     public POSTCustomerResult handleRequest(POSTCustomerRequest customerRequest, Context context) {
 
-        List<Customer> customers = dao.getCustomerById(customerRequest.getCustomerId());
 
-        if (customers.size() == 0) {
-            throw new CustomerNotFoundException(String.format("[ERROR] customer id {} not found", customerRequest.getCustomerId()));
-        }
-
-        Customer customer = Customer.builder()
-                .customerId(customers.get(0).getCustomerId())
-                .email(customers.get(0).getEmail())
-                .historyOrderIds(customers.get(0).getHistoryOrderIds())
-                .location(customers.get(0).getLocation())
-                .isAdmin(customers.get(0).isAdmin())
-                .password(customers.get(0).getPassword())
-                //TODO
-                //.historyOrderIds()
-                .build();
+        new Customer();
+        Customer customer = new Customer(customerRequest.getCustomerId(), customerRequest.getName(), customerRequest.getEmail(),
+                customerRequest.getPassword(), customerRequest.getLocation(), new ArrayList<>(), customerRequest.isAdmin());
 
         dao.saveCustomer(customer);
 

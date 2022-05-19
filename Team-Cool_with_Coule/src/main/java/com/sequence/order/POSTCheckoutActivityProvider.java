@@ -19,13 +19,13 @@ public class POSTCheckoutActivityProvider implements RequestHandler<POSTCheckout
             return dagger.providePOSTCheckoutActivity().handleRequest(input, context);
         } catch (OrderNotFoundException e) {
             responseStatus = new ResponseStatus(400, String.format("order id: {} not found!))", input.getOrderModel().getOrderId()));
-            return new POSTCheckoutResult(null, responseStatus, input.getCustomerModel());
+            return new POSTCheckoutResult(null, responseStatus, input.getCustomerId(), input.getProductNames());
         } catch (DynamoDbException e) {
             responseStatus = new ResponseStatus(500, String.format("[ERROR] Database encountered an error."));
-            return new POSTCheckoutResult(null, responseStatus, input.getCustomerModel());
+            return new POSTCheckoutResult(null, responseStatus, input.getCustomerId(), input.getProductNames());
         } catch (RuntimeException e) {
             responseStatus = new ResponseStatus(500, String.format("[ERROR] Runtime error"));
-            return new POSTCheckoutResult(null, responseStatus, input.getCustomerModel());
+            return new POSTCheckoutResult(null, responseStatus, input.getCustomerId(), input.getProductNames());
         }
     }
 }

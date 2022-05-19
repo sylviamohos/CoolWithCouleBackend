@@ -1,9 +1,12 @@
 package main.java.com.obj.dao;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import main.java.com.obj.Customer;
 import main.java.com.obj.Order;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Accesses data for orders using Order
@@ -21,7 +24,7 @@ public class OrderDao {
     public OrderDao(DynamoDBMapper dynamoDBMapper) {this.dynamoDBMapper = dynamoDBMapper;}
 
     /**
-     * Returns the {@link Order} by an orderId.
+     * Returns a single {@link Order} by its orderId.
      * @param orderId the id of the Order being retrieved
      * @return the Order, or null if not found
      */
@@ -35,9 +38,6 @@ public class OrderDao {
         }
         return order;
     }
-
-    // getOrders() -> returns the list of orders.
-
 
     /**
      * Add an {@link Order} to the dynamoDB Cool-With-Coule table.

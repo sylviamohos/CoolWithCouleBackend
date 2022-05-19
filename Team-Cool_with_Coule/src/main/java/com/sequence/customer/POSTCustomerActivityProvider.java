@@ -14,15 +14,11 @@ import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 public class POSTCustomerActivityProvider implements RequestHandler<POSTCustomerRequest, POSTCustomerResult> {
 
     ServiceComponent dagger = DaggerServiceComponent.create();
-    ResponseStatus responseStatus;
 
     @Override
     public POSTCustomerResult handleRequest(POSTCustomerRequest input, Context context) {
        try {
            return dagger.providePOSTCustomerActivity().handleRequest(input, context);
-       } catch (CustomerNotFoundException e) {
-           new ResponseStatus(400, String.format("[ERROR] order: {} not found! ", input.getCustomerId()));
-           return new POSTCustomerResult(null, responseStatus);
        } catch (DynamoDbException e) {
            ResponseStatus status = new ResponseStatus(500, "[ERROR] database error");
            return new POSTCustomerResult(null, status);

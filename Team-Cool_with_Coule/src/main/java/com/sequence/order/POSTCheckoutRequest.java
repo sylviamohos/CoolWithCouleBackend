@@ -1,10 +1,10 @@
 package main.java.com.sequence.order;
 
 import lombok.*;
-import main.java.com.obj.model.CustomerModel;
 import main.java.com.obj.model.OrderModel;
 
 import java.util.Date;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,26 +16,28 @@ import java.util.Date;
 public class POSTCheckoutRequest {
     private OrderModel orderModel;
     private Date date;
-    private CustomerModel customerModel;
+    private String customerId;
+    private List<String> productNames;
 
     public POSTCheckoutRequest(Builder builder) {
-        this.customerModel = builder.customerModel;
+        this.customerId = builder.customerId;
         this.date = builder.date;
         this.orderModel = builder.orderModel;
+        this.productNames = builder.productNames;
     }
 
     public static Builder builder() { return new Builder(); }
 
     public static final class Builder {
-        private CustomerModel customerModel;
+        private String customerId;
         private Date date;
         private OrderModel orderModel;
-       // private ResponseStatus responseStatus;
+        private List<String> productNames;
 
         private Builder() {}
 
-        public Builder withCustomerModel(CustomerModel customerModelToUse) {
-            this.customerModel = customerModelToUse;
+        public Builder withCustomerModel(String customerIdToUse) {
+            this.customerId = customerIdToUse;
             return this;
         }
 
@@ -46,6 +48,11 @@ public class POSTCheckoutRequest {
 
         public Builder withOrderModel(OrderModel orderModelToUse) {
             this.orderModel = orderModelToUse;
+            return this;
+        }
+
+        public Builder withProductNames(List<String> productIds) {
+            this.productNames = productIds;
             return this;
         }
 

@@ -1,10 +1,10 @@
 package main.java.com.sequence.order;
 
-import main.java.com.obj.Order;
 import main.java.com.obj.ResponseStatus;
-import main.java.com.obj.model.CustomerModel;
 import main.java.com.obj.model.OrderModel;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,31 +13,38 @@ import lombok.*;
 public class POSTCheckoutResult {
     private OrderModel orderModel;
     private ResponseStatus responseStatus;
-    private CustomerModel customerModel;
-
+    private String customerId;
+    private List<String> productIds;
 
     public POSTCheckoutResult(Builder builder) {
-        this.customerModel = builder.customerModel;
+        this.customerId = builder.customerId;
         this.orderModel = builder.orderModel;
         this.responseStatus = builder.responseStatus;
+        this.productIds = builder.productNames;
     }
 
     public static Builder builder() { return new Builder(); }
 
     public static final class Builder {
+        private List<String> productNames;
         private OrderModel orderModel;
         private ResponseStatus responseStatus;
-        private CustomerModel customerModel;
+        private String customerId;
 
         public static Builder builder() { return new Builder(); }
+
+        public Builder withProductNames(List<String> productIds) {
+            this.productNames = productIds;
+            return this;
+        }
 
         public Builder withOrderModel(OrderModel orderModel) {
             this.orderModel = orderModel;
             return this;
         }
 
-        public Builder withCustomerModel(CustomerModel customerModel) {
-            this.customerModel = customerModel;
+        public Builder withCustomerId(String customerId) {
+            this.customerId = customerId;
             return this;
         }
 

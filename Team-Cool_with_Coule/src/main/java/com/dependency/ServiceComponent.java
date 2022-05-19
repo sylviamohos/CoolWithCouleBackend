@@ -2,6 +2,7 @@ package main.java.com.dependency;
 
 import dagger.Component;
 import main.java.com.sequence.customer.*;
+import main.java.com.sequence.order.GETOrderActivity;
 import main.java.com.sequence.order.GETOrdersActivity;
 import main.java.com.sequence.order.POSTCheckoutActivity;
 import main.java.com.sequence.product.activity.*;
@@ -19,8 +20,9 @@ public interface ServiceComponent {
     POSTCustomerActivity providePOSTCustomerActivity();
     PUTCustomerActivity providePUTCustomerActivity();
 
-    GETOrdersActivity provideGETOrdersActivity();
+    GETOrderActivity provideGETOrderActivity();
     POSTCheckoutActivity providePOSTCheckoutActivity();
+    GETOrdersActivity provideGETOrdersActivity();
 
     DELETEProductActivity provideDELETEProductActivity();
     GETInventoryOfProductsActivity provideGETInventoryOfProductsActivity();
