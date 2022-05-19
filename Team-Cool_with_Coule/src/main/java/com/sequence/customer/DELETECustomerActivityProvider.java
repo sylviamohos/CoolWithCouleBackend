@@ -10,8 +10,20 @@ import main.java.com.sequence.sample.DELETESampleRequest;
 import main.java.com.sequence.sample.DELETESampleResult;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 
+/**
+ * The purpose of this class is to handle the request to delete a customer from the database
+ */
 public class DELETECustomerActivityProvider implements RequestHandler<DELETECustomerRequest, DELETECustomerResult> {
 
+    /**
+     * @param input The Lambda Function input
+     * @param context The Lambda execution environment context object.
+     * @exception CustomerNotFoundException is caught if the customer is not found in the database
+     *   will create a ResponseStatus 400 to indicate the customer is not found
+     * @exception DynamoDbException is caught if the DynamoDB experiences a problem
+     *   will create a ResponseStatus 500 to indicate that the database is having an error
+     * @return - a new Delete Customer Result
+     */
     @Override
     public DELETECustomerResult handleRequest(DELETECustomerRequest input, Context context) {
         ServiceComponent dagger = DaggerServiceComponent.create();
@@ -21,11 +33,9 @@ public class DELETECustomerActivityProvider implements RequestHandler<DELETECust
             ResponseStatus status = new ResponseStatus(400, "Customer not found.");
             return new DELETECustomerResult(null, status);
         } catch (DynamoDbException e) {
-            ResponseStatus status = new ResponseStatus(400, "Error, try again");
+            ResponseStatus status = new ResponseStatus(500, "Error, try again");
             return new DELETECustomerResult(null, status);
-        } catch (RuntimeException e) {
-            ResponseStatus status = new ResponseStatus(400, "Error, cannot delete another user.");
-            return new DELETECustomerResult(null, status);
+
         }
     }
 }
