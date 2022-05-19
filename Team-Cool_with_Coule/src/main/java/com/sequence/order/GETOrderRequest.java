@@ -16,14 +16,14 @@ public class GETOrderRequest {
     private String orderId;
     private List<String> productNames;
     private Date orderDate;
-    private CustomerModel customerModel;
+    private String customerId;
 
 
     public GETOrderRequest(Builder builder) {
         this.orderId = builder.orderId;
         this.productNames = builder.productNames;
         this.orderDate = builder.orderDate;
-        this.customerModel = builder.customerModel;
+        this.customerId = builder.customerId;
     }
 
     public static Builder build() { return new Builder();}
@@ -32,7 +32,7 @@ public class GETOrderRequest {
         private String orderId;
         private Date orderDate;
         private List<String> productNames;
-        private CustomerModel customerModel;
+        private String customerId;
 
         private Builder() {}
 
@@ -51,8 +51,8 @@ public class GETOrderRequest {
             return this;
         }
 
-        public Builder withCustomerModel(CustomerModel customerModelToUse) {
-            this.customerModel = customerModelToUse;
+        public Builder withCustomerModel(String customerIdToUse) {
+            this.customerId = customerIdToUse;
             return this;
         }
 
