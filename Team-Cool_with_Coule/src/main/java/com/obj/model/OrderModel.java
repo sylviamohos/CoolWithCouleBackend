@@ -4,14 +4,12 @@ import java.util.List;
 import java.util.Date;
 import lombok.*;
 import main.java.com.obj.Order;
-import main.java.com.obj.ResponseStatus;
 
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode
-@Builder
 
 public class OrderModel {
 
@@ -19,7 +17,6 @@ public class OrderModel {
     private List<String> productNames;
     private Date orderDate;
     private String customerId;
-
 
     public OrderModel(Order order) {
         this.orderId = order.getOrderId();

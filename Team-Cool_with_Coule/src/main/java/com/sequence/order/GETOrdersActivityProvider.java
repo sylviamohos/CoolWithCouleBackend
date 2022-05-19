@@ -1,5 +1,6 @@
 package main.java.com.sequence.order;
 
+import com.amazonaws.services.dynamodbv2.model.AmazonDynamoDBException;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import main.java.com.dependency.DaggerServiceComponent;
@@ -20,10 +21,10 @@ public class GETOrdersActivityProvider implements RequestHandler<GETOrdersReques
             return dagger.provideGETOrdersActivity().handleRequest(input, context);
         } catch (CustomerNotFoundException e) {
             responseStatus = new ResponseStatus(400, String.format("[ERROR] order: {} not found! ", input.getCustomerId()));
-            return new GETOrdersResult(null, input.getOrderId(), responseStatus, input.getProductNames());
-        } catch ( DynamoDbException e) {
+            return new GETOrdersResult(null, responseStatus);
+        } catch ( AmazonDynamoDBException e) {
             responseStatus = new ResponseStatus(500, "[ERROR] Database encountered an error!");
-            return new GETOrdersResult(null, input.getOrderId(), responseStatus, input.getProductNames());
+            return new GETOrdersResult(null, responseStatus);
             }
         }
 }
