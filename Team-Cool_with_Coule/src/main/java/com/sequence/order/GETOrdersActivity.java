@@ -21,6 +21,7 @@ public class GETOrdersActivity implements RequestHandler<GETOrdersRequest, GETOr
     private final CustomerDao customerDao;
     private ResponseStatus responseStatus;
 
+    // TODO comment
     @Inject
     public GETOrdersActivity(OrderDao orderDao, CustomerDao customerDao) {
         this.orderDao = orderDao;
