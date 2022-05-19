@@ -14,11 +14,12 @@ import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 
 public class GETOrderActivityProvider implements RequestHandler<GETOrderRequest, GETOrderResult> {
 
-    ServiceComponent dagger = DaggerServiceComponent.create();
+
     ResponseStatus responseStatus;
 
     @Override
     public GETOrderResult handleRequest(GETOrderRequest input, Context context) {
+        ServiceComponent dagger = DaggerServiceComponent.create();
         try {
             return dagger.provideGETOrderActivity().handleRequest(input, context);
         } catch (OrderNotFoundException e) {
