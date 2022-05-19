@@ -10,6 +10,7 @@ import main.java.com.obj.Order;
 @Setter
 @ToString
 @EqualsAndHashCode
+@Builder
 
 public class OrderModel {
 
