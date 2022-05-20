@@ -5,7 +5,6 @@ import main.java.com.obj.dao.OrderDao;
 import main.java.com.sequence.order.GETOrderActivity;
 import main.java.com.sequence.order.GETOrderRequest;
 import main.java.com.sequence.order.GETOrderResult;
-import main.java.com.sequence.order.GETOrdersResult;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -18,7 +17,6 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.MockitoAnnotations.openMocks;
-
 
 public class GETOrderActivityTest {
     @InjectMocks
