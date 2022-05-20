@@ -22,10 +22,9 @@ public class DELETEProductActivity implements RequestHandler<DELETEProductReques
 
     @Override
     public DELETEProductResult handleRequest(DELETEProductRequest deleteProductRequest, Context context) {
-
         Product product = dao.getProductByName(deleteProductRequest.getName());
         if (product == null) {
-            throw new ProductDoesNotExistException("Product does not exist with the name " + deleteProductRequest.getName());
+            throw new ProductDoesNotExistException();
         }
         dao.deleteProduct(product);
         ResponseStatus status = new ResponseStatus(200, "Success");

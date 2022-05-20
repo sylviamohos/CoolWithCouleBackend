@@ -6,7 +6,12 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import lombok.*;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 @Setter
+@ToString
+@EqualsAndHashCode
 
 @DynamoDBTable(tableName = "Cool-With-Coule-Product")
 public class Product {

@@ -10,6 +10,7 @@ import main.java.com.obj.Product;
 @Getter
 @Setter
 @Builder
+@EqualsAndHashCode
 public class ProductModel {
 
     private String name;
@@ -41,17 +42,3 @@ public class ProductModel {
     }
 
 }
-
-/*
-    public ProductModel toProductModel(Product product) {
-        return ProductModel.builder()
-                .name(product.getName())
-                .type(product.getType())
-                .upcCode(product.getUpcCode())
-                .quantity(product.getQuantity())
-                .description(product.getDescription())
-                .priceInCents(product.getPriceInCents())
-                .imageUrl(product.getImageUrl())
-                .build();
-    }
- */
