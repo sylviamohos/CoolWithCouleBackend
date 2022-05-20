@@ -1,6 +1,5 @@
 
 import main.java.com.exception.CustomerNotFoundException;
-import main.java.com.exception.OrderNotFoundException;
 import main.java.com.obj.Customer;
 import main.java.com.obj.Location;
 import main.java.com.obj.Order;
@@ -106,14 +105,11 @@ public class GETOrdersActivityTest {
         //GIVEN
         String invalidCustomer = "invalid";
 
-        when(customerDao.getCustomerById(invalidCustomer)).thenThrow(new CustomerNotFoundException());
-        when(orderDao.getOrders(null)).thenThrow(new OrderNotFoundException());
+        when(customerDao.getCustomerById(invalidCustomer)).thenReturn(new ArrayList<Customer>());
 
-        // WHEN
-        GETOrdersResult getOrdersResult = getOrdersActivity.handleRequest(new GETOrdersRequest(invalidCustomer), null);
-
-        // THEN
-
-
+        // WHEN + THEN
+        assertThrows(CustomerNotFoundException.class, () -> getOrdersActivity.handleRequest(GETOrdersRequest.builder().customerId(invalidCustomer).build(), null));
     }
+
+
 }
