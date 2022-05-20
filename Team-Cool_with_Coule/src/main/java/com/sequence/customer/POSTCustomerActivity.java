@@ -2,6 +2,7 @@ package main.java.com.sequence.customer;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import lombok.Data;
 import main.java.com.exception.CustomerAlreadyExistsException;
 import main.java.com.exception.CustomerNotFoundException;
 import main.java.com.obj.Customer;
