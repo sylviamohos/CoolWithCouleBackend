@@ -13,13 +13,11 @@ import main.java.com.obj.Location;
 @ToString
 
 public class POSTCustomerRequest {
-    private String customerId;
     private String name;
     private String email;
     private String address;
     private String city;
     private String state;
     private String zipcode;
-    private boolean isAdmin;
     private String password;
 }
