@@ -40,7 +40,7 @@ public class POSTCustomerActivity implements RequestHandler<POSTCustomerRequest,
 
         Customer customer = new Customer(UUID.randomUUID().toString(), customerRequest.getName(), customerRequest.getEmail(),
                 customerRequest.getPassword(), new Location(customerRequest.getAddress(), customerRequest.getCity(),
-                customerRequest.getState(), customerRequest.getZipcode()), new ArrayList<>(), customerRequest.isAdmin());
+                customerRequest.getState(), customerRequest.getZipcode()), new ArrayList<>());
 
 
         // check if user exists
