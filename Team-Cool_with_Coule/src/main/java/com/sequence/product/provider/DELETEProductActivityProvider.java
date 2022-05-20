@@ -20,7 +20,7 @@ public class DELETEProductActivityProvider implements RequestHandler<DELETEProdu
         try {
             return dagger.provideDELETEProductActivity().handleRequest(deleteProductRequest, context);
         } catch (ProductDoesNotExistException e) {
-            ResponseStatus status = new ResponseStatus(400, "Customer not found.");
+            ResponseStatus status = new ResponseStatus(400, "Product does not exist with the name " + deleteProductRequest.getName());
             return new DELETEProductResult(null, status);
         } catch (DynamoDbException e) {
             ResponseStatus status = new ResponseStatus(500, "Error, try again");
