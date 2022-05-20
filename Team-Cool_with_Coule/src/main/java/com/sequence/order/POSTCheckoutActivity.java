@@ -44,20 +44,10 @@ public class POSTCheckoutActivity implements RequestHandler<POSTCheckoutRequest,
         }
 
         Customer customer = customersFound.get(0);
-
         List<String> productNames = new ArrayList<>();
-        //productNames.addAll(postCheckoutRequest.getCart().keySet());
+        productNames.addAll(postCheckoutRequest.getCart().keySet());
 
         List<Product> products = productDao.getProducts(productNames);
-
-        Map<String, Integer> customersOrder = new HashMap<>(postCheckoutRequest.getCart());
-
-        //TODO
-        // check for quantity of item for orders
-        // batchload all products in cart
-        // loop through every item in returned list and compare the cart quantity with available quantity
-        // throw out of stock exception if cart quantity is greater than available
-        // create new list of products
 
         for (Product product : products) {
             Integer availableQuantity = product.getQuantity();
@@ -76,13 +66,10 @@ public class POSTCheckoutActivity implements RequestHandler<POSTCheckoutRequest,
         order.setOrderDate(new Date());
         order.setCustomerId(customer.getCustomerId());
         order.setProductNames(productNames);
+        orderDao.addOrder(order);
 
         customer.getHistoryOrderIds().add(order.getOrderId());
-
-        orderDao.addOrder(order);
-        productDao.saveProducts(products);
         customerdao.saveCustomer(customer);
-
 
         responseStatus = new ResponseStatus(200, "[SUCCESS] order has been added to database!");
 
