@@ -7,9 +7,7 @@ import main.java.com.dependency.DaggerServiceComponent;
 import main.java.com.dependency.ServiceComponent;
 import lombok.*;
 import main.java.com.exception.CustomerAlreadyExistsException;
-import main.java.com.exception.CustomerNotFoundException;
 import main.java.com.obj.ResponseStatus;
-import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 
 @NoArgsConstructor
 
