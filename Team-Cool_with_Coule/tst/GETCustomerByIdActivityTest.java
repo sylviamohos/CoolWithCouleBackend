@@ -12,19 +12,20 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.openMocks;
 
-public class GETCustomerByEmailActivityTest {
+public class GETCustomerByIdActivityTest {
 
     @Mock
     private CustomerDao dao;
 
     @InjectMocks
-    private GETCustomerByEmailActivity getCustomerByEmailActivity;
+    private GETCustomerByIdActivity getCustomerByIdActivity;
 
     @BeforeEach
     public void setUp() {
@@ -35,48 +36,47 @@ public class GETCustomerByEmailActivityTest {
         ResponseStatus responseStatus = new ResponseStatus(200, "");
         ResponseStatus responseStatus1 = new ResponseStatus(400, "");
         ResponseStatus responseStatus2 = new ResponseStatus(500, "");
-
     }
 
     @Test
-    public void handleRequest_customerEmailFound_returnsGetCustomerByEmailResult() {
+    public void handleRequest_customerIdFound_returnsGetCustomerByIdResult() {
         // GIVEN
+        List<Customer> customerList = new ArrayList<>();
         Location location = new Location("12", "Vernon", "WA", "23456" );
         Customer goodCustomer = new Customer("zulu246", "Zeus", "zuluzuzu@gmail.com", "fetchBonez123", location, new ArrayList<>());
-        GETCustomerByEmailRequest request = new GETCustomerByEmailRequest(goodCustomer.getEmail(), goodCustomer.getPassword());
-        when(dao.getCustomer(goodCustomer.getEmail(), goodCustomer.getPassword())).thenReturn(goodCustomer);
-        // WHEN
-        GETCustomerByEmailResult result = getCustomerByEmailActivity.handleRequest(request, null);
-
-        // THEN
-        assertEquals(result.getResponseStatus().getCode(), 200);
-        assertEquals(result.getCustomerModel(), new CustomerModel(goodCustomer));
-
-    }
-
-    @Test
-    public void handleRequest_customerEmailNotFound_throwsCustomerNotFoundException() {
-        //GIVEN
-        Location location = new Location("12", "Vernon", "WA", "23456" );
-        Customer goodCustomer = new Customer("zulu246", "Zeus", "zuluzuzu@gmail.com", "fetchBonez123", location, new ArrayList<>());
-        GETCustomerByEmailRequest request = new GETCustomerByEmailRequest(goodCustomer.getEmail(), goodCustomer.getPassword());
-        when(dao.getCustomer(goodCustomer.getEmail(), goodCustomer.getPassword())).thenThrow(new CustomerNotFoundException());
+        customerList.add(goodCustomer);
+        GETCustomerByIdRequest request = new GETCustomerByIdRequest(goodCustomer.getCustomerId());
+        when(dao.getCustomerById(goodCustomer.getCustomerId())).thenReturn(new ArrayList<>());
         // WHEN & THEN
-        assertThrows(CustomerNotFoundException.class, () -> getCustomerByEmailActivity.handleRequest(request, null));
+        assertThrows(CustomerNotFoundException.class, () -> getCustomerByIdActivity.handleRequest(request, null));
 
     }
 
     @Test
-    public void handleRequest_failedToRetrieveCustomerByEmail_throwsAmazonDynamoDBException() {
+    public void handleRequest_customerIdNotFound_throwsCustomerNotFoundException() {
         // GIVEN
+        List<Customer> customerList = new ArrayList<>();
         Location location = new Location("12", "Vernon", "WA", "23456" );
         Customer goodCustomer = new Customer("zulu246", "Zeus", "zuluzuzu@gmail.com", "fetchBonez123", location, new ArrayList<>());
-        GETCustomerByEmailRequest request = new GETCustomerByEmailRequest(goodCustomer.getEmail(), goodCustomer.getPassword());
-        when(dao.getCustomer(goodCustomer.getEmail(), goodCustomer.getPassword())).thenReturn(goodCustomer);
-        doThrow(new AmazonDynamoDBException("")).when(dao).getCustomer(goodCustomer.getEmail(), goodCustomer.getPassword());
+        customerList.add(goodCustomer);
+        GETCustomerByIdRequest request = new GETCustomerByIdRequest(goodCustomer.getCustomerId());
+        when(dao.getCustomerById(goodCustomer.getCustomerId())).thenReturn(new ArrayList<>());
         // WHEN & THEN
-        assertThrows(AmazonDynamoDBException.class, () -> getCustomerByEmailActivity.handleRequest(request, null));
+        assertThrows(CustomerNotFoundException.class, () -> getCustomerByIdActivity.handleRequest(request, null));
 
     }
 
+    @Test
+    public void handleRequest_failedToRetrieveCustomerById_throwsAmazonDynamoDBException() {
+        // GIVEN
+        List<Customer> customerList = new ArrayList<>();
+        Location location = new Location("12", "Vernon", "WA", "23456" );
+        Customer goodCustomer = new Customer("zulu246", "Zeus", "zuluzuzu@gmail.com", "fetchBonez123", location, new ArrayList<>());
+        customerList.add(goodCustomer);
+        GETCustomerByIdRequest request = new GETCustomerByIdRequest(goodCustomer.getCustomerId());
+        when(dao.getCustomerById(goodCustomer.getCustomerId())).thenReturn(customerList);
+        doThrow(new AmazonDynamoDBException("")).when(dao).getCustomerById(goodCustomer.getCustomerId());
+        // WHEN & THEN
+        assertThrows(AmazonDynamoDBException.class, () -> getCustomerByIdActivity.handleRequest(request, null));
+    }
 }
