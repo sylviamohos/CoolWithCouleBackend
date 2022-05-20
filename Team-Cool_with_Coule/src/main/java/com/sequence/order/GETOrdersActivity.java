@@ -34,7 +34,6 @@ public class GETOrdersActivity implements RequestHandler<GETOrdersRequest, GETOr
 
         List<Customer> customers = customerDao.getCustomerById(requestedCustomerId);
 
-
         if (customers.isEmpty()) {
             throw new CustomerNotFoundException();
         }
@@ -51,7 +50,7 @@ public class GETOrdersActivity implements RequestHandler<GETOrdersRequest, GETOr
             orderModels.add(new OrderModel(order));
         }
 
-        responseStatus = new ResponseStatus(200, "Customer found!");
+        responseStatus = new ResponseStatus(200, "Orders found!");
 
         return GETOrdersResult.builder()
                 .orderModels(orderModels)
