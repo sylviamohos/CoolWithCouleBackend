@@ -6,6 +6,7 @@ import main.java.com.obj.dao.CustomerDao;
 import main.java.com.obj.dao.OrderDao;
 import main.java.com.obj.dao.ProductDao;
 import main.java.com.sequence.order.POSTCheckoutActivity;
+import main.java.com.sequence.order.POSTCheckoutRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
 import static org.mockito.Mockito.when;
@@ -35,10 +36,9 @@ public class POSTCheckoutActivityTest {
 
     private String customerId;
 
-    private Map<String, Integer> itemsInStock;
+    private Map<String, Integer> customerCart;
+   // private Map<String, >
     private Customer customer1;
-
-    private List<Product> productList;
 
     private Product apron, apron2, towel, mitten;
 
@@ -52,10 +52,9 @@ public class POSTCheckoutActivityTest {
         customer1 = new Customer("customer1", "name", "email",
                 "password", new Location(), Arrays.asList("id01", "id02", "id03"));
 
-        itemsInStock = new HashMap<>();
-        itemsInStock.put("red apron", 5);
-        itemsInStock.put("funny apron", 3);
-        itemsInStock.put("green towel", 10);
+        customerCart = new HashMap<>();
+        customerCart.put("red apron", 2);
+        customerCart.put("bear mitten", 1);
 
         Product apron = new Product();
         apron.setName("red apron");
@@ -77,7 +76,6 @@ public class POSTCheckoutActivityTest {
         mitten.setType("mitten");
         mitten.setQuantity(3);
 
-        productList = Arrays.asList(apron, apron2, towel, mitten);
 
     }
 
@@ -85,12 +83,13 @@ public class POSTCheckoutActivityTest {
     public void handleRequest_PostCheckoutWithValid_ReturnsPostCheckoutResult() {
         // GIVEN
         String requestedId = "customer1";
+        POSTCheckoutRequest request = new POSTCheckoutRequest(requestedId, null);
 
         when(customerDao.getCustomerById(requestedId)).thenReturn(Arrays.asList(customer1));
         when(productDao.getProducts(Arrays.asList("red apron", "funny apron"))).thenReturn(Arrays.asList(apron, apron2));
 
         // WHEN
-
+        postCheckoutActivity.handleRequest(request, null);;
 
         // THEN
 

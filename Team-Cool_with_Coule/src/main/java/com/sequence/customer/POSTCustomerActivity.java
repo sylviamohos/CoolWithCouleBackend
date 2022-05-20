@@ -39,16 +39,14 @@ public class POSTCustomerActivity implements RequestHandler<POSTCustomerRequest,
     @Override
     public POSTCustomerResult handleRequest(POSTCustomerRequest customerRequest, Context context) {
 
-        Customer customer = new Customer(UUID.randomUUID().toString(), customerRequest.getName(), customerRequest.getEmail(),
-                customerRequest.getPassword(), new Location(customerRequest.getAddress(), customerRequest.getCity(),
-                customerRequest.getState(), customerRequest.getZipcode()), new ArrayList<>());
+        Customer customer = dao.getCustomer(customerRequest.getEmail(), customerRequest.getPassword());
 
-
-        // check if user exists
-        List<Customer> checkCustomers = dao.getCustomerById(customer.getCustomerId());
-        if(!checkCustomers.isEmpty()) {
+        if(customer != null) {
             throw new CustomerAlreadyExistsException();
         }
+        customer = new Customer(UUID.randomUUID().toString(), customerRequest.getName(), customerRequest.getEmail(),
+                customerRequest.getPassword(), new Location(customerRequest.getAddress(), customerRequest.getCity(),
+                customerRequest.getState(), customerRequest.getZipcode()), new ArrayList<>());
 
         dao.saveCustomer(customer);
         responseStatus = new ResponseStatus(200, "Welcome Coule person.");

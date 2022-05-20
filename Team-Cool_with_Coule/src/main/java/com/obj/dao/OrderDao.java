@@ -46,8 +46,8 @@ public class OrderDao {
 
         Map<String, List<Object>> loadResult = dynamoDBMapper.batchLoad(orders);
         List<Order> result = new ArrayList<>();
-        for(Map.Entry<String, List<Object>> entry : loadResult.entrySet()) {
-            for (Object o : entry.getValue()) {
+        for(String s : loadResult.keySet()) {
+            for (Object o : loadResult.get(s)) {
                 if (o.getClass() == Order.class) {
                     result.add((Order) o);
                 }
