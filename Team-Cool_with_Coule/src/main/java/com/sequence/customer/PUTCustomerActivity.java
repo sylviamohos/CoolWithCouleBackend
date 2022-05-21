@@ -10,6 +10,7 @@ import main.java.com.obj.dao.CustomerDao;
 import main.java.com.obj.model.CustomerModel;
 
 import javax.inject.Inject;
+import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,9 @@ public class PUTCustomerActivity implements RequestHandler<PUTCustomerRequest, P
     }
     @Override
     public PUTCustomerResult handleRequest(PUTCustomerRequest input, Context context) {
+        if (input.getCustomerId() == null) {
+            throw new InvalidParameterException();
+        }
         List<Customer> customers = dao.getCustomerById(input.getCustomerId());
         if (customers.size() == 0) {
             throw new CustomerNotFoundException();

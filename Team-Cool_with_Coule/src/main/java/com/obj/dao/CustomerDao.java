@@ -26,8 +26,8 @@ public class CustomerDao {
 
 
 
-    public Customer getCustomer(String email, String password) {
-        Customer customer = this.mapper.load(Customer.class, email, password);
+    public Customer getCustomer(String email) {
+        Customer customer = this.mapper.load(Customer.class, email);
 
         return customer;
 

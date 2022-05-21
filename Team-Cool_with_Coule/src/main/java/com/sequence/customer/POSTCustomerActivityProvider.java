@@ -9,6 +9,8 @@ import lombok.*;
 import main.java.com.exception.CustomerAlreadyExistsException;
 import main.java.com.obj.ResponseStatus;
 
+import java.security.InvalidParameterException;
+
 @NoArgsConstructor
 
 public class POSTCustomerActivityProvider implements RequestHandler<POSTCustomerRequest, POSTCustomerResult> {
@@ -19,7 +21,10 @@ public class POSTCustomerActivityProvider implements RequestHandler<POSTCustomer
     public POSTCustomerResult handleRequest(POSTCustomerRequest input, Context context) {
        try {
            return dagger.providePOSTCustomerActivity().handleRequest(input, context);
-       }catch (CustomerAlreadyExistsException e) {
+       } catch (InvalidParameterException e) {
+           ResponseStatus status = new ResponseStatus(400, "[ERROR] attribute cannot be null.");
+           return new POSTCustomerResult(null, status);
+       } catch (CustomerAlreadyExistsException e) {
             ResponseStatus status = new ResponseStatus(400, "[ERROR] credentials already taken.");
             return new POSTCustomerResult(null, status);
        } catch (AmazonDynamoDBException e) {
