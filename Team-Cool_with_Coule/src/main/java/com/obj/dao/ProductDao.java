@@ -72,11 +72,9 @@ public class ProductDao {
 
         Map<String, List<Object>> loadResult = mapper.batchLoad(products);
         List<Product> result = new ArrayList<>();
-        for (Map.Entry<String, List<Object>> entry : loadResult.entrySet()) {
-            for (Object o : entry.getValue()) {
-                if (o.getClass() == Product.class) {
-                    result.add((Product) o);
-                }
+        for (List<Object> list : loadResult.values()) {
+            for (Object o : list) {
+                result.add((Product) o);
             }
         }
         return result;
