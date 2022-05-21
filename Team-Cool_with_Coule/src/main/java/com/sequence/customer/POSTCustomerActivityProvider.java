@@ -23,7 +23,7 @@ public class POSTCustomerActivityProvider implements RequestHandler<POSTCustomer
             ResponseStatus status = new ResponseStatus(400, "[ERROR] credentials already taken.");
             return new POSTCustomerResult(null, status);
        } catch (AmazonDynamoDBException e) {
-           ResponseStatus status = new ResponseStatus(500, "[ERROR] database error");
+           ResponseStatus status = new ResponseStatus(500, e.getMessage());
            return new POSTCustomerResult(null, status);
        }
     }

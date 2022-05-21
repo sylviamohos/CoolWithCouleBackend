@@ -31,7 +31,7 @@ public class GETCustomerByEmailActivityProvider implements RequestHandler<GETCus
             ResponseStatus status = new ResponseStatus(400, "Email or password incorrect.");
             return new GETCustomerByEmailResult(null, status);
         } catch (AmazonDynamoDBException e) {
-            ResponseStatus status = new ResponseStatus(500, "Error, try again");
+            ResponseStatus status = new ResponseStatus(500, e.getMessage());
             return new GETCustomerByEmailResult(null, status);
         }
     }
