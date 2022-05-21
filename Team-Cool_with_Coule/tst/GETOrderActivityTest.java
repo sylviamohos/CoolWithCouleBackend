@@ -57,11 +57,9 @@ public class GETOrderActivityTest {
         String requestedOrderId = "123b";
         GETOrderRequest orderRequest = new GETOrderRequest(requestedOrderId);
 
-        // WHEN
         when(orderDao.getOrder(requestedOrderId)).thenThrow(new OrderNotFoundException());
 
-        GETOrderResult result = getOrderActivity.handleRequest(new GETOrderRequest(requestedOrderId),null);
-
+        // WHEN
         // THEN
         assertThrows(OrderNotFoundException.class, () -> getOrderActivity.handleRequest(orderRequest, null));
     }
@@ -73,9 +71,6 @@ public class GETOrderActivityTest {
         GETOrderRequest orderRequest = new GETOrderRequest(requestedOrderId);
 
         // WHEN
-        when(orderDao.getOrder(requestedOrderId)).thenThrow(new OrderNotFoundException());
-
-
         // THEN
         assertThrows(OrderNotFoundException.class, () -> getOrderActivity.handleRequest(orderRequest, null));
     }
