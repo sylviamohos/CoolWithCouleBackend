@@ -10,10 +10,11 @@ import main.java.com.exception.OrderNotFoundException;
 import main.java.com.obj.ResponseStatus;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 
+import java.security.InvalidParameterException;
+
 @NoArgsConstructor
 
 public class GETOrderActivityProvider implements RequestHandler<GETOrderRequest, GETOrderResult> {
-
 
     ResponseStatus responseStatus;
 
@@ -22,8 +23,11 @@ public class GETOrderActivityProvider implements RequestHandler<GETOrderRequest,
         ServiceComponent dagger = DaggerServiceComponent.create();
         try {
             return dagger.provideGETOrderActivity().handleRequest(input, context);
+        } catch (InvalidParameterException e) {
+            responseStatus = new ResponseStatus(400, e.getMessage());
+            return new GETOrderResult(null, responseStatus);
         } catch (OrderNotFoundException e) {
-            responseStatus = new ResponseStatus(400, String.format("[ERROR] order: {} not found! ", input.getOrderId()));
+            responseStatus = new ResponseStatus(400, e.getMessage());
             return new GETOrderResult(null, responseStatus);
         } catch ( AmazonDynamoDBException e) {
             responseStatus = new ResponseStatus(500, "[ERROR] Database encountered an error!");
