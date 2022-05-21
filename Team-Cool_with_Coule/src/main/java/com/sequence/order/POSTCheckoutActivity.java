@@ -2,9 +2,7 @@ package main.java.com.sequence.order;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import main.java.com.exception.CustomerAlreadyExistsException;
 import main.java.com.exception.CustomerNotFoundException;
-import main.java.com.exception.OrderNotFoundException;
 import main.java.com.exception.OutOfStockException;
 import main.java.com.obj.Customer;
 import main.java.com.obj.Order;
@@ -68,7 +66,11 @@ public class POSTCheckoutActivity implements RequestHandler<POSTCheckoutRequest,
         order.setProductNames(productNames);
         orderDao.addOrder(order);
 
-        customer.getHistoryOrderIds().add(order.getOrderId());
+        List<String> historyOrderIds = new ArrayList<>();
+        historyOrderIds.addAll(customer.getHistoryOrderIds());
+
+        historyOrderIds.add(order.getOrderId());
+        customer.setHistoryOrderIds(historyOrderIds);
         customerdao.saveCustomer(customer);
 
         responseStatus = new ResponseStatus(200, "[SUCCESS] order has been added to database!");
