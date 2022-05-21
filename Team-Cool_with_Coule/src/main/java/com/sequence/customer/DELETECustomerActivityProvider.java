@@ -34,7 +34,7 @@ public class DELETECustomerActivityProvider implements RequestHandler<DELETECust
             ResponseStatus status = new ResponseStatus(400, "Customer not found.");
             return new DELETECustomerResult(null, status);
         } catch (AmazonDynamoDBException e) {
-            ResponseStatus status = new ResponseStatus(500, "Error, try again");
+            ResponseStatus status = new ResponseStatus(500, e.getMessage());
             return new DELETECustomerResult(null, status);
 
         }

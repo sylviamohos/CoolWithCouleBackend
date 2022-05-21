@@ -42,7 +42,8 @@ public class CustomerDao {
                 .withConsistentRead(false)
                 .withIndexName(Customer.ID_INDEX);
 
-        return new ArrayList<>(mapper.query(Customer.class, queryExpression));
+        List<Customer> result = mapper.query(Customer.class, queryExpression);
+        return result;
 
     }
 
