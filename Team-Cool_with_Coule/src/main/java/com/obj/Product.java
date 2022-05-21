@@ -12,6 +12,7 @@ import lombok.*;
 @Setter
 @ToString
 @EqualsAndHashCode
+@Builder
 
 @DynamoDBTable(tableName = "Cool-With-Coule-Product")
 public class Product {

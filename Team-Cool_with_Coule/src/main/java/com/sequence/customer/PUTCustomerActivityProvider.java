@@ -20,7 +20,7 @@ public class PUTCustomerActivityProvider implements RequestHandler<PUTCustomerRe
             ResponseStatus status = new ResponseStatus(400, "Customer not found.");
             return new PUTCustomerResult(null, status);
         } catch (AmazonDynamoDBException e) {
-            ResponseStatus status = new ResponseStatus(400, "Error, try again.");
+            ResponseStatus status = new ResponseStatus(400, e.getMessage());
             return new PUTCustomerResult(null, status);
         }
     }

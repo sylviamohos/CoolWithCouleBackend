@@ -14,6 +14,6 @@ public class DependencyModule {
     @Provides
     @Singleton
     public DynamoDBMapper provideDynamoDbMapper() {
-        return new DynamoDBMapper(AmazonDynamoDBClient.builder().withRegion(Regions.US_WEST_1).build());
+        return new DynamoDBMapper(AmazonDynamoDBClient.builder().withRegion(Regions.US_WEST_2).build());
     }
 }
