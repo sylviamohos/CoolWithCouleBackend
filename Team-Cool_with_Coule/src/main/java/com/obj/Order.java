@@ -12,7 +12,8 @@ import lombok.*;
 //import main.java.com.obj.model.CustomerModel;
 
 @Setter
-
+@EqualsAndHashCode
+@ToString
 @DynamoDBTable(tableName = "Cool-With-Coule-Order")
 public class Order {
     private String orderId;
