@@ -14,6 +14,8 @@ import main.java.com.exception.CustomerNotFoundException;
 import main.java.com.sequence.customer.DELETECustomerRequest;
 
 import javax.inject.Inject;
+import javax.naming.directory.InvalidAttributeValueException;
+import java.security.InvalidParameterException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -41,6 +43,9 @@ public class DELETECustomerActivity implements RequestHandler<DELETECustomerRequ
     @Override
     public DELETECustomerResult handleRequest(DELETECustomerRequest deleteCustomerRequest, Context context) {
 
+        if (deleteCustomerRequest.getCustomerId() == null) {
+            throw new InvalidParameterException();
+        }
         /* TODO: implement if Administrator functionality is added:
          if (!deleteCustomerRequest.getCallingUserId().equals(deleteCustomerRequest.getCustomerId())) {
             throw new RuntimeException();
@@ -52,6 +57,7 @@ public class DELETECustomerActivity implements RequestHandler<DELETECustomerRequ
             throw new CustomerNotFoundException();
         }
         Customer customer = customerList.get(0);
+
         dao.deleteCustomer(customer);
         ResponseStatus status = new ResponseStatus(200, "Customer deleted");
         return new DELETECustomerResult(new CustomerModel(customer), status);

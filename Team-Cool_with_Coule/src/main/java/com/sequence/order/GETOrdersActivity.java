@@ -12,6 +12,7 @@ import main.java.com.obj.model.CustomerModel;
 import main.java.com.obj.model.OrderModel;
 
 import javax.inject.Inject;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +31,16 @@ public class GETOrdersActivity implements RequestHandler<GETOrdersRequest, GETOr
 
     @Override
     public GETOrdersResult handleRequest(GETOrdersRequest input, Context context) {
+        if (input.getCustomerId() == null) {
+            throw new InvalidParameterException("[ERROR] customer id is null in the REQUEST");
+        }
+
         String requestedCustomerId = input.getCustomerId();
 
         List<Customer> customers = customerDao.getCustomerById(requestedCustomerId);
 
         if (customers.isEmpty()) {
-            throw new CustomerNotFoundException();
+            throw new CustomerNotFoundException("[ERROR] invalid customer id");
         }
 
         Customer customer = customers.get(0);
@@ -50,7 +55,7 @@ public class GETOrdersActivity implements RequestHandler<GETOrdersRequest, GETOr
             orderModels.add(new OrderModel(order));
         }
 
-        responseStatus = new ResponseStatus(200, "Orders found!");
+        responseStatus = new ResponseStatus(200, "[SUCCESS] Orders found!");
 
         return GETOrdersResult.builder()
                 .orderModels(orderModels)

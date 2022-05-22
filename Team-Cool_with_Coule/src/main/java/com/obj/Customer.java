@@ -2,6 +2,7 @@ package main.java.com.obj;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import lombok.*;
+import main.java.com.obj.translator.LocationTranslator;
 
 import java.util.List;
 
@@ -27,21 +28,14 @@ public class Customer {
     @DynamoDBHashKey(attributeName = "email")
     private String email;
 
-    @DynamoDBRangeKey(attributeName = "password")
+    @DynamoDBAttribute(attributeName = "password")
     private String password;
 
+    @DynamoDBTypeConverted(converter = LocationTranslator.class)
     @DynamoDBAttribute(attributeName = "location")
     private Location location;
 
     @DynamoDBAttribute(attributeName = "historyOrderIds")
     private List<String> historyOrderIds;
-
-//    @DynamoDBAttribute(attributeName = "isAdmin")
-//    private boolean isAdmin;
-
-
-
-
-
 
 }

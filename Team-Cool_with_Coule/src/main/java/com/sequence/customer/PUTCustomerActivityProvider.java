@@ -9,6 +9,8 @@ import main.java.com.exception.CustomerNotFoundException;
 import main.java.com.obj.ResponseStatus;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 
+import java.security.InvalidParameterException;
+
 
 public class PUTCustomerActivityProvider implements RequestHandler<PUTCustomerRequest, PUTCustomerResult> {
     @Override
@@ -16,11 +18,14 @@ public class PUTCustomerActivityProvider implements RequestHandler<PUTCustomerRe
         ServiceComponent dagger = DaggerServiceComponent.create();
         try {
             return dagger.providePUTCustomerActivity().handleRequest(input, context);
+        } catch (InvalidParameterException e) {
+            ResponseStatus status = new ResponseStatus(400, "Customer id cannot be null.");
+            return new PUTCustomerResult(null, status);
         } catch (CustomerNotFoundException e) {
             ResponseStatus status = new ResponseStatus(400, "Customer not found.");
             return new PUTCustomerResult(null, status);
         } catch (AmazonDynamoDBException e) {
-            ResponseStatus status = new ResponseStatus(400, "Error, try again.");
+            ResponseStatus status = new ResponseStatus(400, e.getMessage());
             return new PUTCustomerResult(null, status);
         }
     }

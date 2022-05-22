@@ -9,6 +9,8 @@ import main.java.com.exception.CustomerNotFoundException;
 import main.java.com.obj.ResponseStatus;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 
+import java.security.InvalidParameterException;
+
 /**
  * The purpose of this class is to provide a customer by their id from the database
  */
@@ -31,8 +33,11 @@ public class GETCustomerByIdActivityProvider implements RequestHandler<GETCustom
         } catch (CustomerNotFoundException e) {
             ResponseStatus status = new ResponseStatus(400, "Customer not found.");
             return new GETCustomerByIdResult(null, status);
+        } catch (InvalidParameterException e) {
+            ResponseStatus status = new ResponseStatus(400, "Id cannot be null");
+            return new GETCustomerByIdResult(null, status);
         } catch (AmazonDynamoDBException e) {
-            ResponseStatus status = new ResponseStatus(500, "Error, try again");
+            ResponseStatus status = new ResponseStatus(500, e.getMessage());
             return new GETCustomerByIdResult(null, status);
         }
     }

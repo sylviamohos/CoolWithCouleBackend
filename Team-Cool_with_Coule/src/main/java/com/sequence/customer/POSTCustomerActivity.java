@@ -40,6 +40,7 @@ public class POSTCustomerActivity implements RequestHandler<POSTCustomerRequest,
      */
     @Override
     public POSTCustomerResult handleRequest(POSTCustomerRequest customerRequest, Context context) {
+
         for (Field f : customerRequest.getClass().getDeclaredFields()) {
             f.setAccessible(true);
             try {
@@ -50,7 +51,7 @@ public class POSTCustomerActivity implements RequestHandler<POSTCustomerRequest,
                 e.printStackTrace();
             }
         }
-        Customer customer = dao.getCustomer(customerRequest.getEmail(), customerRequest.getPassword());
+        Customer customer = dao.getCustomer(customerRequest.getEmail());
 
         if(customer != null) {
             throw new CustomerAlreadyExistsException();
