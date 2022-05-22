@@ -28,7 +28,7 @@ public class Customer {
     @DynamoDBHashKey(attributeName = "email")
     private String email;
 
-    @DynamoDBRangeKey(attributeName = "password")
+    @DynamoDBAttribute(attributeName = "password")
     private String password;
 
     @DynamoDBTypeConverted(converter = LocationTranslator.class)

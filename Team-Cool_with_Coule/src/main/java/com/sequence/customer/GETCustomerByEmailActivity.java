@@ -3,12 +3,15 @@ package main.java.com.sequence.customer;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import main.java.com.exception.CustomerNotFoundException;
+import main.java.com.exception.InvalidEmailException;
+import main.java.com.exception.PasswordDoesNotMatchException;
 import main.java.com.obj.Customer;
 import main.java.com.obj.ResponseStatus;
 import main.java.com.obj.dao.CustomerDao;
 import main.java.com.obj.model.CustomerModel;
 
 import javax.inject.Inject;
+import java.security.InvalidParameterException;
 import java.util.List;
 
 /**
@@ -34,9 +37,15 @@ public class GETCustomerByEmailActivity implements RequestHandler<GETCustomerByE
      */
     @Override
     public GETCustomerByEmailResult handleRequest(GETCustomerByEmailRequest input, Context context) {
-        Customer customer = dao.getCustomer(input.getEmail(), input.getPassword());
+        if (input.getEmail() == null) {
+            throw new InvalidParameterException();
+        }
+        Customer customer = dao.getCustomer(input.getEmail());
         if (customer == null) {
             throw new CustomerNotFoundException();
+        }
+        if (!customer.getPassword().equals(input.getPassword())) {
+            throw new PasswordDoesNotMatchException();
         }
         ResponseStatus status = new ResponseStatus(200, "Customer email found");
         return new GETCustomerByEmailResult(new CustomerModel(customer), status);

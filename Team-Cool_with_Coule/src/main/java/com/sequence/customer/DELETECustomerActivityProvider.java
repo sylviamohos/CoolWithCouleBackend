@@ -1,5 +1,6 @@
 package main.java.com.sequence.customer;
 
+import com.amazonaws.Response;
 import com.amazonaws.services.dynamodbv2.model.AmazonDynamoDBException;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
@@ -10,6 +11,8 @@ import main.java.com.obj.ResponseStatus;
 import main.java.com.sequence.sample.DELETESampleRequest;
 import main.java.com.sequence.sample.DELETESampleResult;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
+
+import java.security.InvalidParameterException;
 
 /**
  * The purpose of this class is to handle the request to delete a customer from the database
@@ -32,6 +35,9 @@ public class DELETECustomerActivityProvider implements RequestHandler<DELETECust
             return dagger.provideDELTECustomerActivity().handleRequest(input, context);
         } catch (CustomerNotFoundException e) {
             ResponseStatus status = new ResponseStatus(400, "Customer not found.");
+            return new DELETECustomerResult(null, status);
+        } catch (InvalidParameterException e) {
+            ResponseStatus status = new ResponseStatus(400, "Customer id cannot be null");
             return new DELETECustomerResult(null, status);
         } catch (AmazonDynamoDBException e) {
             ResponseStatus status = new ResponseStatus(500, e.getMessage());

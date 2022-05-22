@@ -30,7 +30,7 @@ public class POSTProductActivity implements RequestHandler<POSTProductRequest, P
         product.setName(postProductRequest.getName());
         product.setType(postProductRequest.getType());
         product.setUpcCode(postProductRequest.getUpcCode());
-        product.setQuantity(product.getQuantity());
+        product.setQuantity(postProductRequest.getQuantity());
         product.setDescription(postProductRequest.getDescription());
         product.setPriceInCents(postProductRequest.getPriceInCents());
         product.setImageUrl(postProductRequest.getImageUrl());

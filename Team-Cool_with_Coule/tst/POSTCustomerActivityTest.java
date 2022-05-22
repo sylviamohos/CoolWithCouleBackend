@@ -65,7 +65,7 @@ public class POSTCustomerActivityTest {
         Location location = new Location("12", "Vernon", "WA", "23456" );
         Customer customer = new Customer("zulu246", "Zeus", "zuluzuzu@gmail.com", "fetchBonez123", location, new ArrayList<>());
         POSTCustomerRequest request = POSTCustomerRequest.builder().address("12").city("Vernon").email("zuluzuzu@gmail.com").name("Zeus").password("fetchBonez123").state("WA").zipcode("23456").build();
-        when(dao.getCustomer(customer.getEmail(), customer.getPassword())).thenReturn(customer);
+        when(dao.getCustomer(customer.getEmail())).thenReturn(customer);
         when(dao.saveCustomer(customer)).thenReturn(customer);
 
         // WHEN & THEN

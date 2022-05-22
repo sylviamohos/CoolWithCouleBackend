@@ -44,7 +44,7 @@ public class GETCustomerByEmailActivityTest {
         Location location = new Location("12", "Vernon", "WA", "23456" );
         Customer goodCustomer = new Customer("zulu246", "Zeus", "zuluzuzu@gmail.com", "fetchBonez123", location, new ArrayList<>());
         GETCustomerByEmailRequest request = new GETCustomerByEmailRequest(goodCustomer.getEmail(), goodCustomer.getPassword());
-        when(dao.getCustomer(goodCustomer.getEmail(), goodCustomer.getPassword())).thenReturn(goodCustomer);
+        when(dao.getCustomer(goodCustomer.getEmail())).thenReturn(goodCustomer);
         // WHEN
         GETCustomerByEmailResult result = getCustomerByEmailActivity.handleRequest(request, null);
 
@@ -60,7 +60,7 @@ public class GETCustomerByEmailActivityTest {
         Location location = new Location("12", "Vernon", "WA", "23456" );
         Customer goodCustomer = new Customer("zulu246", "Zeus", "zuluzuzu@gmail.com", "fetchBonez123", location, new ArrayList<>());
         GETCustomerByEmailRequest request = new GETCustomerByEmailRequest(goodCustomer.getEmail(), goodCustomer.getPassword());
-        when(dao.getCustomer(goodCustomer.getEmail(), goodCustomer.getPassword())).thenThrow(new CustomerNotFoundException());
+        when(dao.getCustomer(goodCustomer.getEmail())).thenThrow(new CustomerNotFoundException());
         // WHEN & THEN
         assertThrows(CustomerNotFoundException.class, () -> getCustomerByEmailActivity.handleRequest(request, null));
 
@@ -72,8 +72,8 @@ public class GETCustomerByEmailActivityTest {
         Location location = new Location("12", "Vernon", "WA", "23456" );
         Customer goodCustomer = new Customer("zulu246", "Zeus", "zuluzuzu@gmail.com", "fetchBonez123", location, new ArrayList<>());
         GETCustomerByEmailRequest request = new GETCustomerByEmailRequest(goodCustomer.getEmail(), goodCustomer.getPassword());
-        when(dao.getCustomer(goodCustomer.getEmail(), goodCustomer.getPassword())).thenReturn(goodCustomer);
-        doThrow(new AmazonDynamoDBException("")).when(dao).getCustomer(goodCustomer.getEmail(), goodCustomer.getPassword());
+        when(dao.getCustomer(goodCustomer.getEmail())).thenReturn(goodCustomer);
+        doThrow(new AmazonDynamoDBException("")).when(dao).getCustomer(goodCustomer.getEmail());
         // WHEN & THEN
         assertThrows(AmazonDynamoDBException.class, () -> getCustomerByEmailActivity.handleRequest(request, null));
 
