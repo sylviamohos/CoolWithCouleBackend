@@ -12,6 +12,8 @@ import main.java.com.obj.dao.CustomerDao;
 import main.java.com.obj.model.CustomerModel;
 
 import javax.inject.Inject;
+import java.lang.reflect.Field;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -38,7 +40,16 @@ public class POSTCustomerActivity implements RequestHandler<POSTCustomerRequest,
      */
     @Override
     public POSTCustomerResult handleRequest(POSTCustomerRequest customerRequest, Context context) {
-
+        for (Field f : customerRequest.getClass().getDeclaredFields()) {
+            f.setAccessible(true);
+            try {
+                if (f.get(customerRequest) == null) {
+                    throw new InvalidParameterException();
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
         Customer customer = dao.getCustomer(customerRequest.getEmail(), customerRequest.getPassword());
 
         if(customer != null) {

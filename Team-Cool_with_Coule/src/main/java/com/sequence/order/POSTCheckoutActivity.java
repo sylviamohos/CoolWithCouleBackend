@@ -14,6 +14,7 @@ import main.java.com.obj.dao.ProductDao;
 import main.java.com.obj.model.OrderModel;
 
 import javax.inject.Inject;
+import java.lang.reflect.Field;
 import java.util.*;
 
 public class POSTCheckoutActivity implements RequestHandler<POSTCheckoutRequest, POSTCheckoutResult> {
@@ -32,6 +33,7 @@ public class POSTCheckoutActivity implements RequestHandler<POSTCheckoutRequest,
 
     @Override
     public POSTCheckoutResult handleRequest(final POSTCheckoutRequest postCheckoutRequest, Context context) {
+
 
         // GET CUSTOMER FIRST
         // if customer doesnt exist throw customer not found exception
