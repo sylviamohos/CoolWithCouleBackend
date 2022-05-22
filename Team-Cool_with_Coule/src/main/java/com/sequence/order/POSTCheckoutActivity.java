@@ -14,6 +14,7 @@ import main.java.com.obj.dao.ProductDao;
 import main.java.com.obj.model.OrderModel;
 
 import javax.inject.Inject;
+import java.security.InvalidParameterException;
 import java.util.*;
 
 public class POSTCheckoutActivity implements RequestHandler<POSTCheckoutRequest, POSTCheckoutResult> {
@@ -33,12 +34,22 @@ public class POSTCheckoutActivity implements RequestHandler<POSTCheckoutRequest,
     @Override
     public POSTCheckoutResult handleRequest(final POSTCheckoutRequest postCheckoutRequest, Context context) {
 
+        if (postCheckoutRequest.getCustomerId() == null) {
+            throw new InvalidParameterException("[ERROR] customer id is null");
+        }
+        if (postCheckoutRequest.getCart() == null) {
+            throw new InvalidParameterException("[ERROR] cart is null");
+        }
+        if (postCheckoutRequest.getCart().isEmpty()) {
+            throw new InvalidParameterException("[ERROR] WHY IS THE CART EMPTY???!");
+        }
+
         // GET CUSTOMER FIRST
         // if customer doesnt exist throw customer not found exception
         List<Customer> customersFound = customerdao.getCustomerById(postCheckoutRequest.getCustomerId());
 
         if (customersFound.isEmpty()) {
-            throw new CustomerNotFoundException(String.format("Customer id: {} not found", postCheckoutRequest.getCustomerId()));
+            throw new CustomerNotFoundException(String.format("[ERROR] customer id not found."));
         }
 
         Customer customer = customersFound.get(0);
@@ -52,7 +63,8 @@ public class POSTCheckoutActivity implements RequestHandler<POSTCheckoutRequest,
             Integer desiredQuantity = postCheckoutRequest.getCart().get(product.getName());
 
             if (availableQuantity < desiredQuantity) {
-                throw new OutOfStockException("product: {} Not enough sorry!");
+                throw new OutOfStockException(String.format("[ERROR] product: {%s} Not enough sorry! Please come back next time!",
+                        product.getName()));
             }
             product.setQuantity(availableQuantity - desiredQuantity);
         }
