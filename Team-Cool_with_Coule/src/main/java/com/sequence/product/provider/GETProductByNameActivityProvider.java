@@ -11,6 +11,9 @@ import main.java.com.sequence.product.request.GETProductByNameRequest;
 import main.java.com.sequence.product.result.GETProductByNameResult;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 
+import java.lang.reflect.Field;
+import java.security.InvalidParameterException;
+
 
 @NoArgsConstructor
 public class GETProductByNameActivityProvider implements RequestHandler<GETProductByNameRequest, GETProductByNameResult> {
@@ -18,6 +21,17 @@ public class GETProductByNameActivityProvider implements RequestHandler<GETProdu
     @Override
     public GETProductByNameResult handleRequest(GETProductByNameRequest getProductByNameRequest, Context context) {
         ServiceComponent dagger = DaggerServiceComponent.create();
+        for (Field f : getProductByNameRequest.getClass().getDeclaredFields()) {
+            f.setAccessible(true);
+            try {
+                if (f.get(getProductByNameRequest) == null) {
+                    throw new InvalidParameterException();
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
         try {
             return dagger.provideGETProductByNameActivity().handleRequest(getProductByNameRequest, context);
         } catch (ProductDoesNotExistException e) {
