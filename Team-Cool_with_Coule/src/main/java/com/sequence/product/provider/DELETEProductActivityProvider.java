@@ -11,7 +11,6 @@ import main.java.com.sequence.product.request.DELETEProductRequest;
 import main.java.com.sequence.product.result.DELETEProductResult;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 
-import java.lang.reflect.Field;
 import java.security.InvalidParameterException;
 
 @NoArgsConstructor
@@ -21,11 +20,8 @@ public class DELETEProductActivityProvider implements RequestHandler<DELETEProdu
     public DELETEProductResult handleRequest(DELETEProductRequest deleteProductRequest, Context context) {
         ServiceComponent dagger = DaggerServiceComponent.create();
         try {
-            if (deleteProductRequest.getName() == null) {
-                throw new NullPointerException();
-            }
             return dagger.provideDELETEProductActivity().handleRequest(deleteProductRequest, context);
-        } catch (NullPointerException e) {
+        } catch (InvalidParameterException e) {
             ResponseStatus status = new ResponseStatus(400, "Product name cannot be null");
             return new DELETEProductResult(null, status);
         } catch (ProductDoesNotExistException e) {

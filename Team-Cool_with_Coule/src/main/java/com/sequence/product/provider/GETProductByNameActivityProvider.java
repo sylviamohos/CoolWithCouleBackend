@@ -21,13 +21,9 @@ public class GETProductByNameActivityProvider implements RequestHandler<GETProdu
     @Override
     public GETProductByNameResult handleRequest(GETProductByNameRequest getProductByNameRequest, Context context) {
         ServiceComponent dagger = DaggerServiceComponent.create();
-
         try {
-            if (getProductByNameRequest.getName() == null) {
-                throw new NullPointerException();
-            }
             return dagger.provideGETProductByNameActivity().handleRequest(getProductByNameRequest, context);
-        } catch (NullPointerException e) {
+        } catch (InvalidParameterException e) {
             ResponseStatus status = new ResponseStatus(400, "Name cannot be null");
             return new GETProductByNameResult(null, status);
         }

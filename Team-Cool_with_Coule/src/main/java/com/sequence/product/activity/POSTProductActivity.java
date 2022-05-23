@@ -12,6 +12,7 @@ import main.java.com.sequence.product.request.POSTProductRequest;
 import main.java.com.sequence.product.result.POSTProductResult;
 
 import javax.inject.Inject;
+import java.security.InvalidParameterException;
 
 public class POSTProductActivity implements RequestHandler<POSTProductRequest, POSTProductResult> {
     private final ProductDao dao;
@@ -23,6 +24,11 @@ public class POSTProductActivity implements RequestHandler<POSTProductRequest, P
 
     @Override
     public POSTProductResult handleRequest(POSTProductRequest postProductRequest, Context context) {
+        if (postProductRequest.getName() == null || postProductRequest.getType() == null || postProductRequest.getUpcCode() == null
+                || postProductRequest.getQuantity() == null || postProductRequest.getDescription() == null ||
+                postProductRequest.getPriceInCents() == null || postProductRequest.getImageUrl() == null) {
+            throw new InvalidParameterException();
+        }
         if (dao.getProductByName(postProductRequest.getName()) != null) {
             throw new ProductAlreadyExistsException();
         }
