@@ -66,7 +66,7 @@ public class ProductDao {
         List<Product> products = new ArrayList<>();
         for (String s : productNames) {
             Product product = new Product();
-            product.setName(s);
+            product.setName(s.toLowerCase());
             products.add(product);
         }
 

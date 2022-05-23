@@ -15,6 +15,7 @@ import main.java.com.sequence.product.result.GETProductByNameResult;
 import main.java.com.sequence.product.result.POSTProductResult;
 
 import javax.inject.Inject;
+import java.security.InvalidParameterException;
 import java.util.Locale;
 
 public class GETProductByNameActivity implements RequestHandler<GETProductByNameRequest, GETProductByNameResult> {
@@ -27,6 +28,9 @@ public class GETProductByNameActivity implements RequestHandler<GETProductByName
 
     @Override
     public GETProductByNameResult handleRequest(GETProductByNameRequest getProductByNameRequest, Context context) {
+        if (getProductByNameRequest.getName() == null) {
+            throw new InvalidParameterException();
+        }
         Product product = dao.getProductByName(getProductByNameRequest.getName());
         if (product == null) {
             throw new ProductDoesNotExistException();

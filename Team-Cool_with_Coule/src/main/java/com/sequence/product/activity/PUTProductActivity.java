@@ -2,6 +2,7 @@ package main.java.com.sequence.product.activity;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import main.java.com.exception.ProductDoesNotExistException;
 import main.java.com.obj.Product;
 import main.java.com.obj.ResponseStatus;
 import main.java.com.obj.dao.ProductDao;
@@ -10,6 +11,7 @@ import main.java.com.sequence.product.request.PUTProductRequest;
 import main.java.com.sequence.product.result.PUTProductResult;
 
 import javax.inject.Inject;
+import java.security.InvalidParameterException;
 import java.util.Optional;
 
 public class PUTProductActivity implements RequestHandler<PUTProductRequest, PUTProductResult> {
@@ -22,7 +24,13 @@ public class PUTProductActivity implements RequestHandler<PUTProductRequest, PUT
 
     @Override
     public PUTProductResult handleRequest(PUTProductRequest putProductRequest, Context context) {
+        if (putProductRequest.getName() == null) {
+            throw new InvalidParameterException();
+        }
         Product oldProduct = dao.getProductByName(putProductRequest.getName());
+        if (oldProduct == null) {
+            throw new ProductDoesNotExistException();
+        }
         Product newProduct = new Product();
         if (putProductRequest.getNewName() != null) {
             newProduct.setName(putProductRequest.getNewName());

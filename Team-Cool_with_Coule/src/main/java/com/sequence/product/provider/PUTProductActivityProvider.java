@@ -13,6 +13,8 @@ import main.java.com.sequence.product.result.POSTProductResult;
 import main.java.com.sequence.product.result.PUTProductResult;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 
+import java.security.InvalidParameterException;
+
 @NoArgsConstructor
 public class PUTProductActivityProvider implements RequestHandler<PUTProductRequest, PUTProductResult> {
 
@@ -20,11 +22,8 @@ public class PUTProductActivityProvider implements RequestHandler<PUTProductRequ
     public PUTProductResult handleRequest(PUTProductRequest putProductRequest, Context context) {
         try {
             ServiceComponent dagger = DaggerServiceComponent.create();
-            if (putProductRequest.getName() == null) {
-                throw new NullPointerException();
-            }
             return dagger.providePUTProductActivity().handleRequest(putProductRequest, context);
-        } catch (NullPointerException e) {
+        } catch (InvalidParameterException e) {
             ResponseStatus status = new ResponseStatus(400, "Product name cannot be null");
             return new PUTProductResult(null, status);
         } catch (DynamoDbException e) {

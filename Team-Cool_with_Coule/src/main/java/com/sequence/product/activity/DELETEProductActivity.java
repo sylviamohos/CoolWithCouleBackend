@@ -11,6 +11,7 @@ import main.java.com.sequence.product.request.DELETEProductRequest;
 import main.java.com.sequence.product.result.DELETEProductResult;
 
 import javax.inject.Inject;
+import java.security.InvalidParameterException;
 
 public class DELETEProductActivity implements RequestHandler<DELETEProductRequest, DELETEProductResult> {
     private final ProductDao dao;
@@ -22,6 +23,9 @@ public class DELETEProductActivity implements RequestHandler<DELETEProductReques
 
     @Override
     public DELETEProductResult handleRequest(DELETEProductRequest deleteProductRequest, Context context) {
+        if (deleteProductRequest.getName() == null) {
+            throw new InvalidParameterException();
+        }
         Product product = dao.getProductByName(deleteProductRequest.getName());
         if (product == null) {
             throw new ProductDoesNotExistException();
