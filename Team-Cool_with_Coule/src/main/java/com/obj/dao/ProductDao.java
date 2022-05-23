@@ -92,6 +92,7 @@ public class ProductDao {
 
     public void saveProduct(Product product) {
         product.setName(product.getName().toLowerCase());
+        product.setType(product.getType().toLowerCase());
         mapper.save(product);
     }
 

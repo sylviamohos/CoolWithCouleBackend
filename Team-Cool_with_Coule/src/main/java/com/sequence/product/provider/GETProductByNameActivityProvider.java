@@ -21,20 +21,17 @@ public class GETProductByNameActivityProvider implements RequestHandler<GETProdu
     @Override
     public GETProductByNameResult handleRequest(GETProductByNameRequest getProductByNameRequest, Context context) {
         ServiceComponent dagger = DaggerServiceComponent.create();
-        for (Field f : getProductByNameRequest.getClass().getDeclaredFields()) {
-            f.setAccessible(true);
-            try {
-                if (f.get(getProductByNameRequest) == null) {
-                    throw new InvalidParameterException();
-                }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
 
         try {
+            if (getProductByNameRequest.getName() == null) {
+                throw new NullPointerException();
+            }
             return dagger.provideGETProductByNameActivity().handleRequest(getProductByNameRequest, context);
-        } catch (ProductDoesNotExistException e) {
+        } catch (NullPointerException e) {
+            ResponseStatus status = new ResponseStatus(400, "Name cannot be null");
+            return new GETProductByNameResult(null, status);
+        }
+        catch (ProductDoesNotExistException e) {
             ResponseStatus status = new ResponseStatus(400, "Product does not exist with that name");
             return new GETProductByNameResult(null, status);
         } catch (DynamoDbException e) {
