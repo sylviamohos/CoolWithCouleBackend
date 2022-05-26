@@ -4,6 +4,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import main.java.com.exception.CustomerNotFoundException;
 import main.java.com.exception.OutOfStockException;
+import main.java.com.exception.ProductDoesNotExistException;
 import main.java.com.obj.Customer;
 import main.java.com.obj.Order;
 import main.java.com.obj.Product;
@@ -54,13 +55,19 @@ public class POSTCheckoutActivity implements RequestHandler<POSTCheckoutRequest,
 
         Customer customer = customersFound.get(0);
         List<String> productNames = new ArrayList<>();
-        productNames.addAll(postCheckoutRequest.getCart().keySet());
+        for (Product p : postCheckoutRequest.getCart()) {
+            productNames.add(p.getName());
+        }
 
         List<Product> products = productDao.getProducts(productNames);
 
+        if (productNames.size() != products.size()) {
+            throw new ProductDoesNotExistException();
+        }
+
         for (Product product : products) {
             Integer availableQuantity = product.getQuantity();
-            Integer desiredQuantity = postCheckoutRequest.getCart().get(product.getName());
+            Integer desiredQuantity = postCheckoutRequest.getCart().get(postCheckoutRequest.getCart().indexOf(product)).getQuantity();
 
             if (availableQuantity < desiredQuantity) {
                 throw new OutOfStockException(String.format("[ERROR] product: {%s} Not enough sorry! Please come back next time!",

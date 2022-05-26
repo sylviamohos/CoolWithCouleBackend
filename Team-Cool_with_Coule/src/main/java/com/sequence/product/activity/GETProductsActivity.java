@@ -25,10 +25,10 @@ public class GETProductsActivity implements RequestHandler<GETProductsRequest, G
 
     @Override
     public GETProductsResult handleRequest(GETProductsRequest getProductsRequest, Context context) {
-        if (getProductsRequest.getType() == null && getProductsRequest.getName() == null) {
+        if (getProductsRequest.getName() == null) {
             throw new InvalidParameterException();
         }
-        List<Product> productList = dao.getProducts(getProductsRequest.getType(), getProductsRequest.getName());
+        List<Product> productList = dao.getProducts(getProductsRequest.getName());
         List<ProductModel> productModelList = new ArrayList<>();
         for (Product product : productList) {
             productModelList.add(new ProductModel(product));

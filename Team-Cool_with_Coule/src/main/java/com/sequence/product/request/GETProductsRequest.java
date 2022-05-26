@@ -10,6 +10,5 @@ import lombok.*;
 @EqualsAndHashCode
 @Builder
 public class GETProductsRequest {
-    private String type;
     private String name;
 }

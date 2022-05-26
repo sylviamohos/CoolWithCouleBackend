@@ -24,30 +24,19 @@ public class ProductDao {
         return this.mapper.load(Product.class, name);
     }
 
-    public List<Product> getProducts(String type, String name) {
+    public List<Product> getProducts(String name) {
         Product product = new Product();
-        product.setType(type);
         product.setName(name);
+
 
         Map<String, AttributeValue> valueMap = new HashMap<>();
         Map<String, String> nameMap = new HashMap<>();
-        if (type != null) {
-            nameMap.put("#type", "type");
-            valueMap.put(":type", new AttributeValue().withS(type));
-        }
-        if (name != null) {
-            nameMap.put("#name", "name");
-            valueMap.put(":name", new AttributeValue().withS(name));
-        }
 
-        String filter;
-        if (type != null && name == null) {
-            filter = "#type = :type";
-        } else if (type == null && name != null) {
-            filter = "contains(#name, :name)";
-        } else {
-            filter = "#type = :type AND contains(#name, :name)";
-        }
+        nameMap.put("#name", "name");
+        valueMap.put(":name", new AttributeValue().withS(name));
+
+
+        String filter = "contains(#name, :name)";
 
         DynamoDBScanExpression expression = new DynamoDBScanExpression()
                 .withExpressionAttributeNames(nameMap)

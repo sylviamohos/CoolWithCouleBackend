@@ -3,6 +3,7 @@ package main.java.com.sequence.order;
 import com.amazonaws.services.dynamodbv2.model.AmazonDynamoDBException;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import main.java.com.dependency.DaggerServiceComponent;
 import main.java.com.dependency.ServiceComponent;
 import main.java.com.exception.CustomerNotFoundException;
@@ -24,20 +25,11 @@ public class POSTCheckoutActivityProvider implements RequestHandler<POSTCheckout
         ServiceComponent dagger = DaggerServiceComponent.create();
         try {
             return dagger.providePOSTCheckoutActivity().handleRequest(input, context);
-        } catch (InvalidParameterException e) {
-            responseStatus = new ResponseStatus(400, e.getMessage());
-            return new POSTCheckoutResult(null, responseStatus);
-        } catch (CustomerNotFoundException e) {
-            responseStatus = new ResponseStatus(400, e.getMessage());
-            return new POSTCheckoutResult(null, responseStatus);
-        } catch (OutOfStockException e) {
-            responseStatus = new ResponseStatus(400, e.getMessage());
-            return new POSTCheckoutResult(null, responseStatus);
-        } catch (OrderNotFoundException e) {
+        } catch (InvalidParameterException | CustomerNotFoundException | OutOfStockException | OrderNotFoundException | ProductDoesNotExistException e) {
             responseStatus = new ResponseStatus(400, e.getMessage());
             return new POSTCheckoutResult(null, responseStatus);
         } catch (AmazonDynamoDBException e) {
-            responseStatus = new ResponseStatus(500, String.format("[ERROR] Database encountered an error."));
+            responseStatus = new ResponseStatus(500, String.format(e.getMessage()));
             return new POSTCheckoutResult(null, responseStatus);
         }
     }

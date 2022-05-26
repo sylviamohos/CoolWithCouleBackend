@@ -1,6 +1,7 @@
 package main.java.com.sequence.order;
 
 import lombok.*;
+import main.java.com.obj.Product;
 import main.java.com.obj.model.OrderModel;
 
 import java.util.Date;
@@ -18,6 +19,6 @@ import java.util.Map;
 public class POSTCheckoutRequest {
 
     private String customerId;
-    private Map<String, Integer> cart;
+    private List<Product> cart;
 
 }
