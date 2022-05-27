@@ -9,26 +9,18 @@
     "/products": {
       "get": {
         "summary": "Returns a list of products",
-        "description": null,
+        "description": "Returns a list of products",
         "parameters": [
           {
-            "name": "id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "upcCode",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
             "in": "query",
             "required": false,
             "schema": {
@@ -46,53 +38,51 @@
         ],
         "responses": {
           "200": {
-            "description": "returns a list of products",
+            "description": "returns a valid list of products",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "item": {
-                    "$ref": "#/components/schemas/product"
-                  },
-                  "example": {
-                    "products": [
-                      {
-                        "id": "fdsfd768fd76f76"
-                      },
-                      {
-                        "name": "man with a pan"
-                      },
-                      {
-                        "upcCode": "587-23457-534"
-                      },
-                      {
-                        "description": "a man...with a pan...on an apron!"
-                      },
-                      {
-                        "quantity": 27
-                      },
-                      {
-                        "priceInCents": 19.99
-                      },
-                      {
-                        "id": "fd987f68fsd78"
-                      },
-                      {
-                        "name": "rosemary sage and f*** you"
-                      },
-                      {
-                        "upcCode": "587-34562-534"
-                      },
-                      {
-                        "description": "best restarant in town!"
-                      },
-                      {
-                        "quantity": 23
-                      },
-                      {
-                        "priceInCents": 19.99
-                      }
-                    ]
+                  "type": "object"
+                },
+                "example": {
+                  "products": [
+                    {
+                      "id": "fdsfd768fd76f76",
+                      "name": "man with a pan",
+                      "upcCode": "587-23457-534",
+                      "description": "a man...with a pan...on an apron!",
+                      "quantity": 27,
+                      "priceInCents": 19.99
+                    },
+                    {
+                      "id": "fdsfd768fd76f76",
+                      "name": "man with a pan",
+                      "upcCode": "587-23457-534",
+                      "description": "a man...with a pan...on an apron!",
+                      "quantity": 27,
+                      "priceInCents": 19.99
+                    }
+                  ],
+                  "responseStatus": {
+                    "code": 200,
+                    "message": "success"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "returns a null list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "products": null,
+                  "responseStatus": {
+                    "code": 400,
+                    "message": "failure"
                   }
                 }
               }
@@ -102,7 +92,7 @@
       },
       "post": {
         "summary": "Creates a new product",
-        "description": null,
+        "description": "ADMIN USE ONLY",
         "parameters": [
           {
             "name": "callingUserId",
@@ -151,6 +141,14 @@
             "schema": {
               "type": "number"
             }
+          },
+          {
+            "name": "imageUrl",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -159,17 +157,37 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "item": {
-                    "$ref": "#/components/schemas/product"
-                  },
+                  "type": "object",
                   "example": {
-                    "id": "fdsfd768fd76f76",
-                    "name": "man with a pan",
-                    "upcCode": "587-23457-534",
-                    "description": "a man...with a pan...on an apron!",
-                    "quantity": 27,
-                    "priceInCents": 19.99
+                    "product": {
+                      "id": "fdsfd768fd76f76",
+                      "name": "man with a pan",
+                      "upcCode": "587-23457-534",
+                      "description": "a man...with a pan...on an apron!",
+                      "quantity": 27,
+                      "priceInCents": 19.99
+                    },
+                    "responseStatus": {
+                      "code": 200,
+                      "message": "success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "returns a null product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "product": null,
+                    "responseStatus": {
+                      "code": 400,
+                      "message": "failure"
+                    }
                   }
                 }
               }
@@ -178,13 +196,13 @@
         }
       }
     },
-    "/products/{id}": {
+    "/products/{name}": {
       "get": {
-        "summary": "returns a specific product by id",
-        "description": null,
+        "summary": "returns a specific product by name",
+        "description": "returns a specific product by name",
         "parameters": [
           {
-            "name": "id",
+            "name": "name",
             "in": "path",
             "required": true,
             "schema": {
@@ -198,17 +216,37 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "item": {
-                    "$ref": "#/components/schemas/product"
-                  },
+                  "type": "object",
                   "example": {
-                    "id": "fdsfd768fd76f76",
-                    "name": "man with a pan",
-                    "upcCode": "587-23457-534",
-                    "description": "a man...with a pan...on an apron!",
-                    "quantity": 27,
-                    "priceInCents": 19.99
+                    "product": {
+                      "id": "fdsfd768fd76f76",
+                      "name": "man with a pan",
+                      "upcCode": "587-23457-534",
+                      "description": "a man...with a pan...on an apron!",
+                      "quantity": 27,
+                      "priceInCents": 19.99
+                    },
+                    "responseStatus": {
+                      "code": 200,
+                      "message": "success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "returns a null product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "product": null,
+                    "responseStatus": {
+                      "code": 400,
+                      "message": "failure"
+                    }
                   }
                 }
               }
@@ -218,10 +256,10 @@
       },
       "put": {
         "summary": "modifies the specified product",
-        "description": null,
+        "description": "ADMIN USE ONLY",
         "parameters": [
           {
-            "name": "id",
+            "name": "name",
             "in": "path",
             "required": true,
             "schema": {
@@ -261,7 +299,23 @@
             }
           },
           {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "priceInCents",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "imageUrl",
             "in": "query",
             "required": false,
             "schema": {
@@ -275,17 +329,37 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "item": {
-                    "$ref": "#/components/schemas/product"
-                  },
+                  "type": "object",
                   "example": {
-                    "id": "fdsfd768fd76f76",
-                    "name": "man with a pan",
-                    "upcCode": "587-23457-534",
-                    "description": "a man...with a pan...on an apron!",
-                    "quantity": 27,
-                    "priceInCents": 19.99
+                    "product": {
+                      "id": "fdsfd768fd76f76",
+                      "name": "man with a pan",
+                      "upcCode": "587-23457-534",
+                      "description": "a man...with a pan...on an apron!",
+                      "quantity": 27,
+                      "priceInCents": 19.99
+                    },
+                    "responseStatus": {
+                      "code": 200,
+                      "message": "success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "returns a null product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "product": null,
+                    "responseStatus": {
+                      "code": 400,
+                      "message": "failure"
+                    }
                   }
                 }
               }
@@ -294,11 +368,11 @@
         }
       },
       "delete": {
-        "summary": "removes a specific product by id",
-        "description": null,
+        "summary": "removes a specific product by name",
+        "description": "ADMIN USE ONLY",
         "parameters": [
           {
-            "name": "id",
+            "name": "name",
             "in": "path",
             "required": true,
             "schema": {
@@ -316,21 +390,32 @@
         ],
         "responses": {
           "200": {
-            "description": "returns the removed product",
+            "description": "returns a responseStatus",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "item": {
-                    "$ref": "#/components/schemas/product"
-                  },
+                  "type": "object",
                   "example": {
-                    "id": "fdsfd768fd76f76",
-                    "name": "man with a pan",
-                    "upcCode": "587-23457-534",
-                    "description": "a man...with a pan...on an apron!",
-                    "quantity": 27,
-                    "priceInCents": 19.99
+                    "responseStatus": {
+                      "code": 200,
+                      "message": "success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "returns a responseStatus",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "responseStatus": {
+                      "code": 400,
+                      "message": "failure"
+                    }
                   }
                 }
               }
@@ -341,8 +426,8 @@
     },
     "/customers": {
       "post": {
-        "summary": "Creates a user",
-        "description": null,
+        "summary": "Creates a customer",
+        "description": "Creates a customer",
         "parameters": [
           {
             "name": "email",
@@ -387,15 +472,32 @@
         ],
         "responses": {
           "200": {
-            "description": "a boolean true",
+            "description": "a responseStatus",
             "content": {
               "application/json": {
                 "schema": {
-                  "items": {
-                    "type": "boolean"
-                  },
+                  "type": "object",
                   "example": {
-                    "success": true
+                    "responseStatus": {
+                      "code": 200,
+                      "message": "success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "a responseStatus",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "responseStatus": {
+                      "code": 400,
+                      "message": "failure"
+                    }
                   }
                 }
               }
@@ -404,12 +506,12 @@
         }
       },
       "get": {
-        "summary": "Returns an user from provided email and password",
-        "description": null,
+        "summary": "Returns an customer from provided email and password",
+        "description": "Returns an customer from provided email and password",
         "parameters": [
           {
             "name": "email",
-            "in": "path",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "string"
@@ -426,24 +528,42 @@
         ],
         "responses": {
           "200": {
-            "description": "returns a user",
+            "description": "returns a customer",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "item": {
-                    "$ref": "#/components/schemas/customer"
-                  },
                   "example": {
-                    "id": "fa7fg5343hjhs7as5",
-                    "name": "John Doe",
-                    "email": "balls2thewall@gmail.com",
-                    "historyOrderIds": {
-                      "id": [
+                    "customer": {
+                      "id": "fa7fg5343hjhs7as5",
+                      "name": "John Doe",
+                      "email": "balls2thewall@gmail.com",
+                      "historyOrderIds": [
                         "fjklsfjdlksadfjsa",
                         "fdjsakfldjsajkfds",
                         "fdskaslfjdalfj"
                       ]
+                    },
+                    "responseStatus": {
+                      "code": 200,
+                      "message": "success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "returns a null customer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "customer": null,
+                    "responseStatus": {
+                      "code": 400,
+                      "message": "failure"
                     }
                   }
                 }
@@ -456,7 +576,7 @@
     "/customers/{id}": {
       "get": {
         "summary": "gets a customer with provided id",
-        "description": null,
+        "description": "FOR ADMIN USE ONLY",
         "parameters": [
           {
             "name": "id",
@@ -477,24 +597,40 @@
         ],
         "responses": {
           "200": {
-            "description": "returns a user",
+            "description": "returns a customer",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "item": {
-                    "$ref": "#/components/schemas/customer"
-                  },
                   "example": {
-                    "id": "fa7fg5343hjhs7as5",
-                    "name": "John Doe",
-                    "email": "balls2thewall@gmail.com",
-                    "historyOrderIds": {
-                      "id": [
-                        "fjklsfjdlksadfjsa",
-                        "fdjsakfldjsajkfds",
-                        "fdskaslfjdalfj"
+                    "customer": {
+                      "id": "fa7fg5343hjhs7as5",
+                      "name": "John Doe",
+                      "email": "balls2thewall@gmail.com",
+                      "historyOrderIds": [
+                        "fjklsfjdlksadfjsa fdjsakfldjsajkfds fdskaslfjdalfj"
                       ]
+                    },
+                    "responseStatus": {
+                      "code": 200,
+                      "message": "success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "returns a null customer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "customer": null,
+                    "responseStatus": {
+                      "code": 400,
+                      "message": "failure"
                     }
                   }
                 }
@@ -504,8 +640,8 @@
         }
       },
       "put": {
-        "summary": "modifies a user from provided id",
-        "description": null,
+        "summary": "modifies a customer from provided id",
+        "description": "modifies a customer from provided id",
         "parameters": [
           {
             "name": "id",
@@ -522,28 +658,102 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "address",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "city",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "zipCode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "returns a user",
+            "description": "returns a customer",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "item": {
-                    "$ref": "#/components/schemas/customer"
-                  },
                   "example": {
-                    "id": "fa7fg5343hjhs7as5",
-                    "name": "John Doe",
-                    "email": "balls2thewall@gmail.com",
-                    "historyOrderIds": {
-                      "id": [
+                    "customer": {
+                      "id": "fa7fg5343hjhs7as5",
+                      "name": "John Doe",
+                      "email": "balls2thewall@gmail.com",
+                      "historyOrderIds": [
                         "fjklsfjdlksadfjsa",
                         "fdjsakfldjsajkfds",
                         "fdskaslfjdalfj"
                       ]
+                    },
+                    "responseStatus": {
+                      "code": 200,
+                      "message": "success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "returns a null customer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "customer": null,
+                    "responseStatus": {
+                      "code": 400,
+                      "message": "failure"
                     }
                   }
                 }
@@ -554,7 +764,7 @@
       },
       "delete": {
         "summary": "Removes a customer from the database",
-        "description": null,
+        "description": "Removes a customer from the database",
         "parameters": [
           {
             "name": "id",
@@ -575,16 +785,32 @@
         ],
         "responses": {
           "200": {
-            "description": "a boolean true",
+            "description": "returns a responseStatus",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "item": {
-                    "$ref": "#/components/schemas/customer"
-                  },
                   "example": {
-                    "deleted": true
+                    "responseStatus": {
+                      "code": 200,
+                      "message": "success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "returns a responseStatus",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "responseStatus": {
+                      "code": 400,
+                      "message": "failure"
+                    }
                   }
                 }
               }
@@ -596,8 +822,16 @@
     "/orders": {
       "get": {
         "summary": "returns a list of orders belonging to the customer",
-        "description": null,
+        "description": "returns a list of orders belonging to the customer",
         "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "callingUserId",
             "in": "query",
@@ -614,29 +848,47 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "item": {
-                    "$ref": "#/components/schemas/order"
-                  },
                   "example": {
-                    "id": "fjkhf87f6f5f6asf67",
-                    "customer": {
-                      "id": "fa7fg5343hjhs7as5",
-                      "name": "John Doe",
-                      "email": "balls2thewall@gmail.com",
-                      "historyOrderIds": {
-                        "id": [
+                    "order": {
+                      "id": "fjkhf87f6f5f6asf67",
+                      "customer": {
+                        "id": "fa7fg5343hjhs7as5",
+                        "name": "John Doe",
+                        "email": "balls2thewall@gmail.com",
+                        "historyOrderIds": [
                           "fjklsfjdlksadfjsa",
                           "fdjsakfldjsajkfds",
                           "fdskaslfjdalfj"
                         ]
-                      }
+                      },
+                      "productIds": [
+                        "fjklsfjdlksadfjsa",
+                        "fdjsakfldjsajkfds",
+                        "fdskaslfjdalfj"
+                      ],
+                      "orderDate": "Tue Oct 2 21:43:04Z 2019"
                     },
-                    "productIds": [
-                      "fjklsfjdlksadfjsa",
-                      "fdjsakfldjsajkfds",
-                      "fdskaslfjdalfj"
-                    ],
-                    "orderDate": "Tue Oct 2 21:43:04Z 2019"
+                    "responseStatus": {
+                      "code": 200,
+                      "message": "success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "a null list of orders",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "order": null,
+                    "responseStatus": {
+                      "code": 400,
+                      "message": "failure"
+                    }
                   }
                 }
               }
@@ -646,7 +898,7 @@
       },
       "post": {
         "summary": "creates a new order",
-        "description": null,
+        "description": "creates a new order",
         "parameters": [
           {
             "name": "customer",
@@ -654,6 +906,14 @@
             "required": true,
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "cartItems",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "object"
             }
           }
         ],
@@ -664,105 +924,51 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "item": {
-                    "$ref": "#/components/schemas/order"
-                  },
                   "example": {
-                    "id": "fjkhf87f6f5f6asf67",
-                    "customer": {
-                      "id": "fa7fg5343hjhs7as5",
-                      "name": "John Doe",
-                      "email": "balls2thewall@gmail.com",
-                      "historyOrderIds": {
-                        "id": [
+                    "order": {
+                      "id": "fjkhf87f6f5f6asf67",
+                      "customer": {
+                        "id": "fa7fg5343hjhs7as5",
+                        "name": "John Doe",
+                        "email": "balls2thewall@gmail.com",
+                        "historyOrderIds": [
                           "fjklsfjdlksadfjsa",
                           "fdjsakfldjsajkfds",
                           "fdskaslfjdalfj"
                         ]
-                      }
+                      },
+                      "productNames": [
+                        "fjklsfjdlksadfjsa",
+                        "fdjsakfldjsajkfds",
+                        "fdskaslfjdalfj"
+                      ],
+                      "orderDate": "Tue Oct 2 21:43:04Z 2019"
                     },
-                    "productIds": [
-                      "fjklsfjdlksadfjsa",
-                      "fdjsakfldjsajkfds",
-                      "fdskaslfjdalfj"
-                    ],
-                    "orderDate": "Tue Oct 2 21:43:04Z 2019"
+                    "responseStatus": {
+                      "code": 200,
+                      "message": "success"
+                    }
                   }
                 }
               }
             }
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "error": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
           },
-          "message": {
-            "type": "string"
-          }
-        }
-      },
-      "customer": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "historyOrderIds": {
-            "type": "array"
-          }
-        }
-      },
-      "product": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "upcCode": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "quantity": {
-            "type": "number"
-          },
-          "priceInCents": {
-            "type": "number"
-          }
-        }
-      },
-      "order": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "customer": {
-            "type": "object"
-          },
-          "productIds": {
-            "type": "array"
-          },
-          "orderDate": {
-            "type": "string"
+          "400": {
+            "description": "a list of orders",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "order": null,
+                  "responseStatus": {
+                    "code": 400,
+                    "message": "failure"
+                  }
+                }
+              }
+            }
           }
         }
       }

@@ -10,10 +10,6 @@ participant "OrderDAO" as orderDao
 database "DynamoDB" as dynamoDB
 
 client -> apiGateway : POSTCheckout Request
-alt if cart is empty
-apiGateway --> client : return 400 response
-else else continue
-end
 apiGateway -> postCheckoutActivity : Map<Product, int> and Customer
 postCheckoutActivity -> postCheckoutActivity : create new Order object with unique id
 loop for each product in the cart

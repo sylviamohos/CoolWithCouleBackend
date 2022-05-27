@@ -13,7 +13,7 @@ client -> apiGateway : GET Order request
 apiGateway -> getOrdersActivity : GET Order request
 getOrdersActivity -> orderDao : GET Order request
 orderDao -> dynamoDB : GET Order
-alt if product does not exist
+alt if order does not exist
 dynamoDB --> orderDao : return null Order data
 orderDao --> getOrdersActivity : return null Order
 getOrdersActivity --> apiGateway : throw OrderDoesNotExistException
