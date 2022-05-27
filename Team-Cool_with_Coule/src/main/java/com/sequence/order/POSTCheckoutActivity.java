@@ -65,9 +65,14 @@ public class POSTCheckoutActivity implements RequestHandler<POSTCheckoutRequest,
             throw new ProductDoesNotExistException();
         }
 
+        Map<String, Integer> map = new HashMap<>();
+        for(Product p : postCheckoutRequest.getCart()) {
+            map.put(p.getName(), p.getQuantity());
+        }
+
         for (Product product : products) {
-            Integer availableQuantity = product.getQuantity();
-            Integer desiredQuantity = postCheckoutRequest.getCart().get(postCheckoutRequest.getCart().indexOf(product)).getQuantity();
+            int availableQuantity = product.getQuantity();
+            int desiredQuantity = map.get(product.getName());
 
             if (availableQuantity < desiredQuantity) {
                 throw new OutOfStockException(String.format("[ERROR] product: {%s} Not enough sorry! Please come back next time!",
@@ -99,5 +104,5 @@ public class POSTCheckoutActivity implements RequestHandler<POSTCheckoutRequest,
                 .responseStatus(responseStatus)
                 .build();
     }
-
 }
+
