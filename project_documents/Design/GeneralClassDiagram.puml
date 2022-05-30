@@ -3,29 +3,30 @@
 
 ' Changed Existing User to Customer for simplicity in naming other classes -Jackson
 class Customer {
--@DynamoDBHashKey id : String
+-@DynamoDBIndexHashKey customerId : String
 -name : String
--email : String
--password : String
+-@DynamoDBHashKey email : String
+-@DynamoDBRangeKey password : String
 -location : Location
 -historyOrderIds : List<String>
 -isAdmin : Boolean
 }
 
 class Order{
-- @DynamoDBHashKey id : String
--customer : Customer
--productIds : List<String>
--orderDate : Calendar
+- @DynamoDBHashKey orderId : String
+-customerModel : CustomerModel
+-productNames : List<String>
+-orderDate : Date
 }
 
 class Product{
--@DynamoDBHashKey id : String
+-@DynamoDBHashKey name : String
+-@DynamoDBIndexHashKey type : String
 -upcCode : String
--name : String
 -quantity : Integer
 -description : String
 -priceInCents : Long
+-imageUrl : String
 }
 
 class Location{
@@ -36,22 +37,47 @@ class Location{
 }
 
 class InventoryDao {
-+getProduct(String ) : Product
-+getInventory() : List<Product>
-+addProduct(Product) : TODO
-
+-dynamoDbMapper : DynamoDBMapper
 }
 
 class CustomerDao {
-+getCustomer(String ) : Customer
-+addCustomer(Customer) : TODO
+-dynamoDbMapper : DynamoDBMapper
 }
 
 class OrderDao {
-dynamoDbMapper : DynamoDBMapper
-+getOrder(String id) : Order
-+addOrder(Order) : TODO
+-dynamoDbMapper : DynamoDBMapper
 }
+
+class CustomerModel {
+-customerId : String
+-name : String
+-email : String
+-location : Location
+-historyOrderIds : List<String>
+}
+
+class ProductModel {
+-name : String
+-type : String
+-upcCode : String
+-quantity : Integer
+-description : String
+-priceInCents : Long
+-imageUrl : String
+}
+
+class OrderModel {
+-orderId : String
+-customerModel : CustomerModel
+-productNames : List<String>
+-orderDate : Date
+}
+
+class ResponseStatus {
+-code : Integer
+-message : String
+}
+
 
 class CustomerNotFoundException extends RuntimeException{
 }
@@ -65,7 +91,7 @@ class CustomerAlreadyExistsException extends RuntimeException{
 class ProductDoesNotExistException extends RuntimeException{
 }
 
-class InvalidPasswordException extends RuntimeException{
+class PasswordDoesNotMatchException extends RuntimeException{
 }
 
 class InvalidEmailException extends RuntimeException{
@@ -73,23 +99,24 @@ class InvalidEmailException extends RuntimeException{
 
 
 Customer --> Location
-Order --> Customer
-Order--> Product
+Order --> CustomerModel
+
+
+InventoryDao : +getProduct(String) : Product
+InventoryDao : +getInventory() : List<Product>
+InventoryDao : +getInventoryByType(String) : List<Product>
+InventoryDao : +getInventoryByPrice(Long) : List<Product>
+InventoryDao : +getInventoryByPrice(Long, String) : List<Product>
+InventoryDao : +saveProduct(Product)
+InventoryDao : +deleteProduct(Product)
+
+CustomerDao : +getCustomer(String, String) : Customer
+CustomerDao : +saveCustomer(Customer)
+CustomerDao : +deleteCustomer(Customer)
+
+OrderDao : +getOrder(String) : Order
+OrderDao : +addOrder(Order)
 
 
 
 @enduml
-
-class ProductModel{
-
-}
-class OrderModel{
-}
-class ExistingCustomerModel{
--id : String
--name : String
--email : String
--location : Location
--historyOrderIds : List<String>
--isAdmin : Boolean
-}

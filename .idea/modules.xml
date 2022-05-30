@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/bd-team-project-coolwithcoule.iml" filepath="$PROJECT_DIR$/.idea/bd-team-project-coolwithcoule.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Team-Cool_with_Coule/tst/tst.iml" filepath="$PROJECT_DIR$/Team-Cool_with_Coule/tst/tst.iml" />
     </modules>
   </component>
 </project>
