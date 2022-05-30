@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="PUTCustomerActivityTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2022-05-21T21:21:52" hostname="Sylvias-MacBook-Pro.local" time="0.605">
+  <properties/>
+  <testcase name="handleRequest_changedValues_returnsSameCustomer()" classname="PUTCustomerActivityTest" time="0.572"/>
+  <testcase name="handleRequest_nonexistentId_throwsCustomerNotFoundException()" classname="PUTCustomerActivityTest" time="0.006"/>
+  <testcase name="handleRequest_deleteCustomer_throwsAmazonDynamoDbException()" classname="PUTCustomerActivityTest" time="0.01"/>
+  <testcase name="handleRequest_noChanges_returnsSameCustomer()" classname="PUTCustomerActivityTest" time="0.005"/>
+  <testcase name="handleRequest_saveCustomer_throwsAmazonDynamoDbException()" classname="PUTCustomerActivityTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
