@@ -106,10 +106,12 @@ U18. As an Administrator, I want to retrieve a report that will show me the sale
 
 
   
- ##4. Proposed Architecture Overview
+ 4. Proposed Architecture Overview
 
 
 We decided that the Request, Activity, Result design pattern was well structured and flexible enough to allow for scalability.  
   These class names provide a clear representation of what the intended purpose of the object is. 
   Because our program is designed to handle Post, Get, Put and Delete requests, we chose this particular architecture to 
   organize those requests in a manner that is easy to understand, follow and execute.  
+  
+  ![](images/design_document/GeneralClassDiagrams.png)
