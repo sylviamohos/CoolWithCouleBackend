@@ -68,13 +68,13 @@ Administrator: the store Manager/Supervisor
 
 3. Use Cases
 
-U1. As a Guest or a Registered Customer, I want to <view the store’s products> when I <visit the webpage>. [GET]
+U1. As a Guest or a Registered Customer, I want to view the store’s products when I visit the webpage. [GET]
 
-U2. As a Guest or a Registered Customer, I want to <view the items in my cart> when I <click on the Cart icon>. [GET]
+U2. As a Guest or a Registered Customer, I want to view the items in my cart when I click on the Cart icon. [GET]
 
-U3. As a Guest or a Registered Customer, I want to <add an item to my cart> when I <click “Add to Cart”>. [POST / PUT]
+U3. As a Guest or a Registered Customer, I want to add an item to my cart when I click “Add to Cart”. [POST / PUT]
 
-U4. As a Guest or a Registered Customer, I want to <remove an item from my cart> when I <click “Remove from Cart”>. [DELETE / PUT]
+U4. As a Guest or a Registered Customer, I want to remove an item from my cart when I click “Remove from Cart”. [DELETE / PUT]
 
 U5. As a Guest, I want to <checkout> when I <input my name and shipping address>. [POST]
 
@@ -96,7 +96,7 @@ U13. As an Administrator, I want to <search for a product, order or Customer> wh
 
 U14. As an Administrator, I want to <receive a notification> when <a product’s inventory reaches a minimum allowable quantity> [GET]
 	
-U15. As an Administrator, I want to <view a current list of my inventory> when <I successfully log in to my account> [GET}
+U15. As an Administrator, I want to view a current list of my inventory when I successfully log in to my account [GET}
 
 U15. As an Administrator, I want to <view a current list of my inventory> when <I successfully log in to my account>. [GET]
 
