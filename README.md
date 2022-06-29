@@ -1,6 +1,6 @@
-# CoolWithCouldBackend
+# CoolWithCoule Online Store
 
-# Introduction
+## Introduction
 
 # Our team 
 Sylvia Mohos, Anthony Oweyeong, Jackson Ross, Ben Wilson
