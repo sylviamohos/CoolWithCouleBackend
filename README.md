@@ -106,12 +106,113 @@ U18. As an Administrator, I want to retrieve a report that will show me the sale
 
 
   
- 4. Proposed Architecture Overview
+## 4. Proposed Architecture Overview
 
 
 We decided that the Request, Activity, Result design pattern was well structured and flexible enough to allow for scalability.  
   These class names provide a clear representation of what the intended purpose of the object is. 
   Because our program is designed to handle Post, Get, Put and Delete requests, we chose this particular architecture to 
   organize those requests in a manner that is easy to understand, follow and execute.  
-  
-  ![](images/design_document/GeneralClassDiagrams.png)
+
+## 5. API
+
+
+### Public Models
+
+CustomerModel - a CustomerModel is what will be returned to the client when a new Customer is created. Intended to hide personal information about the customer to the front end (password, etc.)
+
+### _5.1_ GETInventoryOfProductsRequest
+
+GETInventoryOfProductsRequest is the first endpoint. There is no required data here since we are getting all the inventory displayed on the screen. The data that’s returned are the product’s name, price and the description. Any failure would not display the objects but this will not shut down the server.
+
+### _5.2_ _GETProductRequest_
+
+GETProductRequest is the second endpoint. The required data is the product’s name. The returned data is the product’s name. If an unknown product is being retrieved a ProductDoesNotExistException would be thrown, which will return a 400 response.
+
+### _5.3_ _POSTCheckoutRequest_
+
+The third endpoint would be POSTCheckoutRequest. The required data would be the cart; the list of the products being bought. The customerModel is also a required data because it holds the information of the customer. If the cart is empty while trying to checkout a 400 response would be returned and if the product in the cart is either out of stock or a greater amount than the quantity stored is trying to be bought an OutOfStockException would be thrown which would return a 400 response. The returned data would be the POSTCheckoutRequestResult data which would end with a 200 response.
+
+### _5.4_ _PUTProductRequest_
+
+The fourth endpoint would be PUTProductRequest. The required data is the PUTProductRequest which has the product’s name. The return data would be PUTProductResult data which would then return a 200 response. If an error occurs such as a product not existing, a ProductNotFound exception would be thrown.
+
+### _5.5_ _PUTCustomerRequest_
+
+The next endpoint is the PUTCustomerRequest which requires the Account request, which is the Account information. If a customer doesn’t exist a CustomerNotFound exception would be thrown. If not, Customer’s data would be changed and a 200 would be returned.
+
+###  _5.6_ _GETCustomerByEmailRequest_
+
+The required data for the GETCustomerByEmailRequest endpoint includes the GETCustomerByEmailRequest which checks if a Customer exists based on a Customer’s email. If a customer does not exist, the return data will be a null Customer which will throw a CustomerDoesNotExistException resulting in a 400 error response.  If the Customer email is found, then the Customer’s password will be checked against the submitted password. If the submitted password doesn’t match the customer’s password, it will throw an InvalidPasswordException and return a null customer with a 400 error response. If the submitted password matches the customer’s password, the customer model will be returned via the GETCustomerEmailResult and pass a 200 status response.
+
+### _5.7_ _GETCustomerIdRequest_
+
+The required data for the GETCustomerRequest endpoint includes the GETCustomerRequest which checks if a Customer exists based on a Customer’s id. If a customer does not exist, the return data will be a null Customer which will throw a CustomerDoesNotExistException resulting in a 400 error response. If the Customer Id is found, then the Customer’s data will be returned via the GETCustomerResult and pass a 200 status response.
+
+### _5.8_ _GETOrdersRequest_
+
+The required data for the GETOrdersRequest endpoint includes the GETOrderRequest which checks if an Order exists based on an Order's id. If an Order does not exist, the return data will be a null Order which will throw an OrderDoesNotExistException resulting in a 400 error response.  If the Order Id is found, then the Order’s data will be returned via the GETOrderResult and pass a 200 status response.
+
+### _5.9 POSTCustomerRequest_
+
+The required data for the POSTCustomerRequest endpoint includes the POSTCustomerRequest which checks if a Customer exists based on a Customer’s email. If a Customer with this email already exists, the return data will be a Customer object which will throw a CustomerAlreadyExistsException resulting in a 400 error response.  If the Customer email is not found, then a null Customer object will be returned via the POSTCustomerActivity which will then create and return a new Customer via the POSTCustomerResult and pass a 200 status response.
+
+
+### _5.10_ _POSTProductRequest_
+
+The required data for POSTProductRequest is the Add Product request, which will have the product’s information. This information will be saved to DynamoDB from the InventoryDao. The returned data would be the Product data to the AddProductResponse data which will be a 200 response.
+
+### _5.11_ _DELETECustomerRequest_
+
+The DELETECustomerRequest requires the Customer’s id. If the id doesn’t exist a CustomerNotFound exception would be thrown and a 400 response would be invoked. If everything is successful a DELETECustomerRequest will be returned and a 200 response would be passed.
+
+### _5.12 DELETEProductRequest_
+
+The DELETEProductRequest will require Product data such as its name. If an unknown product is requested a ProductNotFoundException would be thrown with a 400 status code. A Successful request will return a DELETEProductResponse data with a 200 status.
+
+
+## 6. Tables
+
+
+<table>
+  <tr>
+   <td><strong>Table name</strong>
+   </td>
+   <td><strong>PartitionKey</strong>
+   </td>
+   <td><strong>SortKey</strong>
+   </td>
+   <td><strong>GSI</strong>
+   </td>
+  </tr>
+  <tr>
+   <td>Product
+   </td>
+   <td>Name(String)
+   </td>
+   <td>n/a
+   </td>
+   <td>
+   </td>
+  </tr>
+  <tr>
+   <td>Customer
+   </td>
+   <td>CustomerId(String)
+   </td>
+   <td>n/a
+   </td>
+   <td>email-index
+   </td>
+  </tr>
+  <tr>
+   <td>Order
+   </td>
+   <td>OrderId(String)
+   </td>
+   <td>n/a
+   </td>
+   <td>
+   </td>
+  </tr>
+</table>
