@@ -102,7 +102,8 @@ U16. As an Administrator, I want to <auto-reorder product> when <it gets to a mi
 
 U17. As an Administrator, I want to <add and remove product> when <I purchase more inventory or when I sell inventory> [PUT]
 
-U18. As an Administrator, I want to <retrieve a report that will show me the sales of a particular product> when I <input the string of that specific product>. [GET]
+U18. As an Administrator, I want to <retrieve a report that will show me the sales of a particular product> when I <input the string of that specific product> [GET]
+
 
   
  4. Proposed Architecture Overview
