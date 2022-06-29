@@ -76,39 +76,37 @@ U3. As a Guest or a Registered Customer, I want to add an item to my cart when I
 
 U4. As a Guest or a Registered Customer, I want to remove an item from my cart when I click “Remove from Cart”. [DELETE / PUT]
 
-U5. As a Guest, I want to <checkout> when I <input my name and shipping address>. [POST]
+U5. As a Guest, I want to checkout when I input my name and shipping address. [POST]
 
-U6. As a Registered Customer, I want to <checkout> when I <log in to my account>. [POST]
+U6. As a Registered Customer, I want to checkout when I log in to my account. [POST]
 
-U7. As a Guest or Registered Customer,  I want to <search for a product by name> when I <input the product’s name into the search field>. [GET]
+U7. As a Guest or Registered Customer,  I want to search for a product by name when I input the product’s name into the search field. [GET]
 
-U8. As a Registered Customer, I want to <view my order history> when I <am logged in to my account>. [GET]
+U8. As a Registered Customer, I want to view my order history when I am logged in to my account. [GET]
 
-U9. As a Registered Customer, I want to <update my profile> when <log in to my account> [PUT]
+U9. As a Registered Customer, I want to update my profile when log in to my account. [PUT]
 
-U10. As a Guest or a Registered Customer, I want to <update a product’s inventory count> when I <purchase or return a product>. [PUT]
+U10. As a Guest or a Registered Customer, I want to update a product’s inventory count when I purchase or return a product. [PUT]
 
-U11. As an Administrator, I want to <create an Administrator account for another Administrator> to gain access to the Inventory Management System when <I navigate to the website> [POST/PUT]
+U11. As an Administrator, I want to create an Administrator account for another Administrator to gain access to the Inventory Management System when I navigate to the website. [POST/PUT]
 
-U12. As an Administrator, I want to <log in to my Inventory Management System account with my user ID and password> when <I navigate to the website> [POST/PUT]
+U12. As an Administrator, I want to log in to my Inventory Management System account with my user ID and password when I navigate to the website. [POST/PUT]
 
-U13. As an Administrator, I want to <search for a product, order or Customer> when I <input the product name, order id, or Customer id into the search field of my Admin Account>. [POST]
+U13. As an Administrator, I want to search for a product, order or Customer when I input the product name, order id, or Customer id into the search field of my Admin Account. [POST]
 
-U14. As an Administrator, I want to <receive a notification> when <a product’s inventory reaches a minimum allowable quantity> [GET]
+U14. As an Administrator, I want to receive a notification when a product’s inventory reaches a minimum allowable quantity. [GET]
 	
-U15. As an Administrator, I want to view a current list of my inventory when I successfully log in to my account [GET}
+U15. As an Administrator, I want to view a current list of my inventory when I successfully log in to my account. [GET}
 
-U15. As an Administrator, I want to <view a current list of my inventory> when <I successfully log in to my account>. [GET]
+U16. As an Administrator, I want to auto-reorder product when it gets to a minimum allowable quantity. [PUT]
 
-U16. As an Administrator, I want to <auto-reorder product> when <it gets to a minimum allowable quantity> [PUT]
+U17. As an Administrator, I want to add and remove product when I purchase more inventory or when I sell inventory. [PUT]
 
-U17. As an Administrator, I want to <add and remove product> when <I purchase more inventory or when I sell inventory> [PUT]
-
-U18. As an Administrator, I want to <retrieve a report that will show me the sales of a particular product> when I <input the string of that specific product> [GET]
+U18. As an Administrator, I want to retrieve a report that will show me the sales of a particular product when I input the string of that specific product. [GET]
 
 
   
- 4. Proposed Architecture Overview
+ ##4. Proposed Architecture Overview
 
 
 We decided that the Request, Activity, Result design pattern was well structured and flexible enough to allow for scalability.  
