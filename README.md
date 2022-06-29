@@ -95,6 +95,8 @@ U12. As an Administrator, I want to <log in to my Inventory Management System ac
 U13. As an Administrator, I want to <search for a product, order or Customer> when I <input the product name, order id, or Customer id into the search field of my Admin Account>. [POST]
 
 U14. As an Administrator, I want to <receive a notification> when <a product’s inventory reaches a minimum allowable quantity> [GET]
+	
+U15. As an Administrator, I want to <view a current list of my inventory> when <I successfully log in to my account> [GET}
 
 U15. As an Administrator, I want to <view a current list of my inventory> when <I successfully log in to my account>. [GET]
 
